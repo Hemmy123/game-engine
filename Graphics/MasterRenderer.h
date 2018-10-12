@@ -60,7 +60,7 @@ protected:
 
 	/// Turns a glError enum into a string because OGL
 	/// apparently doesn't have one of these :|
-	std::string glEnumToString(uint e);
+	std::string glEnumToString(unsigned e);
 
 	/// Calls glGetError and then prints out the error.
 	void checkErrors();

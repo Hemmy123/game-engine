@@ -4,6 +4,9 @@
 //
 //  Created by Hemmy on 31/05/2018.
 //
+
+#pragma once
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 

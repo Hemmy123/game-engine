@@ -77,7 +77,7 @@ void MasterRenderer::checkErrors() {
 
 
 
-std::string MasterRenderer::glEnumToString(uint e) {
+std::string MasterRenderer::glEnumToString(unsigned e) {
 
 	std::string errStr = "Could not convert error enum to string!";
 	switch (e) {

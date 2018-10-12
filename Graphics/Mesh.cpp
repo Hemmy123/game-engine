@@ -8,9 +8,9 @@
 
 #include "Mesh.h"
 #include "tiny_obj_loader.h"
-
-#include "OBJReader.h"
-#include "TinyObjConverter.h"
+//
+//#include "OBJReader.h"
+//#include "TinyObjConverter.h"
 
 Mesh::Mesh(){
 	m_texture = 0;
