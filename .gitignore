@@ -1,0 +1,11 @@
+.vs/
+.obj
+.tlog
+.tlog/
+.lastbuildstate
+.pdb
+.log
+.idb
+
+Debug/
+Release/
