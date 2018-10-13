@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 
-#include "SOIL.h"
+#include "SOIL2.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -57,9 +57,7 @@ public:
 	void setTexture(GLuint tex) {m_texture = tex;}
 
 	GLuint loadTexture(std::string path) {
-		//m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
-		
-		//m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
+		m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
 		return m_texture;
 	}
 	

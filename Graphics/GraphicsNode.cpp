@@ -8,7 +8,7 @@
 
 #include "GraphicsNode.h"
 
-#include "SOIL.h"
+#include "SOIL2.h"
 #include "FilePaths.h"
 #include "PerlinNoise2D.h"
 
@@ -69,7 +69,9 @@ void GraphicsNode::createDemoScene(){
 	
 	PerlinNoise2D* perlin = new PerlinNoise2D(rawWidth,6);
 
-	m_heightMap 		= new HeightMap(rawWidth,rawHeight,heightMap_x*2,heightMap_z*2, 3,heightMap_tex_x, heightMap_tex_z,perlin);
+	float waterHeight = 5.0f;
+
+	m_heightMap 		= new HeightMap(rawWidth,rawHeight,heightMap_x*2,heightMap_z*2, waterHeight ,heightMap_tex_x, heightMap_tex_z,perlin);
 	HeightMap* terrain 	= new HeightMap(rawWidth,rawHeight,heightMap_x,heightMap_z, 50,heightMap_tex_x, heightMap_tex_z,perlin);
 	
 	m_heightMap->generateRandomTerrain(Vector3(0,0,0), 3, 5, 0.5);
@@ -163,7 +165,7 @@ void GraphicsNode::update(float msec){
 		m_renderer->update(msec);
 		counter+=(msec/40);
 		
-		m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 5, 10, 0.5);
+		m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 4, 10, 0.5);
 		m_heightMap->generateNormals();
 		
 		/* --- Temp lighting test --- */

@@ -17,7 +17,7 @@
 */
 
 #define SOIL_CHECK_FOR_GL_ERRORS 0
-
+#define _CRT_SECURE_NO_WARNINGS
 #if defined( __APPLE_CC__ ) || defined ( __APPLE__ )
 	#include <TargetConditionals.h>
 

@@ -20,32 +20,32 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{76C93894-F5B4-4DF5-AB3A-3A78750E4B95}</ProjectGuid>
-    <RootNamespace>Initialization</RootNamespace>
+    <ProjectGuid>{44F7CA9D-E118-4B19-A76D-4577A23823B2}</ProjectGuid>
+    <RootNamespace>SOIL2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -76,12 +76,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>../Libraries/glew-2.1.0/lib/Release/x64/;../Libraries/glfw-3.2.1/lib-vc2015/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -89,14 +85,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../EventSystem/;../Game/;../Graphics/;../Interface/;../Scene/;../Maths/;../Utilities/;../Physics/;../Libraries/SOIL2/</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>
-      </AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>Graphics.lib;Utilities.lib;opengl32.lib;glfw3.lib;glew32s.lib;Game.lib;Interface.lib;Maths.lib;Physics.lib;Scene.lib;FileIO.lib;SOIL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../Libraries/glew-2.1.0/lib/Release/x64/;../Libraries/glfw-3.2.1/lib-vc2015/;../Libraries/SOIL2/$(Platform)/$(Configuration)/;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -106,13 +96,11 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../Libraries/glew-2.1.0/lib/Release/x64/;../Libraries/glfw-3.2.1/lib-vc2015/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -123,19 +111,37 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../EventSystem/;../Game/;../Graphics/;../Interface/;../Scene/;../Maths/;../Utilities/;../Physics/;../Libraries/SOIL2/</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>
-      </AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Graphics.lib;Utilities.lib;opengl32.lib;glfw3.lib;glew32s.lib;Game.lib;Interface.lib;Maths.lib;Physics.lib;Scene.lib;FileIO.lib;SOIL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../Libraries/glew-2.1.0/lib/Release/x64/;../Libraries/glfw-3.2.1/lib-vc2015/;../Libraries/SOIL2/$(Platform)/$(Configuration)/;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="..\etc1_utils.h" />
+    <ClInclude Include="..\image_DXT.h" />
+    <ClInclude Include="..\image_helper.h" />
+    <ClInclude Include="..\jo_jpeg.h" />
+    <ClInclude Include="..\pkm_helper.h" />
+    <ClInclude Include="..\pvr_helper.h" />
+    <ClInclude Include="..\SOIL2.h" />
+    <ClInclude Include="..\stbi_DDS.h" />
+    <ClInclude Include="..\stbi_DDS_c.h" />
+    <ClInclude Include="..\stbi_ext.h" />
+    <ClInclude Include="..\stbi_ext_c.h" />
+    <ClInclude Include="..\stbi_pkm.h" />
+    <ClInclude Include="..\stbi_pkm_c.h" />
+    <ClInclude Include="..\stbi_pvr.h" />
+    <ClInclude Include="..\stbi_pvr_c.h" />
+    <ClInclude Include="..\stb_image.h" />
+    <ClInclude Include="..\stb_image_write.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\etc1_utils.c" />
+    <ClCompile Include="..\image_DXT.c" />
+    <ClCompile Include="..\image_helper.c" />
+    <ClCompile Include="..\SOIL2.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
