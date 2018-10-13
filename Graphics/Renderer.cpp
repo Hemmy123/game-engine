@@ -7,7 +7,7 @@
 //
 
 #include "Renderer.h"
-
+#include "FilePaths.h"
 
 //Renderer::Renderer(): WIDTH(900),HEIGHT(700)
 Renderer::Renderer(int height, int width) : MasterRenderer(height, width),
@@ -23,8 +23,8 @@ m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
 		m_clearColour.z,
 		m_clearColour.w);
 
-	m_sceneShader = new Shader(/*SHADERVERTDIR*/"PassThrough_Vert.glsl", /*SHADERFRAGDIR*/"Scene_Frag.glsl");
-	m_processShader = new Shader(/*SHADERVERTDIR*/"PassThrough_Vert.glsl", /*SHADERFRAGDIR*/"Process_Frag.glsl");
+	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
+	m_processShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Process_Frag.glsl");
 
 	//m_skyboxShader 	= new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
 

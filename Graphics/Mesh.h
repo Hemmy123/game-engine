@@ -57,7 +57,9 @@ public:
 	void setTexture(GLuint tex) {m_texture = tex;}
 
 	GLuint loadTexture(std::string path) {
-		m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
+		//m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
+		
+		//m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
 		return m_texture;
 	}
 	

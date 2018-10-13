@@ -84,7 +84,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL.lib;FileIO.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;../Libraries/SOIL/projects/VC9/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;../Libraries/SOIL/projects/VC9/$(Platform)/$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,7 +127,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL.lib;FileIO.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;../Libraries/SOIL/projects/VC9/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;../Libraries/SOIL/projects/VC9/$(Platform)/$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

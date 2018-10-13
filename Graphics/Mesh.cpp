@@ -211,10 +211,6 @@ Mesh* Mesh::readObjFile(std::string path){
 	bool result = tinyobj::LoadObj(&attrib, &shapes, &materials, &error, path.c_str(),
 								NULL, false);
 	
-	
-	
-	
-	
 	if (!error.empty()) {
 		std::cerr << error << std::endl;
 	}

@@ -163,7 +163,7 @@ void GraphicsNode::update(float msec){
 		m_renderer->update(msec);
 		counter+=(msec/40);
 		
-		m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 1, 10, 0.5);
+		m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 5, 10, 0.5);
 		m_heightMap->generateNormals();
 		
 		/* --- Temp lighting test --- */
