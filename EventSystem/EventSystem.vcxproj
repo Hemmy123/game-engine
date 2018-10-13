@@ -115,6 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventBus.h" />
+    <ClInclude Include="EventNode.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventBus.cpp" />
+    <ClCompile Include="EventNode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,22 +35,24 @@ enum ObjectTag{
 	
 };
 
+//#pragma once
+//
+//// The base data required for a game object.
+//// This can be used by other subsystems like
+//// graphics, physics and audio for positioning
+//// data
+//struct {
+//	char* m_UID;
+//	
+//	Vector3 m_position;
+//	Vector3 m_rotation; // Change to quaternion?
+//	Vector3 m_scale;
+//	
+//	Matrix4 m_modelMatrix;
+//	
+//}GameObjectData;
 
-// The base data required for a game object.
-// This can be used by other subsystems like
-// graphics, physics and audio for positioning
-// data
-struct {
-	char* m_UID;
-	
-	Vector3 m_position;
-	Vector3 m_rotation; // Change to quaternion?
-	Vector3 m_scale;
-	
-	Matrix4 m_modelMatrix;
-	
-}GameObjectData;
-
+#pragma once
 
 class GameObject {
 public:

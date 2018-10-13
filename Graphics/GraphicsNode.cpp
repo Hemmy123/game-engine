@@ -8,8 +8,8 @@
 
 #include "GraphicsNode.h"
 
-#include "SOIL2.h"
-#include "Common.h"
+#include "SOIL.h"
+#include "FilePaths.h"
 #include "PerlinNoise2D.h"
 
 GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):EventNode(bus,subSystem){

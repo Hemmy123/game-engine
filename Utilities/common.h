@@ -6,8 +6,7 @@
 //
 // ========================================
 
-#ifndef common_hpp
-#define common_hpp
+#pragma once
 
 #include <stdio.h>
 
@@ -15,4 +14,3 @@ const int ID_BUFFER_LENGTH = 128;
 
 
 
-#endif /* common_hpp */

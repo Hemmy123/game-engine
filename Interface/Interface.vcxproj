@@ -79,7 +79,8 @@
       <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL2/;../Utilities/;../FileIO/</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>Maths.lib</AdditionalDependencies>
+      <AdditionalDependencies>Maths.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -119,7 +120,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>Maths.lib</AdditionalDependencies>
+      <AdditionalDependencies>Maths.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

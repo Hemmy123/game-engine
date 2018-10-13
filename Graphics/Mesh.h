@@ -13,7 +13,8 @@
 #include <GL/glew.h>
 #include <stdio.h>
 
-#include "SOIL2.h"
+
+#include "SOIL.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"

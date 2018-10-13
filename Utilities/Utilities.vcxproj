@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL2/;../Utilities/;../FileIO/;../Interface/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Libraries/boost_1_67_0/;../Libraries/glfw-3.2.1/include/;../Libraries/glew-2.1.0/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -109,7 +109,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL2/;../Utilities/;../FileIO/;../Interface/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Libraries/boost_1_67_0/;../Libraries/glfw-3.2.1/include/;../Libraries/glew-2.1.0/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

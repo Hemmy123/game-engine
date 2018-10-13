@@ -10,6 +10,7 @@
 // going through the event system.
 // ========================================
 
+#pragma once
 
 #include <stdio.h>
 

@@ -6,15 +6,17 @@
 //
 // ========================================
 
-#ifndef IDGenerator_hpp
-#define IDGenerator_hpp
+#pragma once
+
 
 #include <stdio.h>
 
-#include <boost/uuid/uuid.hpp>            // uuid class
-#include <boost/uuid/uuid_generators.hpp> // generators
-#include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
+
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <boost/lexical_cast.hpp>
+
 
 class IDGenerator{
 public:
@@ -25,4 +27,3 @@ public:
 	
 private:
 };
-#endif /* IDGenerator_hpp */

@@ -6,8 +6,8 @@
 //
 // ========================================
 
-#ifndef Logger_hpp
-#define Logger_hpp
+#pragma once
+
 
 #include <stdio.h>
 #include <string>
@@ -32,4 +32,3 @@ public:
 	
 };
 
-#endif /* Logger_hpp */

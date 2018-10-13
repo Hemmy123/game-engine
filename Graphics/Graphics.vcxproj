@@ -76,14 +76,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL2/;../Utilities/;../FileIO/;../Interface/;../Game/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL/src;../Utilities/;../FileIO/;../Interface/;../Game/;../EventSystem/;../Scene/;../Libraries/boost_1_67_0/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Libraries/glew-2.1.0/lib/Release/x64/;../Libraries/glfw-3.2.1/lib-vc2015/</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL.lib;FileIO.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;../Libraries/SOIL/projects/VC9/$(Configuration)/</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -116,7 +117,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL2/;../Utilities/;../FileIO/;../Interface/;../Game/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL/src;../Utilities/;../FileIO/;../Interface/;../Game/;../EventSystem/;../Scene/;../Libraries/boost_1_67_0/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -125,7 +126,8 @@
       <AdditionalLibraryDirectories>../Libraries/glew-2.1.0/lib/Release/x64/;../Libraries/glfw-3.2.1/lib-vc2015/</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL.lib;FileIO.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;../Libraries/SOIL/projects/VC9/$(Configuration)/</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
