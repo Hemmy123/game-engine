@@ -95,6 +95,10 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Libraries/glew-2.1.0/include/;../Libraries/glfw-3.2.1/include/;../Maths/;../Libraries/SOIL2/;../Utilities/;../FileIO/;../Interface/;../Game/;../EventSystem/;../Scene/;../Libraries/boost_1_67_0/</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL2.lib;FileIO.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)\;../Libraries/SOIL2/$(Configuration);</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -110,6 +114,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL2.lib;FileIO.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)\;../Libraries/SOIL2/$(Configuration);</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
