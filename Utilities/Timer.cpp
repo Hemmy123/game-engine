@@ -18,6 +18,7 @@ Timer::Timer(){
 
 Timer::~Timer(){
 	
+
 }
 
 float Timer::getDelta(){
@@ -28,6 +29,12 @@ float Timer::getDelta(){
 	
 	return (duration * 1000); // dt in milliseconds
 	
+}
+
+float Timer::getTime()
+{
+	return glfwGetTime();
+
 }
 
 

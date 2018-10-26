@@ -117,8 +117,9 @@ protected:
 
 	bool renderPostEffect;
 
+
 	Mesh*	m_quad;				// Quad for rendering FBO to screen
-	Mesh* 	m_skyboxQuad;		// 
+	Mesh* 	m_skyboxQuad;		
 
 	Shader* m_sceneShader;		// For drawing the scene onto the quad
 	Shader* m_processShader;	// For any post processing effects

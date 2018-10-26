@@ -23,6 +23,8 @@ public:
 	
 	/// returns delta time in MILLISECONDS
 	float getDelta();
+
+	float getTime();
 	
 private:
 	double m_lastRecorded;

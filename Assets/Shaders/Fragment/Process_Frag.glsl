@@ -22,7 +22,8 @@ void main(void ){
 	//float y = IN.texCoord.y;
 
 	
-	colour = texture( screenTex, IN.texCoord + 0.005*vec2( sin(x),cos(y)) );
+//	colour = texture( screenTex, IN.texCoord + 0.005*vec2( sin(x),cos(y)) );
+	colour = texture( screenTex, IN.texCoord + 0.005*vec2( sin(y),cos(x)) );
 
 	
 

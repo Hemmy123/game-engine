@@ -97,7 +97,7 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL2.lib;FileIO.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)\;../Libraries/SOIL2/$(Configuration);</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\;../Libraries/SOIL2/$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -116,7 +116,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Maths.lib;Interface.lib;Game.lib;EventSystem.lib;Scene.lib;SOIL2.lib;FileIO.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)\;../Libraries/SOIL2/$(Configuration);</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\;../Libraries/SOIL2/$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
