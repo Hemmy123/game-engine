@@ -33,9 +33,6 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PostProcessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Refections.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,9 +55,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dsfas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsNode.cpp">
@@ -102,9 +96,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PostProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Refections.h">

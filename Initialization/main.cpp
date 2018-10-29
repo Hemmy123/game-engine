@@ -43,7 +43,7 @@ int main() {
 		double newTime = timer->getTime();
 		double frameTime = newTime - currentTime;
 		currentTime = newTime;
-		std::cout << "frameTime: " << frameTime << std::endl;
+		//std::cout << "frameTime: " << frameTime << std::endl;
 
 
 		while (frameTime > 0) {

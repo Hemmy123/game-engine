@@ -43,12 +43,12 @@ public:
 	/// add post processing and then presenting the scene to the screen.
 	void renderScene();
 
-	///Draws the scene onto the scene FBO. Not the actual screen!
-	void drawSceneToFBO();
+	/// Draws the scene onto the specfic FBO using the selected shader
+	void drawSceneToFBO(GLuint fbo, Shader* shader);
 
 	/// Adds any post-processing stuff onto the scene FBO and then draws
 	/// it to the process FBO.
-	void drawPostProcess();
+	void drawPostProcess(GLuint fbo, Shader* shader);
 
 	/// Draws a renderObject onto whatever FBO is currently bound.
 	void drawRenderObject(const RenderObject &o);
@@ -101,7 +101,7 @@ public:
 
 	void setShaderLight(Shader* shader, Light &light);
 
-	//	void drawSkybox();
+	void drawSkybox();
 protected:
 
 
@@ -128,7 +128,7 @@ protected:
 	Shader* m_currentShader;	// The current shader in use
 
 
-	//Shader* m_skyboxShader;		// For drawing the skybox.
+	Shader* m_skyboxShader;		// For drawing the skybox.
 
 
 	// -- Frame Buffer Objects

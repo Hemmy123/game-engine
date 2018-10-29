@@ -142,14 +142,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="dsfas.cpp" />
     <ClCompile Include="GraphicsNode.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="PostProcessor.cpp" />
     <ClCompile Include="Refections.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderObject.cpp" />
@@ -167,7 +165,6 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="PostProcessor.h" />
     <ClInclude Include="Refections.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderObject.h" />
