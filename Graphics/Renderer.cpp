@@ -13,9 +13,14 @@
 Renderer::Renderer(int height, int width) : MasterRenderer(height, width),
 m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
 
+
+	defaultGLSettings();
+
 	if (init() != 0) {
 		std::cout << "OpenGL Failed to initialize!" << std::endl;
 	};
+
+
 	checkErrors();
 	glClearColor(
 		m_clearColour.x,
@@ -89,6 +94,21 @@ Renderer::~Renderer() {
 
 	glfwTerminate();
 	delete m_camera;
+}
+
+void Renderer::defaultGLSettings()
+{
+	// Cull faces we can't see
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	// Depth test so stuff doesn't render on top of each other;
+	glEnable(GL_DEPTH_TEST);
+
+	// Blend func for transparent objects;
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
 }
 
 

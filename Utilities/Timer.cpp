@@ -33,7 +33,7 @@ float Timer::getDelta(){
 
 float Timer::getTime()
 {
-	return glfwGetTime();
+	return glfwGetTime() * 1000;
 
 }
 

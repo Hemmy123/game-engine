@@ -35,8 +35,6 @@ void EventBus::dispatchEvents(){
 			// TODO: Log error using logger!
 			std::cout<<"That subsystem does not exist!" <<std::endl;
 			
-			std::cout<<"nope!" <<std::endl;
-
 		} else{
 			mapIter->second->handleEvent(event);
 		}
@@ -48,7 +46,7 @@ void EventBus::dispatchEvents(){
 
 void EventBus::update() {
     dispatchEvents();
-	
+
 }
 
 void EventBus::addSubsystem(SubSystem system, EventNode *node) { 

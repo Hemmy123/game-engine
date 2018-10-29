@@ -41,6 +41,7 @@ void KeyboardInterface::update(){
 	}
 
 	else if (glfwGetKey( m_windowListener, GLFW_KEY_ESCAPE ) == GLFW_PRESS){
+		std::cout << "print pressed!" << std::endl;
 		m_keystate = KeyState(GLFW_KEY_ESCAPE, GLFW_PRESS, GLFW_KEY_UNKNOWN);
 	}
 	else{

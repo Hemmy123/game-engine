@@ -40,7 +40,6 @@ void GameNode::checkInputs(){
 	switch(s.m_key){
 		case(GLFW_KEY_ESCAPE): {
 			m_endGame = true;
-
 		}
 	}
 }

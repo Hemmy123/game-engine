@@ -165,11 +165,11 @@ void GraphicsNode::update(float msec){
 		m_renderer->update(msec);
 		counter+=(msec/40);
 		
-		//m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 1, 10, 0.5);
-		m_heightMap->generateNormals();
+		// m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 2, 10, 0.5);
+		// m_heightMap->generateNormals();
 		
 		/* --- Temp lighting test --- */
-		/*for(auto ro: m_renderer->getOpaqueObjects()){
+		for(auto ro: m_renderer->getOpaqueObjects()){
 			Shader* shader = ro->getShader();
 			
 			GLuint program = shader->getProgram();
@@ -178,7 +178,7 @@ void GraphicsNode::update(float msec){
 			glUseProgram(program);
 			Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
 			glUniform3fv(glGetUniformLocation(program, "cameraPos"),1,(float*)&cameraPos);
-		}*/
+		}
 		
 		/* ------------------------- */
 		

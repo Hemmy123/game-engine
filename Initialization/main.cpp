@@ -36,31 +36,30 @@ int main() {
 	// 16ms
 	const float MAXDT = (1.0f / 60.0f) * 1000;
 
-	float currentTime = timer->getDelta();
-
-	float lastTime = timer->getTime();
-	float timer = lastTime;
-
+	double currentTime = timer->getTime();
 
 	while (!game->getEndGame()) {
 
-		float newTime = timer->getDelta();
-		float frameTime = newTime - currentTime;
-		std::cout << "frameTime: " << frameTime <<std::endl;
+		double newTime = timer->getTime();
+		double frameTime = newTime - currentTime;
+		currentTime = newTime;
+		std::cout << "frameTime: " << frameTime << std::endl;
+
 
 		while (frameTime > 0) {
-			float dt = MathUtils::min(frameTime, MAXDT);
+			
 			//std::cout << "DT: " << dt<< std::endl;
 
-
-		/*	std::cout << "Inside " << std::endl;
-			std::cout << "frameTime: " << frameTime << " DT: " << dt << std::endl;
-*/
+			float dt = min(frameTime, MAXDT);
 			inputHandler->update();
-			game->update(dt);
 			bus->update();
+			game->update(dt);
 			graphics->update(dt);
 			
+			if (game->getEndGame()) {
+				break;
+			}
+
 			frameTime -= dt;
 
 		}

@@ -9,6 +9,27 @@
 #include "PostProcessor.h"
 
 
+void PostProcessor::drawSceneToFBO(bool trigger)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_sceneFBO);
+
+
+	clearBuffers();
+	setCurrentShader(m_sceneShader);
+
+	m_projMatrix = m_persp;
+	updateShaderMatrices(m_currentShader);
+	checkErrors();
+
+	for (auto iter : m_opaqueObjects) { drawRenderObject(*iter); }
+	for (auto iter : m_transparentObjects) { drawRenderObject(*iter); }
+
+
+	glUseProgram(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+}
+
 void PostProcessor::generateFBOTexture(){
 	// Generate depth texture
 	glGenTextures(1, &m_buffDepthAttachment);

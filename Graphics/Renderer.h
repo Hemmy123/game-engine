@@ -29,6 +29,8 @@ public:
 	Renderer(int height, int width);
 	~Renderer();
 
+	void defaultGLSettings();
+
 
 	/// This needs to be called after creating a Renderer. This is due
 	/// to GLFW requireing a window to get user input. Maybe code should
@@ -130,7 +132,7 @@ protected:
 
 
 	// -- Frame Buffer Objects
-	GLuint m_sceneFBO;			// FBO to represent the
+	GLuint m_sceneFBO;			
 	GLuint m_processFBO;
 
 

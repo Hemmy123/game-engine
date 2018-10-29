@@ -18,19 +18,24 @@
 
 #include "Mesh.h"
 #include "Shader.h"
+#include "Renderer.h"
+
 enum PostProcessingEffects{
 	Post_Blurring_Y,
 };
 
 
 class PostProcessor{
-	PostProcessor();
+	PostProcessor(Renderer* renderer);
 	~PostProcessor();
 	
-	void renderPostProcessing(bool trigger);
+	void drawSceneToFBO(bool trigger);
 	
 	
 private:
+
+	Renderer* parentRenderer;
+
 	void generateFBOTexture();
 	
 	bool renderPostEffect;
@@ -43,8 +48,8 @@ private:
 
 	
 	// -- Frame Buffer Objects -- //
-	GLuint m_sceneFBO;			// FBO to represent the
-	GLuint m_processFBO;
+	GLuint m_sceneFBO;			// FBO that holds the sceen
+	GLuint m_processFBO;		// 
 	
 	
 	// -- Frame Buffer Attachments -- //

@@ -25,11 +25,20 @@
 
 #include "Shader.h"
 #include "Light.h"
+#include <windows.h>
+#include <fcntl.h>
+
+//These two defines cut a lot of crap out of the Windows libraries
+#define WIN32_LEAN_AND_MEAN
+#define VC_EXTRALEAN
+
 
 class MasterRenderer {
 public:
 	MasterRenderer(int height, int width) :HEIGHT(height), WIDTH(width) {};
-	~MasterRenderer() {};
+	~MasterRenderer();
+
+	virtual void defaultGLSettings() = 0;
 
 	virtual void update(float dt) = 0;
 	virtual void renderScene() = 0;
@@ -39,7 +48,12 @@ public:
 	void swapBuffers();
 
 
+	// From nclgl
 
+#ifdef _DEBUG
+	static void CALLBACK DebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
+		GLsizei length, const GLchar* message, void* userParam);
+#endif
 
 	// ---------- Getters/Setters ---------- //
 
