@@ -107,6 +107,8 @@ protected:
 
 	// ---------- Functions ---------- //
 
+
+
 	/// Presents the scene to the screen (after all post processing and
 	/// extras are finished.
 	void presentScene();

@@ -9,9 +9,11 @@
 
 #include "Shader.h"
 #include <stdio.h>
+#include "Renderer.h"
+
 class Skybox{
 public:
-	Skybox(Renderer);
+	Skybox(Renderer* r);
 	~Skybox();
 	
 	void drawSkybox();
@@ -19,7 +21,10 @@ public:
 
 private:
 	
+	Renderer* m_parentRenderer;
 	Shader* m_skyboxShader;
+
+	Mesh* m_quad;
 
 	// -- Misc
 	//Mesh*	m_waterQuad;
@@ -28,4 +33,3 @@ private:
 };
 
 
- /* Skybox_hpp */

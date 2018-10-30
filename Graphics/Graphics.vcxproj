@@ -148,8 +148,10 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="PostProcessor.cpp" />
     <ClCompile Include="Refections.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RendererController.cpp" />
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="SceneLights.cpp" />
     <ClCompile Include="SceneRenderObjects.cpp" />
@@ -165,8 +167,10 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="PostProcessor.h" />
     <ClInclude Include="Refections.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RendererController.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="SceneLights.h" />
     <ClInclude Include="SceneRenderObjects.h" />

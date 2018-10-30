@@ -40,8 +40,8 @@ public:
 
 	virtual void defaultGLSettings() = 0;
 
-	virtual void update(float dt) = 0;
-	virtual void renderScene() = 0;
+	virtual void update(float dt)	= 0;
+	virtual void renderScene()		= 0;
 	virtual void clearBuffers();
 
 
@@ -68,6 +68,11 @@ public:
 	Matrix4 getOrthographicMatrix() 	const { return m_ortho; }
 	Matrix4 getPerspectiveMatrix() 		const { return m_persp; }
 
+	/// Calls glGetError and then prints out the error.
+	void checkErrors();
+
+	int getWidth() const { return m_actualWidth; }
+	int getHeight() const { return m_actualHeight; }
 
 protected:
 
@@ -76,11 +81,6 @@ protected:
 	/// Turns a glError enum into a string because OGL
 	/// apparently doesn't have one of these :|
 	std::string glEnumToString(unsigned e);
-
-	/// Calls glGetError and then prints out the error.
-	void checkErrors();
-
-
 
 	int init();
 
