@@ -13,8 +13,15 @@
 #include "PerlinNoise2D.h"
 
 GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):EventNode(bus,subSystem){
-    m_renderer = new Renderer(800, 1024);
+    //m_renderer = new Renderer(800, 1024);
+	m_rendererController = new RendererController(800, 1024);
 	m_perlin3D = new PerlinNoise3D(257,6);
+	
+	RendererSettings settings;
+	settings.skybox = false;
+	settings.postProcessing = true;
+	
+	m_rendererController->setSetting(settings);
 	createDemoScene();
 	
 }
@@ -34,7 +41,7 @@ GraphicsNode::~GraphicsNode(){
 		delete renderObject;
 	}
 	
-	delete m_renderer;
+	delete m_rendererController;
 
 }
 
@@ -152,7 +159,7 @@ void GraphicsNode::createDemoScene(){
 	m_renderObjects.push_back(ro3);
 	m_renderObjects.push_back(ro4);
 
-	m_renderer->setRenderObjects(m_renderObjects);
+	m_rendererController->setRenderObjects(m_renderObjects);
 		
 	
 }
@@ -160,9 +167,9 @@ void GraphicsNode::createDemoScene(){
 
 void GraphicsNode::update(float msec){
 	
-    if (!m_renderer->checkWindow()){
+    if (!m_rendererController->checkWindow()){
 		
-		m_renderer->update(msec);
+		m_rendererController->update(msec);
 		counter+=(msec/40);
 		
 		// m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 2, 10, 0.5);
@@ -192,14 +199,14 @@ void GraphicsNode::handleEvent(Event event){
 
 void GraphicsNode::updateLighting()
 {
-	for (auto ro : m_renderer->getOpaqueObjects()) {
+	for (auto ro : m_rendererController->getOpaqueObjects()) {
 		Shader* shader = ro->getShader();
 
 		GLuint program = shader->getProgram();
-		m_renderer->setShaderLight(shader, *m_light);
+		m_rendererController->setShaderLight(shader, m_light);
 
 		glUseProgram(program);
-		Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
+		Vector3 cameraPos = m_rendererController->getCamera()->GetPosition();
 		glUniform3fv(glGetUniformLocation(program, "cameraPos"), 1, (float*)&cameraPos);
 	}
 
@@ -239,7 +246,7 @@ void GraphicsNode::loadLevel(Level* level){
 				// do scale and rotation here
 				ro1->setModelMatrix(pos);
 				m_renderObjects.push_back(ro1);
-				m_renderer->setRenderObjects(m_renderObjects);
+				m_rendererController->setRenderObjects(m_renderObjects);
 
 				break;
 			}

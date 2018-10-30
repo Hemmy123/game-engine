@@ -18,7 +18,7 @@
 #include "EventNode.h"
 #include "HeightMap.h"
 #include "Level.h"
-
+#include "RendererController.h"
 
 
 using std::vector;
@@ -32,16 +32,21 @@ public:
 	void createDemoScene();
 	void handleEvent(Event event);
     void update(float msec);
-	void createCamera(InterfaceHandler* ih) { m_renderer->createCamera(ih);}
 	
-	GLFWwindow* getWindow() const {return m_renderer->getWindow();}
+	//void createCamera(InterfaceHandler* ih) { m_renderer->createCamera(ih);}
+	//GLFWwindow* getWindow() const {return m_renderer->getWindow();}
+
+	void createCamera(InterfaceHandler* ih) { m_rendererController->createCamera(ih);}
+	GLFWwindow* getWindow() const { return m_rendererController->getWindow(); }
+
 	
 	void updateLighting();
 	void loadLevel(Level* level);
 	
 private:
 	
-    Renderer *m_renderer;
+	RendererController* m_rendererController;
+    //Renderer *m_renderer;
 	
 	/*----- Testing ------------*/
 	

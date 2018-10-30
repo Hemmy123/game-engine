@@ -115,7 +115,6 @@ protected:
 	void presentScene();
 
 	Shader* m_currentShader;
-	Shader* m_sceneShader;
 
 	// ---------- Fields ---------- //
 	float m_dt;

@@ -19,8 +19,6 @@ m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
 	defaultGLSettings();
 
 	checkErrors();
-	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
-
 
 	m_aspectRatio = (float)m_actualWidth / (float)m_actualHeight;
 	m_ortho = Matrix4::Orthographic(-10, 10, 10, -10, -10, 10);
@@ -178,19 +176,8 @@ void Renderer::updateShaderMatrices( ) {
 }
 
 void Renderer::presentScene() {
-
-	// unbind framebuffers to render to normal screen
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	//setCurrentShader(m_sceneShader);
-	//updateShaderMatrices();
-
-	//glUseProgram(0);
-
 	changeProjection(Perspective);
-
 	drawAllRenderObjects();
-
-
 }
 
 

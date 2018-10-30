@@ -9,7 +9,7 @@ PostProcessor::PostProcessor(Renderer * r):
 	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
 	m_processShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Process_Frag.glsl");
 
-
+	m_screenQuad = Mesh::generateQuad();
 	generateFBOTexture();
 
 }
@@ -136,12 +136,22 @@ void PostProcessor::drawPostProcess()
 	GLuint screenSizeID = glGetUniformLocation(currentShader->getProgram(), "screenSize");
 	glUniform2f(screenSizeID, (width), (height));
 
+	m_parentRenderer->checkErrors();
+
+
 	GLuint timeID = glGetUniformLocation(currentShader->getProgram(), "time");
 	glUniform1f(timeID, (float)(glfwGetTime()*10.0f));
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_buffColourAttachment, 0);
+	
+	m_parentRenderer->checkErrors();
+
 	m_screenQuad->setTexture(m_buffColourAttachment);
+	
+	m_parentRenderer->checkErrors();
+
 	m_screenQuad->draw();
+	m_parentRenderer->checkErrors();
 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
