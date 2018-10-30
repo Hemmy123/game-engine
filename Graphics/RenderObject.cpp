@@ -49,6 +49,13 @@ void RenderObject::draw()const {
 	}
 }
 
+GLuint RenderObject::loadTexture(const string & filename)
+{
+	m_mesh->loadTexture(filename);
+	m_texture = m_mesh->getTexture();
+	return m_texture;
+}
+
 void RenderObject::update(float msec){
 	// If parent, apply parent model matrix
 	if(m_parent) {

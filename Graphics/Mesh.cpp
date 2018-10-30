@@ -291,6 +291,8 @@ Mesh* Mesh::readObjFile(std::string path){
 }
 
 void Mesh::updateData(){
+	// update to use map instead?
+
 	glBindVertexArray(m_VAO);
 	
 	//Buffer vertex data

@@ -38,31 +38,26 @@ int main() {
 
 	double currentTime = timer->getTime();
 
+
 	while (!game->getEndGame()) {
 
 		double newTime = timer->getTime();
 		double frameTime = newTime - currentTime;
 		currentTime = newTime;
-		//std::cout << "frameTime: " << frameTime << std::endl;
 
+		std::cout << "frameTime: " << frameTime <<std::endl;
 
 		while (frameTime > 0) {
-			
-			//std::cout << "DT: " << dt<< std::endl;
-
-			float dt = min(frameTime, MAXDT);
+			double dt = min(frameTime, MAXDT);
 			inputHandler->update();
-			bus->update();
 			game->update(dt);
+			bus->update();
 			graphics->update(dt);
-			
-			if (game->getEndGame()) {
-				break;
-			}
 
 			frameTime -= dt;
 
 		}
+
 
 	}
 

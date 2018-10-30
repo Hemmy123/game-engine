@@ -56,9 +56,7 @@ m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	// --------------------
 
-
-
-		m_skyboxQuad->loadTexture(TEXTUREDIR "water.jpeg");
+	m_skyboxQuad->loadTexture(TEXTUREDIR "water.jpeg");
 
 
 
@@ -146,7 +144,7 @@ void Renderer::createCamera(InterfaceHandler *ih) {
 
 
 void Renderer::renderScene() {
-	drawSkybox();
+	//drawSkybox();
 
 	drawSceneToFBO(m_sceneFBO, m_sceneShader);
 	if (renderPostEffect) {
