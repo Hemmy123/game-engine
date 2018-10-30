@@ -24,6 +24,12 @@
 
 using std::vector;
 
+enum Projection {
+	Orthographic,
+	Perspective,
+
+};
+
 class Renderer : public MasterRenderer {
 public:
 	Renderer(int height, int width);
@@ -43,17 +49,12 @@ public:
 	/// add post processing and then presenting the scene to the screen.
 	void renderScene();
 
-	/// Draws the scene onto the specfic FBO using the selected shader
-	void drawSceneToFBO(GLuint fbo, Shader* shader);
-
-	/// Adds any post-processing stuff onto the scene FBO and then draws
-	/// it to the process FBO.
-	void drawPostProcess(GLuint fbo, Shader* shader);
-
 	/// Draws a renderObject onto whatever FBO is currently bound.
 	void drawRenderObject(const RenderObject &o);
 
+	void drawAllRenderObjects();
 
+	void changeProjection(Projection proj);
 	// ---------- Updating ---------- //
 
 	/// The 'master' update method which updates everything in the scene
@@ -68,7 +69,7 @@ public:
 	void updateRenderObjects(float msec);
 
 	/// Update the matrices being pushing to shaders via uniforms
-	void updateShaderMatrices(Shader* shader);
+	void updateShaderMatrices();
 
 
 	// ---------- Getters/Setters ---------- //
@@ -90,9 +91,9 @@ public:
 
 	Camera* getCamera()		const { return m_camera; }
 
-	// ---------- Post processing test methods ---------- //
+	Shader* getCurrentShader()  { return m_currentShader; }
 
-	void generateFBOTexture();
+	// ---------- Post processing test methods ---------- //
 
 	void setCurrentShader(Shader* s) { m_currentShader = s; }
 
@@ -113,28 +114,11 @@ protected:
 	/// extras are finished.
 	void presentScene();
 
-	void generateCubeMapTextures();
+	Shader* m_currentShader;
+	Shader* m_sceneShader;
 
 	// ---------- Fields ---------- //
 	float m_dt;
-
-	bool renderPostEffect;
-
-
-	Mesh*	m_quad;				// Quad for rendering FBO to screen
-
-	Shader* m_sceneShader;		// For drawing the scene onto the quad
-	Shader* m_processShader;	// For any post processing effects
-	Shader* m_currentShader;	// The current shader in use
-
-	// -- Frame Buffer Objects
-	GLuint m_sceneFBO;			
-	GLuint m_processFBO;
-
-
-	// -- Frame Buffer Attachments
-	GLuint m_buffColourAttachment;
-	GLuint m_buffDepthAttachment;
 
 	// -- RenderObjects to render
 	vector<RenderObject*> m_opaqueObjects;

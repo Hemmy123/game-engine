@@ -16,6 +16,15 @@ PostProcessor::PostProcessor(Renderer * r):
 
 PostProcessor::~PostProcessor()
 {
+
+	delete m_sceneShader;
+	delete m_processShader;
+	delete m_screenQuad;
+
+	glDeleteTextures(1, &m_buffColourAttachment);
+	glDeleteTextures(1, &m_buffDepthAttachment);
+	glDeleteFramebuffers(1, &m_sceneFBO);
+	glDeleteFramebuffers(1, &m_processFBO);
 }
 
 void PostProcessor::generateFBOTexture()
@@ -72,14 +81,88 @@ void PostProcessor::generateFBOTexture()
 
 }
 
-void PostProcessor::drawSceneToFBO(GLuint fbo, Shader * shader)
+void PostProcessor::drawSceneToFBO()
 {
+
+
+	//m_sceneFBO, m_sceneShader
+	glBindFramebuffer(GL_FRAMEBUFFER, m_sceneFBO);
+
+	m_parentRenderer->clearBuffers();
+	m_parentRenderer->setCurrentShader(m_sceneShader);
+
+	m_parentRenderer->changeProjection(Orthographic);
+	m_parentRenderer->updateShaderMatrices();
+	m_parentRenderer->checkErrors();
+
+
+	m_parentRenderer->drawAllRenderObjects();
+
+	glUseProgram(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 }
 
-void PostProcessor::drawPostProcess(GLuint fbo, Shader * shader)
+void PostProcessor::drawPostProcess()
 {
+
+	// m_processFBO, m_processShader
+	/*
+	 Adds post processing to the scene.
+
+	 Assuming the scene has been drawn to a FBO, this bindes the
+	 processFBO, sets the texture to whatever was drawn before (so
+	 the scene) and then applies post processing effect via a shader
+	 by calling m_quad->draw()
+
+	 Whatever is drawn is put into m_bufferColourAttachment (I think?)
+	 */
+
+	int width = m_parentRenderer->getWidth();
+	int height = m_parentRenderer->getHeight();
+
+	 // Bind the process FBO
+	glBindFramebuffer(GL_FRAMEBUFFER, m_processFBO);
+
+	m_parentRenderer->setCurrentShader(m_processShader);	// Change to our post processing shader
+	m_parentRenderer->changeProjection(Orthographic);
+				
+	m_parentRenderer->setViewMatrix(Matrix4());				// set to identitiy matrix
+	m_parentRenderer->updateShaderMatrices();
+	glDisable(GL_DEPTH_TEST);
+
+	// Update screen size uniform.
+	Shader* currentShader = m_parentRenderer->getCurrentShader();
+	GLuint screenSizeID = glGetUniformLocation(currentShader->getProgram(), "screenSize");
+	glUniform2f(screenSizeID, (width), (height));
+
+	GLuint timeID = glGetUniformLocation(currentShader->getProgram(), "time");
+	glUniform1f(timeID, (float)(glfwGetTime()*10.0f));
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_buffColourAttachment, 0);
+	m_screenQuad->setTexture(m_buffColourAttachment);
+	m_screenQuad->draw();
+
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glUseProgram(0);
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void PostProcessor::presentScene()
 {
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	m_parentRenderer->setCurrentShader(m_sceneShader);
+	m_parentRenderer->changeProjection(Orthographic);
+	m_parentRenderer->setViewMatrix(Matrix4());
+	m_parentRenderer->updateShaderMatrices();
+	m_parentRenderer->checkErrors();
+
+	m_screenQuad->setTexture(m_buffColourAttachment);
+	m_screenQuad->draw();
+	glUseProgram(0);
+
 }

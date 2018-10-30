@@ -11,9 +11,9 @@ public:
 
 	void generateFBOTexture();
 
-	void drawSceneToFBO(GLuint fbo, Shader* shader);
+	void drawSceneToFBO();
 
-	void drawPostProcess(GLuint fbo, Shader* shader);
+	void drawPostProcess();
 
 	void presentScene();
 
