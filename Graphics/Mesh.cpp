@@ -392,8 +392,9 @@ void Mesh::draw(){
     
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 	
-	
+	auto error = glGetError();
     glBindVertexArray(m_VAO);
+	auto error1 = glGetError();
 
     // If we're using indices:
     if(m_VBO[INDEX_BUFFER]) {
@@ -402,12 +403,16 @@ void Mesh::draw(){
     else{
         // Else just use vertices
         glDrawArrays(m_type, 0, m_numVertices);    //Draw the triangle!
+		auto error2 = glGetError();
+		int i = 0;
     }
     // Unbind for good practice
     glBindVertexArray(0);
+	auto error3 = glGetError();
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
+	auto error4 = glGetError();
+
 }
 
 
