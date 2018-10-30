@@ -101,7 +101,6 @@ public:
 
 	void setShaderLight(Shader* shader, Light &light);
 
-	void drawSkybox();
 protected:
 
 
@@ -121,15 +120,10 @@ protected:
 
 
 	Mesh*	m_quad;				// Quad for rendering FBO to screen
-	Mesh* 	m_skyboxQuad;		
 
 	Shader* m_sceneShader;		// For drawing the scene onto the quad
 	Shader* m_processShader;	// For any post processing effects
 	Shader* m_currentShader;	// The current shader in use
-
-
-	Shader* m_skyboxShader;		// For drawing the skybox.
-
 
 	// -- Frame Buffer Objects
 	GLuint m_sceneFBO;			
@@ -154,10 +148,7 @@ protected:
 	Camera* m_camera;
 
 
-	// -- Misc
-	//Mesh*	m_waterQuad;
-	GLuint 	m_cubeMap;
-	float 	m_waterRotate;
+
 
 };
 

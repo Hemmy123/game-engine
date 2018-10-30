@@ -36,7 +36,7 @@ public:
 	
 	GLFWwindow* getWindow() const {return m_renderer->getWindow();}
 	
-	
+	void updateLighting();
 	void loadLevel(Level* level);
 	
 private:

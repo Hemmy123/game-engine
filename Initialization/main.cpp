@@ -47,11 +47,12 @@ int main() {
 
 		std::cout << "frameTime: " << frameTime <<std::endl;
 
-		while (frameTime > 0) {
+		while (frameTime > 0 && !game->getEndGame()) {
 			double dt = min(frameTime, MAXDT);
 			inputHandler->update();
-			game->update(dt);
 			bus->update();
+			game->update(dt);
+
 			graphics->update(dt);
 
 			frameTime -= dt;

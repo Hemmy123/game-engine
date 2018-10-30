@@ -12,8 +12,6 @@
 //Renderer::Renderer(): WIDTH(900),HEIGHT(700)
 Renderer::Renderer(int height, int width) : MasterRenderer(height, width),
 m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
-
-
 	defaultGLSettings();
 
 	if (init() != 0) {
@@ -30,53 +28,35 @@ m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
 	m_sceneShader	= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
 	m_processShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Process_Frag.glsl");
 
-	m_skyboxShader 	= new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
-
-	m_quad		 = Mesh::generateQuad();
-	m_skyboxQuad = Mesh::generateQuad();
 
 
-		// ----- Cubemap Stuff ------ //
-
-		// Doesn't work?
-	m_cubeMap =  SOIL_load_OGL_cubemap(
-										TEXTUREDIR"Skybox/posx.jpg",
-										TEXTUREDIR"Skybox/negx.jpg",
-										TEXTUREDIR"Skybox/posy.jpg",
-										TEXTUREDIR"Skybox/negy.jpg",
-										TEXTUREDIR"Skybox/posz.jpg",
-										TEXTUREDIR"Skybox/negz.jpg",
-										SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0);
-	
-	if(m_cubeMap == 0){
-		printf( "SOIL loading error: '%s'\n", SOIL_last_result() );
-	
+	if (!m_sceneShader->linkProgram() ||
+		!m_processShader->linkProgram()){
+		return;
 	}
 
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+	m_quad		 = Mesh::generateQuad();
+
+
+
+	
+	
+
 	// --------------------
 
-	m_skyboxQuad->loadTexture(TEXTUREDIR "water.jpeg");
-
-
-
 	m_quad->bufferData();
-	m_skyboxQuad->bufferData();
-
-
-
-	m_skyboxQuad->setTexture(m_cubeMap);
-
-	checkErrors();
 
 	generateFBOTexture();
 	setCurrentShader(m_sceneShader);
 
-
-
 	renderPostEffect = false;
 
-	// Change this value later on.
+
+	m_quad->loadTexture(TEXTUREDIR"water.jpeg");
+	SetTextureRepeating(m_quad->getTexture(), true);
+
+
 }
 
 Renderer::~Renderer() {
@@ -84,11 +64,10 @@ Renderer::~Renderer() {
 	delete m_sceneShader;
 	delete m_processShader;
 	delete m_quad;
-	delete m_skyboxQuad;
+	//delete m_skyboxQuad;
 
 	//delete m_waterQuad;
 	//delete m_reflectShader;
-	delete m_skyboxShader;
 	m_currentShader = 0;
 
 	glDeleteTextures(1, &m_buffColourAttachment);
@@ -144,7 +123,6 @@ void Renderer::createCamera(InterfaceHandler *ih) {
 
 
 void Renderer::renderScene() {
-	//drawSkybox();
 
 	drawSceneToFBO(m_sceneFBO, m_sceneShader);
 	if (renderPostEffect) {
@@ -393,29 +371,6 @@ void Renderer::setShaderLight(Shader* shader, Light &light) {
 
 
 }
-
-void Renderer::drawSkybox(){
-	glDepthMask(GL_FALSE);
-
-	/*m_skyboxQuad->loadTexture(TEXTUREDIR "water.jpeg");
-	checkErrors();*/
-
-	setCurrentShader(m_skyboxShader);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
-	checkErrors();
-	updateShaderMatrices(m_currentShader);
-
-
-
-
-	checkErrors();
-	m_skyboxQuad->draw();
-	checkErrors();
-	glUseProgram(0);
-	glDepthMask(GL_TRUE);
-
-}
-
 
 void Renderer::generateCubeMapTextures() {
 

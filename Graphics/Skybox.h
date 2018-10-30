@@ -7,16 +7,24 @@
 // ========================================
 #pragma once
 
-
+#include "Shader.h"
 #include <stdio.h>
 class Skybox{
 public:
-	Skybox();
+	Skybox(Renderer);
 	~Skybox();
 	
+	void drawSkybox();
+
+
 private:
 	
-	
+	Shader* m_skyboxShader;
+
+	// -- Misc
+	//Mesh*	m_waterQuad;
+	GLuint 	m_cubeMap;
+	float 	m_waterRotate;
 };
 
 

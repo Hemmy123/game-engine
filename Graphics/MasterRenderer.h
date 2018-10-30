@@ -47,6 +47,7 @@ public:
 
 	void swapBuffers();
 
+	void SetTextureRepeating(GLuint target, bool repeating);
 
 	// From nclgl
 
