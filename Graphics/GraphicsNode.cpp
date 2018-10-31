@@ -18,7 +18,8 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):EventNode(bus,sub
 	m_perlin3D = new PerlinNoise3D(257,6);
 	
 	RendererSettings settings;
-	settings.skybox = false;
+
+	settings.skybox = true;
 	settings.postProcessing = false;
 	
 	m_rendererController->setSetting(settings);
