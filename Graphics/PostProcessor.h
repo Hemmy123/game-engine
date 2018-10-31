@@ -11,11 +11,8 @@ public:
 
 	void generateFBOTexture();
 
-	void drawSceneToFBO();
+	void drawPostProcess(GLuint buffColourAttachment);
 
-	void drawPostProcess();
-
-	void presentScene();
 
 private:
 
@@ -23,18 +20,11 @@ private:
 
 	// ----- Meshes/Shaders ----- //
 	Mesh*	m_screenQuad;			// Quad for rendering FBO to screen
-	Shader* m_sceneShader;		// For drawing the scene onto the quad
 	Shader* m_processShader;	// For any post processing effects
 
 	// ----- FBOs ----- //
-
-	GLuint m_sceneFBO;
 	GLuint m_processFBO;
 
-
-	// ----- Frame Buffer Attachments ----- //
-	GLuint m_buffColourAttachment;
-	GLuint m_buffDepthAttachment;
 
 };
 

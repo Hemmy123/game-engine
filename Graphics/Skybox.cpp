@@ -49,13 +49,13 @@ void Skybox::drawSkybox() {
 	glDepthMask(GL_FALSE);
 
 	m_parentRenderer->setCurrentShader(m_skyboxShader);
-//	m_parentRenderer->updateShaderMatrices(m_currentShader);
+	m_parentRenderer->updateShaderMatrices();
 
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 
-	//glUniform1i(glGetUniformLocation(m_currentShader->getProgram(), "cubeTex"), 2);
+	glUniform1i(glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex"), 2);
+	m_quad->setTexture(m_cubeMap);
 	m_quad->draw();
-
 
 	m_parentRenderer->checkErrors();
 

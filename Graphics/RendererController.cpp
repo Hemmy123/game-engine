@@ -12,12 +12,15 @@ RendererController::RendererController(int height, int width):
 
 	generateFBO();
 
+
+	m_screenQuad = Mesh::generateQuad();
+	m_screenQuad->bufferData();
+
 	m_postProcessor = new PostProcessor(m_renderer, m_screenQuad);
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
 
 	// Setting up FBOS
-	m_screenQuad = Mesh::generateQuad();
-	m_screenQuad->bufferData();
+	
 
 }
 
@@ -46,15 +49,18 @@ void RendererController::update(float msec)
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox();
 	} 
+	m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+
+
 	if (m_settings.postProcessing) {
-		m_postProcessor->drawSceneToFBO();
-		m_postProcessor->drawPostProcess();
-		m_postProcessor->presentScene();
+		m_postProcessor->drawPostProcess(m_buffColourAttachment);
 	}
 
 	if (!m_settings.skybox && !m_settings.postProcessing) {
-		m_renderer->renderScene(m_screenQuad,m_sceneShader,m_sceneFBO);
+		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+
 	}
+
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
 	m_renderer->swapBuffers();
 }
