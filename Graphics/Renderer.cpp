@@ -18,11 +18,11 @@ Renderer::Renderer(int height, int width) :
 		std::cout << "OpenGL Failed to initialize!" << std::endl;
 	};
 
-	defaultGLSettings();
 
 	m_aspectRatio = (float)m_actualWidth / (float)m_actualHeight;
 	m_ortho = Matrix4::Orthographic(-10, 10, 10, -10, -10, 10);
 	m_persp = Matrix4::Perspective(1, m_viewDistance, m_aspectRatio, m_fov);
+	defaultGLSettings();
 
 }
 
@@ -76,11 +76,10 @@ void Renderer::createCamera(InterfaceHandler *ih) {
 
 
 
-void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint texture) {
+void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 
 
-	glBindFramebuffer(GL_FRAMEBUFFER, texture);
-	glEnable(GL_DEPTH_TEST);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	clearBuffers();
 
 	setCurrentShader(shader);
@@ -146,6 +145,7 @@ void Renderer::changeProjection(Projection proj)
 
 
 void Renderer::updateScene(float msec) {
+
 	if (m_camera == nullptr) {
 		std::cout << "No camera has been created/set" << std::endl;
 	}
@@ -189,11 +189,10 @@ void Renderer::updateShaderMatrices( ) {
 
 }
 
-void Renderer::presentScene(Shader* sceneShader, Mesh* quad, GLuint texture) {
+void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	clearBuffers();
-
 	setCurrentShader(sceneShader);
 	changeProjection(Orthographic);
 	setViewMatrix(Matrix4());

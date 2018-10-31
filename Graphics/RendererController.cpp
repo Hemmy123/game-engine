@@ -3,7 +3,7 @@
 #include "FilePaths.h"
 
 
-RendererController::RendererController(int height, int width ):
+RendererController::RendererController(int height, int width):
 	m_height(height), m_width(width)
 {
 	m_renderer = new Renderer(height, width);
@@ -12,7 +12,6 @@ RendererController::RendererController(int height, int width ):
 
 	generateFBO();
 
-	// ----
 	m_postProcessor = new PostProcessor(m_renderer, m_screenQuad);
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
 
@@ -25,6 +24,12 @@ RendererController::RendererController(int height, int width ):
 
 RendererController::~RendererController()
 {
+	delete m_sceneShader;
+	delete m_screenQuad;
+
+	delete m_skybox;
+	delete m_postProcessor;
+	delete m_renderer;
 }
 
 void RendererController::init()
@@ -37,6 +42,7 @@ void RendererController::update(float msec)
 	m_renderer->updateScene(msec);
 	m_renderer->clearBuffers();
 
+
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox();
 	} 
@@ -48,9 +54,8 @@ void RendererController::update(float msec)
 
 	if (!m_settings.skybox && !m_settings.postProcessing) {
 		m_renderer->renderScene(m_screenQuad,m_sceneShader,m_sceneFBO);
-
 	}
-	m_renderer->presentScene(m_sceneShader, m_screenQuad, m_sceneFBO);
+	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
 	m_renderer->swapBuffers();
 }
 
@@ -59,6 +64,21 @@ void RendererController::update(float msec)
 
 void RendererController::generateFBO()
 {
+
+	glGenTextures(1, &m_buffDepthAttachment);
+	glBindTexture(GL_TEXTURE_2D, m_buffDepthAttachment);
+	m_renderer->checkErrors();
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); 	// clamping to make sure no sampling happens that
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);	// might distort the edges. (Try turning htis off?)
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_width, m_height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+	m_renderer->checkErrors();
+
+	// Note:
+	// GL_DEPTH24_STENCIL8 and GL_DEPTH_STENCIL because it's a depth texture
 
 	glGenTextures(1, &m_buffColourAttachment);
 	glBindTexture(GL_TEXTURE_2D, m_buffColourAttachment);
@@ -72,13 +92,16 @@ void RendererController::generateFBO()
 	// Generate FBOs
 	glGenFramebuffers(1, &m_sceneFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_sceneFBO);
+
 	// Attaching attachments to sceneFBO
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_buffDepthAttachment, 0);		// Depth attachment
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_buffDepthAttachment, 0);		// Stencil attachment
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_buffColourAttachment, 0);		// Colour attachment
 	m_renderer->checkErrors();
 
 
 	// Checking if FBO attachment was successful
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE || !m_buffColourAttachment) {
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE || !m_buffDepthAttachment || !m_buffColourAttachment) {
 		std::cout << "FBO Attachment failed " << std::endl;
 		m_renderer->checkErrors();
 		return;

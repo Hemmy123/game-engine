@@ -56,6 +56,7 @@ private:
 	Shader*		m_sceneShader;
 	GLuint		m_sceneFBO;
 	GLuint		m_buffColourAttachment;
+	GLuint		m_buffDepthAttachment;
 
 
 	// ----- Renderer classes ----- //

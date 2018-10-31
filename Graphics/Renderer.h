@@ -104,7 +104,7 @@ public:
 
 	/// Presents the scene to the screen (after all post processing and
 	/// extras are finished.
-	void presentScene(Shader* sceneShader, Mesh* quad, GLuint texture);
+	void presentScene(Mesh* quad, Shader* sceneShader, GLuint texture);
 
 
 protected:
