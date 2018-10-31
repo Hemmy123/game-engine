@@ -47,7 +47,7 @@ public:
 
 	/// Carries out the whole rendering process, drawing to scene FBO,
 	/// add post processing and then presenting the scene to the screen.
-	void renderScene();
+	void renderScene(Mesh* quad, Shader* shader, GLuint texture);
 
 	/// Draws a renderObject onto whatever FBO is currently bound.
 	void drawRenderObject(const RenderObject &o);
@@ -102,6 +102,11 @@ public:
 
 	void setShaderLight(Shader* shader, Light &light);
 
+	/// Presents the scene to the screen (after all post processing and
+	/// extras are finished.
+	void presentScene(Shader* sceneShader, Mesh* quad, GLuint texture);
+
+
 protected:
 
 
@@ -110,11 +115,9 @@ protected:
 
 
 
-	/// Presents the scene to the screen (after all post processing and
-	/// extras are finished.
-	void presentScene();
 
 	Shader* m_currentShader;
+
 
 	// ---------- Fields ---------- //
 	float m_dt;

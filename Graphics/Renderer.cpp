@@ -10,15 +10,15 @@
 #include "FilePaths.h"
 
 //Renderer::Renderer(): WIDTH(900),HEIGHT(700)
-Renderer::Renderer(int height, int width) : MasterRenderer(height, width),
-m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
+Renderer::Renderer(int height, int width) :
+	MasterRenderer(height, width),
+	m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) 
+{
 	if (init() != 0) {
 		std::cout << "OpenGL Failed to initialize!" << std::endl;
 	};
 
 	defaultGLSettings();
-
-	checkErrors();
 
 	m_aspectRatio = (float)m_actualWidth / (float)m_actualHeight;
 	m_ortho = Matrix4::Orthographic(-10, 10, 10, -10, -10, 10);
@@ -27,7 +27,6 @@ m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) {
 }
 
 Renderer::~Renderer() {
-
 
 	glfwTerminate();
 	delete m_camera;
@@ -52,6 +51,7 @@ void Renderer::defaultGLSettings()
 		m_clearColour.y,
 		m_clearColour.z,
 		m_clearColour.w);
+	checkErrors();
 
 }
 
@@ -66,7 +66,7 @@ void Renderer::update(float msec) {
 	updateScene(m_dt);
 
 	clearBuffers();
-	renderScene();
+	//renderScene();
 	swapBuffers();
 }
 
@@ -76,8 +76,22 @@ void Renderer::createCamera(InterfaceHandler *ih) {
 
 
 
-void Renderer::renderScene() {
-	presentScene();
+void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint texture) {
+
+
+	glBindFramebuffer(GL_FRAMEBUFFER, texture);
+	glEnable(GL_DEPTH_TEST);
+	clearBuffers();
+
+	setCurrentShader(shader);
+	
+	changeProjection(Perspective);
+	updateShaderMatrices();
+	checkErrors();
+	drawAllRenderObjects();
+
+	glUseProgram(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Renderer::setRenderObjects(vector<RenderObject*> renderObjects) {
@@ -175,9 +189,20 @@ void Renderer::updateShaderMatrices( ) {
 
 }
 
-void Renderer::presentScene() {
-	changeProjection(Perspective);
-	drawAllRenderObjects();
+void Renderer::presentScene(Shader* sceneShader, Mesh* quad, GLuint texture) {
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	clearBuffers();
+
+	setCurrentShader(sceneShader);
+	changeProjection(Orthographic);
+	setViewMatrix(Matrix4());
+	updateShaderMatrices();
+
+	quad->setTexture(texture);
+	quad->draw();
+	glUseProgram(0);
+	
 }
 
 

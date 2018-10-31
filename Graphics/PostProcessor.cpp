@@ -2,15 +2,14 @@
 
 #include "FilePaths.h"
 
-PostProcessor::PostProcessor(Renderer * r):
+PostProcessor::PostProcessor(Renderer * r, Mesh* screenQuad):
+	m_screenQuad(screenQuad),
 	m_parentRenderer(r)
 {
 
 	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
 	m_processShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Process_Frag.glsl");
 
-	m_screenQuad = Mesh::generateQuad();
-	m_screenQuad->bufferData();
 	generateFBOTexture();
 
 }
@@ -20,7 +19,7 @@ PostProcessor::~PostProcessor()
 
 	delete m_sceneShader;
 	delete m_processShader;
-	delete m_screenQuad;
+	
 
 	glDeleteTextures(1, &m_buffColourAttachment);
 	glDeleteTextures(1, &m_buffDepthAttachment);
@@ -66,7 +65,7 @@ void PostProcessor::generateFBOTexture()
 	// Attaching attachments to sceneFBO
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_buffDepthAttachment, 0);		// Depth attachment
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_buffDepthAttachment, 0);		// Stencil attachment
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_buffColourAttachment, 0);		// Colour attackment (only one?)
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_buffColourAttachment, 0);		// Colour attachment
 	m_parentRenderer->checkErrors();
 
 

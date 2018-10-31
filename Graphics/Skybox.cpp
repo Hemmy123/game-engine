@@ -14,7 +14,8 @@
 #include <GLFW/glfw3.h>
 #include <SOIL2.h>
 
-Skybox::Skybox(Renderer* r):
+Skybox::Skybox(Renderer* r, Mesh* screenQuad):
+	m_quad(screenQuad),
 	m_parentRenderer(r)
 {
 	m_skyboxShader = new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
@@ -50,7 +51,8 @@ void Skybox::drawSkybox() {
 	m_parentRenderer->setCurrentShader(m_skyboxShader);
 //	m_parentRenderer->updateShaderMatrices(m_currentShader);
 
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+
 	//glUniform1i(glGetUniformLocation(m_currentShader->getProgram(), "cubeTex"), 2);
 	m_quad->draw();
 

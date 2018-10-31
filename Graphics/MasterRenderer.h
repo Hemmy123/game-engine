@@ -41,7 +41,6 @@ public:
 	virtual void defaultGLSettings() = 0;
 
 	virtual void update(float dt)	= 0;
-	virtual void renderScene()		= 0;
 	virtual void clearBuffers();
 
 

@@ -13,7 +13,7 @@
 
 class Skybox{
 public:
-	Skybox(Renderer* r);
+	Skybox(Renderer* r, Mesh* screenQuad);
 	~Skybox();
 	
 	void drawSkybox();

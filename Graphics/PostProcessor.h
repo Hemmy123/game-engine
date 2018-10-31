@@ -5,7 +5,7 @@
 class PostProcessor
 {
 public:
-	PostProcessor(Renderer* r);
+	PostProcessor(Renderer* r, Mesh* screenQuad);
 	~PostProcessor();
 
 
