@@ -34,6 +34,8 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 		printf("SOIL loading error: '%s'\n", SOIL_last_result());
 
 	}
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 
@@ -45,20 +47,24 @@ Skybox::~Skybox()
 }
 
 
-void Skybox::drawSkybox() {
+void Skybox::drawSkybox(Mesh* quad) {
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 	glDepthMask(GL_FALSE);
 
 	m_parentRenderer->setCurrentShader(m_skyboxShader);
 	m_parentRenderer->updateShaderMatrices();
 
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 
-	glUniform1i(glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex"), 2);
-	m_quad->setTexture(m_cubeMap);
-	m_quad->draw();
+	glUniform1i(glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex"), 0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+	quad->setTexture(m_cubeMap);
+	quad->draw();
 
 	m_parentRenderer->checkErrors();
 
 	glUseProgram(0);
 	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }

@@ -47,8 +47,9 @@ void RendererController::update(float msec)
 
 
 	if (m_settings.skybox) {
-		m_skybox->drawSkybox();
+		m_skybox->drawSkybox(m_screenQuad);
 	} 
+
 	m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
 
 
@@ -56,10 +57,6 @@ void RendererController::update(float msec)
 		m_postProcessor->drawPostProcess(m_buffColourAttachment);
 	}
 
-	if (!m_settings.skybox && !m_settings.postProcessing) {
-		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
-
-	}
 
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
 	m_renderer->swapBuffers();

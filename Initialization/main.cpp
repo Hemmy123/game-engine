@@ -45,7 +45,7 @@ int main() {
 		double frameTime = newTime - currentTime;
 		currentTime = newTime;
 
-		std::cout << "frameTime: " << frameTime <<std::endl;
+		//std::cout << "frameTime: " << frameTime <<std::endl;
 
 		while (frameTime > 0 && !game->getEndGame()) {
 			double dt = min(frameTime, MAXDT);

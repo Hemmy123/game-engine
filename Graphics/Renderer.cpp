@@ -80,7 +80,7 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-	clearBuffers();
+	//clearBuffers();
 
 	setCurrentShader(shader);
 	
