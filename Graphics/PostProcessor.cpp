@@ -10,6 +10,7 @@ PostProcessor::PostProcessor(Renderer * r):
 	m_processShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Process_Frag.glsl");
 
 	m_screenQuad = Mesh::generateQuad();
+	m_screenQuad->bufferData();
 	generateFBOTexture();
 
 }
@@ -84,14 +85,12 @@ void PostProcessor::generateFBOTexture()
 void PostProcessor::drawSceneToFBO()
 {
 
-
-	//m_sceneFBO, m_sceneShader
 	glBindFramebuffer(GL_FRAMEBUFFER, m_sceneFBO);
 
 	m_parentRenderer->clearBuffers();
 	m_parentRenderer->setCurrentShader(m_sceneShader);
 
-	m_parentRenderer->changeProjection(Orthographic);
+	m_parentRenderer->changeProjection(Perspective);
 	m_parentRenderer->updateShaderMatrices();
 	m_parentRenderer->checkErrors();
 
@@ -164,12 +163,10 @@ void PostProcessor::presentScene()
 {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 	m_parentRenderer->setCurrentShader(m_sceneShader);
 	m_parentRenderer->changeProjection(Orthographic);
 	m_parentRenderer->setViewMatrix(Matrix4());
 	m_parentRenderer->updateShaderMatrices();
-	m_parentRenderer->checkErrors();
 
 	m_screenQuad->setTexture(m_buffColourAttachment);
 	m_screenQuad->draw();

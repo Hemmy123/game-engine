@@ -19,7 +19,7 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):EventNode(bus,sub
 	
 	RendererSettings settings;
 	settings.skybox = false;
-	settings.postProcessing = true;
+	settings.postProcessing = false;
 	
 	m_rendererController->setSetting(settings);
 	createDemoScene();

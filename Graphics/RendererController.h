@@ -10,7 +10,6 @@ struct RendererSettings{
 	bool skybox;
 	bool postProcessing;
 
-
 };
 
 class RendererController

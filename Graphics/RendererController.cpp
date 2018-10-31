@@ -5,12 +5,10 @@
 RendererController::RendererController(int height, int width ):
 	m_height(height), m_width(width)
 {
-	m_renderer = new Renderer(height, width);
-
+	m_renderer		= new Renderer(height, width);
 	m_postProcessor = new PostProcessor(m_renderer);
+	m_skybox		= new Skybox(m_renderer);
 
-	m_settings.skybox			= true;
-	m_settings.postProcessing	= true;
 }
 
 
@@ -24,6 +22,10 @@ void RendererController::init()
 
 void RendererController::update(float msec)
 {
+	glfwPollEvents();
+	m_renderer->updateScene(msec);
+	m_renderer->clearBuffers();
+
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox();
 	} 
@@ -32,7 +34,12 @@ void RendererController::update(float msec)
 		m_postProcessor->drawPostProcess();
 		m_postProcessor->presentScene();
 	}
-	// renderer->renderScene?
+
+	if (!m_settings.skybox && !m_settings.postProcessing) {
+		m_renderer->renderScene();
+
+	}
+	m_renderer->swapBuffers();
 }
 
 
