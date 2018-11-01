@@ -42,12 +42,10 @@ void RendererController::init()
 
 void RendererController::update(float msec)
 {
-	
-	
-	
-
 	glfwPollEvents();
 	m_renderer->updateScene(msec);
+
+
 
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
