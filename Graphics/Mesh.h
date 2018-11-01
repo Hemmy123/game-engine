@@ -29,6 +29,11 @@ enum MeshBuffer {
 	MAX_BUFFER
 };
 
+enum TextureType {
+	Texture_2D,
+	Cube_Map
+};
+
 /*
 Stores mesh data and has to be manually buffered into OGL
 with the bufferData method.
@@ -55,12 +60,18 @@ public:
     GLuint m_type;
 
 	void setTexture(GLuint tex) {m_texture = tex;}
+
+	void bindTexture();
+
 	GLuint getTexture() const { return m_texture; }
 
 	GLuint loadTexture(std::string path) {
 		m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
 		return m_texture;
 	}
+
+	void setTextureType(TextureType type) { m_textureType = type; }
+	TextureType setTextureType() const { return m_textureType; }
 	
 protected:
     GLuint m_VAO;
@@ -68,11 +79,14 @@ protected:
 
 	GLuint m_texture;
 	
+
+	TextureType		m_textureType;
+
+
 	//Number of vertices for this mesh
 	GLuint			m_numVertices;
 	//Number of indices for this mesh
 	GLuint			m_numIndices;
-
 
 	//Pointer to vertex position attribute data (badly named...?)
 	Vector3*		m_vertices;

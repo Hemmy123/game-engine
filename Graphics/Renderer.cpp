@@ -80,13 +80,12 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-	//clearBuffers();
+	clearBuffers();
 
 	setCurrentShader(shader);
 	
 	changeProjection(Perspective);
 	updateShaderMatrices();
-	checkErrors();
 	drawAllRenderObjects();
 
 	glUseProgram(0);
@@ -116,10 +115,14 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 		setCurrentShader(o.getShader());
 		glUseProgram(program);
 		updateShaderMatrices();
+		o.getMesh()->setTextureType(Texture_2D);
+		o.getMesh()->bindTexture();
+
 		o.draw();
 	}
 
 	for (auto iter : o.getChildren()) {
+		
 		drawRenderObject(*iter);
 	}
 
@@ -175,10 +178,10 @@ void Renderer::updateShaderMatrices( ) {
 
 	GLuint program = m_currentShader->getProgram();
 	glUseProgram(program);
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, false, (float*)&m_modelMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, false, (float*)&m_viewMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"), 1, false, (float*)&m_projMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(program, "textureMatrix"), 1, false, (float*)&m_textureMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"),	1, false, (float*)&m_modelMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"),		1, false, (float*)&m_viewMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"),		1, false, (float*)&m_projMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(program, "textureMatrix"),	1, false, (float*)&m_textureMatrix);
 
 	Matrix4 mvp = m_projMatrix * m_viewMatrix * m_modelMatrix;
 
@@ -191,6 +194,7 @@ void Renderer::updateShaderMatrices( ) {
 
 void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
 
+	// Default framebuffer to screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	clearBuffers();
 	setCurrentShader(sceneShader);
@@ -199,6 +203,8 @@ void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
 	updateShaderMatrices();
 
 	quad->setTexture(texture);
+	quad->setTextureType(Texture_2D);
+	quad->bindTexture();
 	quad->draw();
 	glUseProgram(0);
 	

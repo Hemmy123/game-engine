@@ -16,7 +16,7 @@ public:
 	Skybox(Renderer* r, Mesh* screenQuad);
 	~Skybox();
 	
-	void drawSkybox(Mesh* quad);
+	void drawSkybox(Mesh* quad, GLuint fbo);
 
 
 private:

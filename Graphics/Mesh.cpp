@@ -16,7 +16,7 @@ Mesh::Mesh(){
 	m_texture = 0;
     m_numVertices = 0;
 	m_type = GL_TRIANGLES;
-
+	m_textureType = Texture_2D;
     for(int i = 0; i < MAX_BUFFER; ++i) {
         m_VBO[i] = 0;
     }
@@ -101,11 +101,24 @@ void Mesh::generateNormals(){
 	
 }
 
+void Mesh::bindTexture()
+{
+	switch (m_textureType) {
+	case Texture_2D: glBindTexture(GL_TEXTURE_2D, m_texture); break;
+	case Cube_Map : glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture); break;
+	default : glBindTexture(GL_TEXTURE_2D, m_texture); break;
+	}
+
+
+}
+
 
 
 Mesh* Mesh::generateQuad(){
 	
 	Mesh* m = new Mesh();
+	m->m_type = GL_TRIANGLES;
+
 	m->m_numVertices = 6;
 	
 	m->m_vertices = new Vector3[m->m_numVertices];
@@ -152,8 +165,13 @@ Mesh* Mesh::generateWaterQuad(){
 	m->m_vertices[2] = Vector3(1.0f, -1.0f, 0.0f);
 	m->m_vertices[3] = Vector3(1.0f, 1.0f, 0.0f);
 	
-	
-	
+
+	/*m->m_vertices[3] = Vector3(-1.0f, -1.0f, 0.0f);
+	m->m_vertices[2] = Vector3(-1.0f, 1.0f, 0.0f);
+	m->m_vertices[1] = Vector3(1.0f, -1.0f, 0.0f);
+	m->m_vertices[0] = Vector3(1.0f, 1.0f, 0.0f);
+
+*/
 	m->m_textureCoords[0] = Vector2(0.0f, 1.0f);
 	m->m_textureCoords[1] = Vector2(0.0f, 0.0f);
 	m->m_textureCoords[2] = Vector2(1.0f, 1.0f);
@@ -161,11 +179,10 @@ Mesh* Mesh::generateWaterQuad(){
 	
 	
 	for(int i  = 0; i < 4; ++i){
-		m->m_colours[i] 	= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+		m->m_colours[i] 	= Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 		m->m_normals[i] 	= Vector3(0.0f, 0.0f, -1.0f);
 		m->m_tangents[i] 	= Vector3(1.0f, 0.0f, 0.0f);
 	}
-	m->bufferData();
 	
 	return m;
 }
@@ -390,11 +407,12 @@ void Mesh::bufferData(){
 
 void Mesh::draw(){
     
-	glBindTexture(GL_TEXTURE_2D, m_texture);
+	//glBindTexture(GL_TEXTURE_2D, m_texture);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+
 	
-	auto error = glGetError();
     glBindVertexArray(m_VAO);
-	auto error1 = glGetError();
+	
 
     // If we're using indices:
     if(m_VBO[INDEX_BUFFER]) {
@@ -403,15 +421,13 @@ void Mesh::draw(){
     else{
         // Else just use vertices
         glDrawArrays(m_type, 0, m_numVertices);    //Draw the triangle!
-		auto error2 = glGetError();
+	
 		int i = 0;
     }
     // Unbind for good practice
     glBindVertexArray(0);
-	auto error3 = glGetError();
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
-	auto error4 = glGetError();
 
 }
 

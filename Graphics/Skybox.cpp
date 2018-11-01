@@ -47,7 +47,9 @@ Skybox::~Skybox()
 }
 
 
-void Skybox::drawSkybox(Mesh* quad) {
+void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	glDepthMask(GL_FALSE);
@@ -59,6 +61,8 @@ void Skybox::drawSkybox(Mesh* quad) {
 	glUniform1i(glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex"), 0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 	quad->setTexture(m_cubeMap);
+	quad->setTextureType(Cube_Map);
+	quad->bindTexture();
 	quad->draw();
 
 	m_parentRenderer->checkErrors();
@@ -67,4 +71,6 @@ void Skybox::drawSkybox(Mesh* quad) {
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 }
