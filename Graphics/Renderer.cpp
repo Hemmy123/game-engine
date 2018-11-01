@@ -204,6 +204,7 @@ void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
 	quad->setTextureType(Texture_2D);
 	quad->bindTexture();
 	quad->draw();
+
 	glUseProgram(0);
 	
 }
