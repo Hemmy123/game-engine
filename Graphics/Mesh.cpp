@@ -130,6 +130,8 @@ Mesh* Mesh::generateQuad(){
 	m->m_vertices[3] = 	Vector3(1.0f,	-1.0f, 0.0f);
 	m->m_vertices[4] = 	Vector3(1.0f, 1.0f, 0.0f);
 	m->m_vertices[5] = 	Vector3(-1.0f,  1.0f, 0.0f);
+
+
 	
 	m->m_textureCoords = new Vector2[m->m_numVertices];
 

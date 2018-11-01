@@ -80,8 +80,6 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-	clearBuffers();
-
 	setCurrentShader(shader);
 	
 	changeProjection(Perspective);
@@ -196,7 +194,7 @@ void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
 
 	// Default framebuffer to screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	clearBuffers();
+	clearBuffers();	// Clears defualt frame buffer, not the one objects are rendererd to!
 	setCurrentShader(sceneShader);
 	changeProjection(Orthographic);
 	setViewMatrix(Matrix4());

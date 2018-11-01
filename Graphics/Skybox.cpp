@@ -49,17 +49,22 @@ Skybox::~Skybox()
 
 void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
+	m_parentRenderer->clearBuffers();
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE); // Shouldn't actually need to turn this off?
 	glDepthMask(GL_FALSE);
 
+	//m_parentRenderer->changeProjection(Orthographic);
+	//m_parentRenderer->setViewMatrix(Matrix4());
 	m_parentRenderer->setCurrentShader(m_skyboxShader);
 	m_parentRenderer->updateShaderMatrices();
 
+	GLuint texCubeLocation = glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex");
 
-	glUniform1i(glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex"), 0);
+	glUniform1i(texCubeLocation, 0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+
+
 	quad->setTexture(m_cubeMap);
 	quad->setTextureType(Cube_Map);
 	quad->bindTexture();
