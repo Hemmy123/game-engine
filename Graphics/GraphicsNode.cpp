@@ -14,7 +14,7 @@
 
 GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):EventNode(bus,subSystem){
     //m_renderer = new Renderer(800, 1024);
-	m_rendererController = new RendererController(800, 1024);
+	m_rendererController = new RendererController(1000, 1600);
 	m_perlin3D = new PerlinNoise3D(257,6);
 	
 	RendererSettings settings;
@@ -64,7 +64,7 @@ void GraphicsNode::createDemoScene(){
 	m_shaders.push_back(shader);
 	m_shaders.push_back(transShader);
 	
-	m_light = new Light(Vector3(60,50,25) , Vector4(1,1,1,1), 500);
+	m_light = new Light(Vector3(100,500,25) , Vector4(1,1,1,1), 5000);
 
 	// ----- Create Meshes -----
 	int rawWidth = 257;
@@ -138,11 +138,13 @@ void GraphicsNode::createDemoScene(){
 	Matrix4 const cubeTrans = Matrix4::Translation(Vector3(1,-4,-5));
 	
 	Matrix4 const heightmapPos = Matrix4::Translation(Vector3(-20,-8,-15));
+	Matrix4 const heightmapScale = Matrix4::Scale(Vector3(10,10,10));
+	
 	
 	Matrix4 const terrainPos = Matrix4::Translation(Vector3(-20,-5,-15));
 
-	heightMap->setModelMatrix(heightmapPos);
-	terrainRO->setModelMatrix(terrainPos);
+	heightMap->setModelMatrix(heightmapPos *heightmapScale);
+	terrainRO->setModelMatrix(terrainPos *heightmapScale);
 
 	ground->setModelMatrix(cubeScale * cubeTrans);
 	ro1->setModelMatrix(trans1 * cubeScale);
@@ -173,8 +175,8 @@ void GraphicsNode::update(float msec){
 		m_rendererController->update(msec);
 		counter+=(msec/40);
 		
-		// m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 2, 10, 0.5);
-		 // m_heightMap->generateNormals();
+		//m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
+		//m_heightMap->generateNormals();
 		
 		/* --- Temp lighting test --- */
 		

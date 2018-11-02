@@ -142,8 +142,17 @@ Mesh* Mesh::generateQuad(){
 	m->m_textureCoords[3] = Vector2(1.0f,	0.0f);
 	m->m_textureCoords[4] = Vector2(1.0f,	1.0f);
 	m->m_textureCoords[5] = Vector2(0.0f,	1.0f);
-	
-	
+	//
+	//
+	//m->m_textureCoords[0] = Vector2(0.0f, 1.0f);
+	//m->m_textureCoords[1] = Vector2(1.0f, 1.0f);
+	//m->m_textureCoords[2] = Vector2(0.0f, 0.0f);
+
+	//m->m_textureCoords[3] = Vector2(1.0f, 1.0f);
+	//m->m_textureCoords[4] = Vector2(1.0f, 0.0f);
+	//m->m_textureCoords[5] = Vector2(0.0f, 0.0f);
+
+
 	return m;
 	
 	

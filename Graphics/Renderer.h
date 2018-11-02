@@ -129,7 +129,7 @@ protected:
 	Vector4 m_clearColour;
 
 	// ----- View and Matrices ----- //
-	float m_viewDistance = 1000;
+	float m_viewDistance = 6000;
 	float m_fov = 45.0f;
 	float m_aspectRatio;
 

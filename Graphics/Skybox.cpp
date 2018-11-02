@@ -22,13 +22,26 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 
 
 	m_cubeMap = SOIL_load_OGL_cubemap(
-		TEXTUREDIR"Skybox/posx.jpg",
-		TEXTUREDIR"Skybox/negx.jpg",
-		TEXTUREDIR"Skybox/posy.jpg",
-		TEXTUREDIR"Skybox/negy.jpg",
-		TEXTUREDIR"Skybox/posz.jpg",
-		TEXTUREDIR"Skybox/negz.jpg",
+		TEXTUREDIR"Skyboxes/1/posx.jpg",
+		TEXTUREDIR"Skyboxes/1/negx.jpg",
+		TEXTUREDIR"Skyboxes/1/posy.jpg",
+		TEXTUREDIR"Skyboxes/1/negy.jpg",
+		TEXTUREDIR"Skyboxes/1/posz.jpg",
+		TEXTUREDIR"Skyboxes/1/negz.jpg",
 		SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0);
+
+
+	m_cubeMap = SOIL_load_OGL_cubemap(
+		TEXTUREDIR"Skyboxes/2/right.jpg",
+		TEXTUREDIR"Skyboxes/2/left.jpg",
+		TEXTUREDIR"Skyboxes/2/top.jpg",
+		TEXTUREDIR"Skyboxes/2/bottom.jpg",
+		TEXTUREDIR"Skyboxes/2/front.jpg",
+		TEXTUREDIR"Skyboxes/2/back.jpg",
+		SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0);
+
+
+
 
 	if (m_cubeMap == 0) {
 		printf("SOIL loading error: '%s'\n", SOIL_last_result());
@@ -59,6 +72,7 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	//m_parentRenderer->changeProjection(Orthographic);
 	//m_parentRenderer->setViewMatrix(Matrix4());
 	m_parentRenderer->setCurrentShader(m_skyboxShader);
+
 	m_parentRenderer->updateShaderMatrices();
 
 	GLuint texCubeLocation = glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex");
