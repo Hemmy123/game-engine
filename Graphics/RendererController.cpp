@@ -28,13 +28,13 @@ RendererController::~RendererController()
 	glGenFramebuffers(1, &m_sceneFBO);
 	glDeleteTextures(1, &m_buffColourAttachment);
 	glDeleteTextures(1, &m_buffDepthAttachment);
-
-	delete m_sceneShader;
+	
 	delete m_screenQuad;
+	delete m_sceneShader;
 
+	delete m_renderer;
 	delete m_skybox;
 	delete m_postProcessor;
-	delete m_renderer;
 }
 
 void RendererController::init()

@@ -8,11 +8,9 @@ public:
 	PostProcessor(Renderer* r, Mesh* screenQuad);
 	~PostProcessor();
 
-
-	void generateFBOTexture();
+	void generateProcessFBO();
 
 	void drawPostProcess(GLuint buffColourAttachment);
-
 
 private:
 

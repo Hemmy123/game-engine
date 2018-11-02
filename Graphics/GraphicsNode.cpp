@@ -13,14 +13,13 @@
 #include "PerlinNoise2D.h"
 
 GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):EventNode(bus,subSystem){
-    //m_renderer = new Renderer(800, 1024);
 	m_rendererController = new RendererController(1000, 1600);
 	m_perlin3D = new PerlinNoise3D(257,6);
 	
 	RendererSettings settings;
 
 	settings.skybox			= true;
-	settings.postProcessing = true;
+	settings.postProcessing = false;
 	
 	m_rendererController->setSetting(settings);
 	createDemoScene();
@@ -41,7 +40,15 @@ GraphicsNode::~GraphicsNode(){
 	for(auto renderObject: m_renderObjects){
 		delete renderObject;
 	}
+
+	for (auto light : m_lights) {
+		delete light;
+	}
 	
+	delete m_currentLevel;
+
+	delete m_perlin3D;
+
 	delete m_rendererController;
 
 }
@@ -79,10 +86,10 @@ void GraphicsNode::createDemoScene(){
 
 	float waterHeight = 5.0f;
 
-	m_heightMap 		= new HeightMap(rawWidth,rawHeight,heightMap_x*2,heightMap_z*2, waterHeight ,heightMap_tex_x, heightMap_tex_z,perlin);
+	m_water 		= new HeightMap(rawWidth,rawHeight,heightMap_x*2,heightMap_z*2, waterHeight ,heightMap_tex_x, heightMap_tex_z,perlin);
 	HeightMap* terrain 	= new HeightMap(rawWidth,rawHeight,heightMap_x,heightMap_z, 50,heightMap_tex_x, heightMap_tex_z,perlin);
 	
-	m_heightMap->generateRandomTerrain(Vector3(0,0,0), 3, 5, 0.5);
+	m_water->generateRandomTerrain(Vector3(0,0,0), 3, 5, 0.5);
 	terrain->generateRandomTerrain(Vector3(0,0,0), 8, 2, 0.5);
 
 	Mesh* mesh1 = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
@@ -95,15 +102,15 @@ void GraphicsNode::createDemoScene(){
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	
 	
-	m_heightMap->loadTexture(TEXTUREDIR"water.jpeg");
+	m_water->loadTexture(TEXTUREDIR"water.jpeg");
 
-	m_heightMap->generateNormals();
+	m_water->generateNormals();
 	terrain->generateNormals();
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	
-	m_heightMap->bufferData();
+	m_water->bufferData();
 	terrain->bufferData();
 
 	
@@ -116,7 +123,7 @@ void GraphicsNode::createDemoScene(){
 	// ----- Render Objects -----
 	
 	
-	RenderObject* heightMap = new RenderObject(m_heightMap, transShader);
+	RenderObject* heightMap = new RenderObject(m_water, transShader);
 	//heightMap->setTransparent(true);
 	RenderObject* terrainRO = new RenderObject(terrain, shader);
 
@@ -175,8 +182,8 @@ void GraphicsNode::update(float msec){
 		m_rendererController->update(msec);
 		counter+=(msec/40);
 		
-		//m_heightMap->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
-		//m_heightMap->generateNormals();
+		//m_water->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
+		//m_water->generateNormals();
 		
 		/* --- Temp lighting test --- */
 		

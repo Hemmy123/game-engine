@@ -28,13 +28,9 @@ public:
     GraphicsNode(EventBus* eventBus, SubSystem subSystem);
     ~GraphicsNode();
 	
-	void initOGL();
 	void createDemoScene();
 	void handleEvent(Event event);
     void update(float msec);
-	
-	//void createCamera(InterfaceHandler* ih) { m_renderer->createCamera(ih);}
-	//GLFWwindow* getWindow() const {return m_renderer->getWindow();}
 
 	void createCamera(InterfaceHandler* ih) { m_rendererController->createCamera(ih);}
 	GLFWwindow* getWindow() const { return m_rendererController->getWindow(); }
@@ -46,11 +42,10 @@ public:
 private:
 	
 	RendererController* m_rendererController;
-    //Renderer *m_renderer;
 	
 	/*----- Testing ------------*/
 	
-	HeightMap* m_heightMap;
+	HeightMap* m_water;
 	float counter = 0;
 	PerlinNoise3D* m_perlin3D;
 	/*--------------------------*/

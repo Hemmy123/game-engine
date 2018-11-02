@@ -8,7 +8,7 @@ PostProcessor::PostProcessor(Renderer * r, Mesh* screenQuad):
 {
 	m_processShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Process_Frag.glsl");
 
-	generateFBOTexture();
+	generateProcessFBO();
 }
 
 PostProcessor::~PostProcessor()
@@ -19,7 +19,7 @@ PostProcessor::~PostProcessor()
 	glDeleteFramebuffers(1, &m_processFBO);
 }
 
-void PostProcessor::generateFBOTexture()
+void PostProcessor::generateProcessFBO()
 {
 	glGenFramebuffers(1, &m_processFBO);
 

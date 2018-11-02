@@ -29,9 +29,10 @@ Renderer::Renderer(int height, int width) :
 
 Renderer::~Renderer() {
 
-	glfwTerminate();
-	// TODO: delete render objects?
+	// Note: Renderobjects should be delete by whatever is 
+	// managing them, not the renderer!
 
+	glfwTerminate();
 	delete m_camera;
 }
 
