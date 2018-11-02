@@ -30,6 +30,8 @@ Renderer::Renderer(int height, int width) :
 Renderer::~Renderer() {
 
 	glfwTerminate();
+	// TODO: delete render objects?
+
 	delete m_camera;
 }
 

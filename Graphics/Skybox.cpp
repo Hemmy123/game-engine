@@ -65,12 +65,9 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	m_parentRenderer->clearBuffers();
 
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE); // Shouldn't actually need to turn this off?
+	glDisable(GL_CULL_FACE); 
 	glDepthMask(GL_FALSE);
 
-	//m_parentRenderer->getCamera()->BuildViewMatrix();
-	//m_parentRenderer->changeProjection(Orthographic);
-	//m_parentRenderer->setViewMatrix(Matrix4());
 	m_parentRenderer->setCurrentShader(m_skyboxShader);
 
 	m_parentRenderer->updateShaderMatrices();
@@ -93,6 +90,6 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glUseProgram(0);
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }

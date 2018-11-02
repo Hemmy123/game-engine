@@ -130,7 +130,7 @@ protected:
 
 	// ----- View and Matrices ----- //
 	float m_viewDistance = 6000;
-	float m_fov = 45.0f;
+	float m_fov = 60.0f;
 	float m_aspectRatio;
 
 	Camera* m_camera;

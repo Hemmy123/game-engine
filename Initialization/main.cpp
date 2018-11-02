@@ -13,14 +13,6 @@
 #include "Timer.h"
 #include "PhysicsNode.h"
 
-
-//void printGLFWVersion() {
-//	const char *version = glfwGetVersionString();
-//	std::cout << version << std::endl;
-//
-//}
-
-
 int main() {
 	EventBus* 			bus				= new EventBus();
 	GraphicsNode* 		graphics		= new GraphicsNode(bus, Sys_Graphics);
@@ -29,7 +21,6 @@ int main() {
 	GameNode* 			game			= new GameNode(bus, Sys_Game, inputHandler);
 	PhysicsNode*		physics			= new PhysicsNode(bus, Sys_Physics);
 	Timer* 				timer			= new Timer();
-	//printGLFWVersion();
 
 	inputHandler->update();
 
@@ -45,7 +36,7 @@ int main() {
 		double frameTime = newTime - currentTime;
 		currentTime = newTime;
 
-		//std::cout << "frameTime: " << frameTime <<std::endl;
+		// std::cout << "frameTime: " << frameTime <<std::endl;
 
 		while (frameTime > 0 && !game->getEndGame()) {
 			double dt = min(frameTime, MAXDT);

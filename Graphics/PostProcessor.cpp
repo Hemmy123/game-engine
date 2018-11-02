@@ -46,39 +46,32 @@ void PostProcessor::drawPostProcess(GLuint buffColourAttachment)
 
 	 // Bind the process FBO
 	glBindFramebuffer(GL_FRAMEBUFFER, m_processFBO);
+	glDisable(GL_DEPTH_TEST);
 
 	m_parentRenderer->setCurrentShader(m_processShader);	// Change to our post processing shader
-	m_parentRenderer->changeProjection(Orthographic);
-				
+	m_parentRenderer->changeProjection(Orthographic);			
 	m_parentRenderer->setViewMatrix(Matrix4());				// set to identitiy matrix
 	m_parentRenderer->updateShaderMatrices();
-	glDisable(GL_DEPTH_TEST);
 
 	// Update screen size uniform.
 	Shader* currentShader = m_parentRenderer->getCurrentShader();
-	GLuint screenSizeID = glGetUniformLocation(currentShader->getProgram(), "screenSize");
-	glUniform2f(screenSizeID, (width), (height));
+	GLuint screenSizeLocation = glGetUniformLocation(currentShader->getProgram(), "screenSize");
+	glUniform2f(screenSizeLocation, (width), (height));
 
 	m_parentRenderer->checkErrors();
 
 
 	GLuint timeID = glGetUniformLocation(currentShader->getProgram(), "time");
 	glUniform1f(timeID, (float)(glfwGetTime()*10.0f));
-
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, buffColourAttachment, 0);
 	
-	m_parentRenderer->checkErrors();
-
 	m_screenQuad->setTexture(buffColourAttachment);
-	
-	m_parentRenderer->checkErrors();
-
+	m_screenQuad->setTextureType(Texture_2D);
+	m_screenQuad->bindTexture();
 	m_screenQuad->draw();
-	m_parentRenderer->checkErrors();
-
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glUseProgram(0);
 
 	glEnable(GL_DEPTH_TEST);
+	glUseProgram(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 }

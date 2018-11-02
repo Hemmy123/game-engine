@@ -6,28 +6,29 @@
 RendererController::RendererController(int height, int width):
 	m_height(height), m_width(width)
 {
+
 	m_renderer = new Renderer(height, width);
 
 	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
 
 	generateFBO();
 
-
 	m_screenQuad = Mesh::generateQuad();
-	//m_screenQuad = Mesh::generateWaterQuad();
 	m_screenQuad->bufferData();
 
 	m_postProcessor = new PostProcessor(m_renderer, m_screenQuad);
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
-
-	// Setting up FBOS
-	
 
 }
 
 
 RendererController::~RendererController()
 {
+
+	glGenFramebuffers(1, &m_sceneFBO);
+	glDeleteTextures(1, &m_buffColourAttachment);
+	glDeleteTextures(1, &m_buffDepthAttachment);
+
 	delete m_sceneShader;
 	delete m_screenQuad;
 
