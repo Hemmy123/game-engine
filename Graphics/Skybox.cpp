@@ -21,7 +21,7 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 	m_skyboxShader = new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
 
 
-	m_cubeMap = SOIL_load_OGL_cubemap(
+	/*m_cubeMap = SOIL_load_OGL_cubemap(
 		TEXTUREDIR"Skyboxes/1/posx.jpg",
 		TEXTUREDIR"Skyboxes/1/negx.jpg",
 		TEXTUREDIR"Skyboxes/1/posy.jpg",
@@ -29,7 +29,7 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 		TEXTUREDIR"Skyboxes/1/posz.jpg",
 		TEXTUREDIR"Skyboxes/1/negz.jpg",
 		SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0);
-
+*/
 
 	m_cubeMap = SOIL_load_OGL_cubemap(
 		TEXTUREDIR"Skyboxes/2/right.jpg",

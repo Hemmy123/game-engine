@@ -20,7 +20,8 @@ Renderer::Renderer(int height, int width) :
 
 
 	m_aspectRatio = (float)m_actualWidth / (float)m_actualHeight;
-	m_ortho = Matrix4::Orthographic(-10, 10, 10, -10, -10, 10);
+	//m_ortho = Matrix4::Orthographic(-1, 1, 1, -1, -1, 1);
+	m_ortho = Matrix4::Orthographic(1, -1, 1, -1, 1, -1);
 	m_persp = Matrix4::Perspective(1, m_viewDistance, m_aspectRatio, m_fov);
 	defaultGLSettings();
 
