@@ -146,8 +146,6 @@ void GraphicsNode::createDemoScene(){
 	
 	Matrix4 const heightmapPos = Matrix4::Translation(Vector3(-20,-8,-15));
 	Matrix4 const heightmapScale = Matrix4::Scale(Vector3(10,10,10));
-	
-	
 	Matrix4 const terrainPos = Matrix4::Translation(Vector3(-20,-5,-15));
 
 	heightMap->setModelMatrix(heightmapPos *heightmapScale);
