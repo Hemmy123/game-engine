@@ -244,6 +244,8 @@ void GraphicsNode::loadLevel(Level* level){
 		
 		switch(tag){
 			case T_Rabbit:{
+				std::cout << "rabbit!!" << std::endl;
+
 				Mesh* rabbitMesh = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
 				rabbitMesh->loadTexture(TEXTUREDIR"Rabbit/Rabbit_D.tga");
 				rabbitMesh->bufferData();
@@ -253,8 +255,8 @@ void GraphicsNode::loadLevel(Level* level){
 				Matrix4 const pos =  Matrix4::Translation(Vector3(obj->getPosition()));
 				// do scale and rotation here
 				ro1->setModelMatrix(pos);
-				m_renderObjects.push_back(ro1);
-				m_rendererController->setRenderObjects(m_renderObjects);
+				//m_renderObjects.push_back(ro1);
+				m_rendererController->pushRenderObject(ro1);
 
 				break;
 			}
@@ -264,13 +266,13 @@ void GraphicsNode::loadLevel(Level* level){
 				break;
 			}
 			case T_Player:{
-				
+				break;
 			}
 			case T_Wall:{
-				
+				break;
 			}
 			case T_Water:{
-				
+				break;
 			}
 				
 		}

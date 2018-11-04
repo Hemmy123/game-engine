@@ -43,6 +43,8 @@ public:
 	void setShaderLight(Shader* s, Light* l);
 	void setRenderObjects(vector<RenderObject*> renderObjects);
 
+	void pushRenderObject(RenderObject* ro);
+
 private:
 
 	int m_height, m_width;

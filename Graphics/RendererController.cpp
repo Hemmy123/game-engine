@@ -137,3 +137,8 @@ void RendererController::setShaderLight(Shader* s, Light* l) {
 void RendererController::setRenderObjects(vector<RenderObject*> renderObjects) {
 	m_renderer->setRenderObjects(renderObjects);
 }
+
+void RendererController::pushRenderObject(RenderObject * ro)
+{
+	m_renderer->addRenderObject(ro);
+}
