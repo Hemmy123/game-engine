@@ -120,6 +120,7 @@
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="PerlinNoise2D.h" />
     <ClInclude Include="PerlinNoise3D.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
@@ -129,6 +130,7 @@
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="PerlinNoise2D.cpp" />
     <ClCompile Include="PerlinNoise3D.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

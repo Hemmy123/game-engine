@@ -242,30 +242,39 @@ void GraphicsNode::loadLevel(Level* level){
 		
 		ObjectTag tag =obj->getTag();
 		
+
 		switch(tag){
 			case T_Rabbit:{
-				std::cout << "rabbit!!" << std::endl;
-
 				Mesh* rabbitMesh = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
 				rabbitMesh->loadTexture(TEXTUREDIR"Rabbit/Rabbit_D.tga");
 				rabbitMesh->bufferData();
 				m_meshes.push_back(rabbitMesh);
 				RenderObject* ro1 = new RenderObject(rabbitMesh, shader);
-				
-				Matrix4 const pos =  Matrix4::Translation(Vector3(obj->getPosition()));
-				Matrix4 const scale =  Matrix4::Scale(Vector3(obj->getScale()));
-				//Matrix4 const rot =  Matrix4::Rotation(Vector3(obj->getRotation()));
 
-				//Matrix4 modleMatrix = pos * scale * rot;
-				Matrix4 modleMatrix =  scale * pos;
-				// do scale and rotation here
-				ro1->setModelMatrix(modleMatrix);
+				ro1->setModelMatrix(obj->getModelMatrix());
 				//m_renderObjects.push_back(ro1);
 				m_sceneManager->pushRenderObject(ro1);
 
 				break;
 			}
+			case T_Terrain: {
 				
+
+
+				HeightMap* terrain = new HeightMap(
+					rawWidth, 
+					rawHeight, 
+					heightMap_x, 
+					heightMap_z, 
+					50, 
+					heightMap_tex_x, 
+					heightMap_tex_z, 
+					perlin);
+
+
+
+				break;
+			}
 			case T_Cube:{
 				std::cout<< "Cube!" << std::endl;
 				break;

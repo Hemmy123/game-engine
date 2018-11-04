@@ -66,6 +66,7 @@ public:
 	inline Vector3 getPosition() 	const { return m_position;}
 	inline Vector3 getRotation() 	const { return m_rotation;}
 	inline Vector3 getScale() 		const { return m_scale;}
+	inline Matrix4 getModelMatrix()	const{ return m_modelMatrix; }
 	inline ObjectTag getTag()		const { return m_tag;}
 
 	inline void setTag(ObjectTag t)		{ m_tag = t;}
