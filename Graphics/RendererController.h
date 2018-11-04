@@ -15,7 +15,7 @@ struct RendererSettings{
 class RendererController
 {
 public:
-	RendererController(int height, int width);
+	RendererController(int height, int width, SceneManager* scene);
 	~RendererController();
 
 	void init();
@@ -34,21 +34,15 @@ public:
 
 	void generateFBO();
 
-
 	// ----- Pass through renderer methods ----- //
 
 	bool checkWindow();
-	vector<RenderObject*> getOpaqueObjects() const;
 	Camera* getCamera();
 	void setShaderLight(Shader* s, Light* l);
-	void setRenderObjects(vector<RenderObject*> renderObjects);
-
-	void pushRenderObject(RenderObject* ro);
 
 private:
 
 	int m_height, m_width;
-
 
 	// Remember to delete these in the right order
 	RendererSettings m_settings;

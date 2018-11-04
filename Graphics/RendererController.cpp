@@ -3,11 +3,11 @@
 #include "FilePaths.h"
 
 
-RendererController::RendererController(int height, int width):
+RendererController::RendererController(int height, int width, SceneManager* scene):
 	m_height(height), m_width(width)
 {
 
-	m_renderer = new Renderer(height, width);
+	m_renderer = new Renderer(height, width, scene);
 
 	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
 
@@ -122,9 +122,6 @@ bool RendererController::checkWindow() {
 	return m_renderer->checkWindow();
 }
 
-vector<RenderObject*> RendererController::getOpaqueObjects() const{
-	return m_renderer->getOpaqueObjects();
-}
 
 Camera* RendererController::getCamera() {
 	return m_renderer->getCamera();
@@ -132,13 +129,4 @@ Camera* RendererController::getCamera() {
 
 void RendererController::setShaderLight(Shader* s, Light* l) {
 	m_renderer->setShaderLight(s, *l);
-}
-
-void RendererController::setRenderObjects(vector<RenderObject*> renderObjects) {
-	m_renderer->setRenderObjects(renderObjects);
-}
-
-void RendererController::pushRenderObject(RenderObject * ro)
-{
-	m_renderer->addRenderObject(ro);
 }

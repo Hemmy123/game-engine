@@ -16,7 +16,7 @@ Mesh::Mesh(){
 	m_texture = 0;
     m_numVertices = 0;
 	m_type = GL_TRIANGLES;
-	m_textureType = Texture_2D;
+	m_textureType = Texture_2D;			// Default to 2D texture
     for(int i = 0; i < MAX_BUFFER; ++i) {
         m_VBO[i] = 0;
     }

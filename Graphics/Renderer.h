@@ -19,7 +19,7 @@
 #include "MasterRenderer.h"
 #include "RenderObject.h"
 #include "Camera.h"
-
+#include "SceneManager.h"
 #include <vector>
 
 using std::vector;
@@ -32,7 +32,7 @@ enum Projection {
 
 class Renderer : public MasterRenderer {
 public:
-	Renderer(int height, int width);
+	Renderer(int height, int width, SceneManager* sm);
 	~Renderer();
 
 	void defaultGLSettings();
@@ -74,16 +74,6 @@ public:
 
 	// ---------- Getters/Setters ---------- //
 
-	/// Checks if the objects are transparent or not and then adds
-	/// them into the relevant vector
-	void setRenderObjects(vector<RenderObject*> renderObjects);
-
-
-	vector<RenderObject*> getOpaqueObjects() 		const { return m_opaqueObjects; }
-	vector<RenderObject*> getTransparentObjectS() 	const { return m_transparentObjects; };
-
-	void addRenderObject(RenderObject* renderObject);
-
 	GLint getWidth()const { return WIDTH; }
 	GLint getHeight()const { return HEIGHT; }
 
@@ -113,18 +103,15 @@ protected:
 
 	// ---------- Functions ---------- //
 
-
-
-
 	Shader* m_currentShader;
-
 
 	// ---------- Fields ---------- //
 	float m_dt;
 
 	// -- RenderObjects to render
-	vector<RenderObject*> m_opaqueObjects;
-	vector<RenderObject*> m_transparentObjects;
+	SceneManager* sceneManager;
+	/*vector<RenderObject*> m_opaqueObjects;
+	vector<RenderObject*> m_transparentObjects;*/
 
 	Vector4 m_clearColour;
 

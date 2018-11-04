@@ -12,8 +12,10 @@
 #include "FilePaths.h"
 #include "PerlinNoise2D.h"
 
-GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):EventNode(bus,subSystem){
-	m_rendererController = new RendererController(1000, 1600);
+GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
+	EventNode(bus,subSystem){
+	m_sceneManager = new SceneManager();
+	m_rendererController = new RendererController(1000, 1600, m_sceneManager);
 	m_perlin3D = new PerlinNoise3D(257,6);
 	
 	RendererSettings settings;
@@ -46,6 +48,7 @@ GraphicsNode::~GraphicsNode(){
 	}
 	
 	delete m_currentLevel;
+	delete m_sceneManager;
 
 	delete m_perlin3D;
 
@@ -157,17 +160,14 @@ void GraphicsNode::createDemoScene(){
 	ro3->setModelMatrix(trans3 * cubeScale);
 	ro4->setModelMatrix(trans4 * cubeScale);
 
-	m_renderObjects.push_back(terrainRO);
-	m_renderObjects.push_back(heightMap);
+	m_sceneManager->pushRenderObject(terrainRO);
+	m_sceneManager->pushRenderObject(heightMap);
+	m_sceneManager->pushRenderObject(ground);
+	m_sceneManager->pushRenderObject(ro1);
+	m_sceneManager->pushRenderObject(ro2);
+	m_sceneManager->pushRenderObject(ro3);
+	m_sceneManager->pushRenderObject(ro4);
 
-	
-	m_renderObjects.push_back(ground);
-	m_renderObjects.push_back(ro1);
-	m_renderObjects.push_back(ro2);
-	m_renderObjects.push_back(ro3);
-	m_renderObjects.push_back(ro4);
-
-	m_rendererController->setRenderObjects(m_renderObjects);
 		
 	
 }
@@ -207,7 +207,7 @@ void GraphicsNode::handleEvent(Event event){
 
 void GraphicsNode::updateLighting()
 {
-	for (auto ro : m_rendererController->getOpaqueObjects()) {
+	for (auto ro : m_sceneManager->getOpaque() ) {
 		Shader* shader = ro->getShader();
 
 		GLuint program = shader->getProgram();
@@ -256,7 +256,7 @@ void GraphicsNode::loadLevel(Level* level){
 				// do scale and rotation here
 				ro1->setModelMatrix(pos);
 				//m_renderObjects.push_back(ro1);
-				m_rendererController->pushRenderObject(ro1);
+				m_sceneManager->pushRenderObject(ro1);
 
 				break;
 			}

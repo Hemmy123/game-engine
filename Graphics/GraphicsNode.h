@@ -19,6 +19,7 @@
 #include "HeightMap.h"
 #include "Level.h"
 #include "RendererController.h"
+#include "SceneManager.h"
 
 
 using std::vector;
@@ -40,9 +41,8 @@ public:
 	void loadLevel(Level* level);
 	
 private:
-	
+	SceneManager* m_sceneManager;
 	RendererController* m_rendererController;
-	
 	/*----- Testing ------------*/
 	
 	HeightMap* m_water;

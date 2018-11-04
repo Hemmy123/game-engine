@@ -10,8 +10,9 @@
 #include "FilePaths.h"
 
 //Renderer::Renderer(): WIDTH(900),HEIGHT(700)
-Renderer::Renderer(int height, int width) :
+Renderer::Renderer(int height, int width, SceneManager* sm) :
 	MasterRenderer(height, width),
+	sceneManager(sm),
 	m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) 
 {
 	if (init() != 0) {
@@ -94,21 +95,6 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Renderer::setRenderObjects(vector<RenderObject*> renderObjects) {
-	for (auto ro : renderObjects) {
-		addRenderObject(ro);
-	}
-}
-
-
-void Renderer::addRenderObject(RenderObject *renderObject) {
-	if (renderObject->getTransparent()) {
-		m_transparentObjects.push_back(renderObject);
-	}
-	else {
-		m_opaqueObjects.push_back(renderObject);
-	}
-}
 
 void Renderer::drawRenderObject(const RenderObject &o) {
 	m_modelMatrix = o.getModelMatrix();
@@ -131,10 +117,10 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 }
 
 void Renderer::drawAllRenderObjects(){
-	for (auto iter : m_opaqueObjects) {
+	for (auto iter : sceneManager->getOpaque() ) {
 		drawRenderObject(*iter); 
 	}
-	for (auto iter : m_transparentObjects) {
+	for (auto iter : sceneManager->getTransparent()) {
 		drawRenderObject(*iter); 
 	}
 }
@@ -165,11 +151,11 @@ void Renderer::updateScene(float msec) {
 
 void Renderer::updateRenderObjects(float msec) {
 
-	for (auto iter : m_opaqueObjects) {
+	for (auto iter : sceneManager->getOpaque()) {
 		iter->update(msec);
 	}
 
-	for (auto iter : m_transparentObjects) {
+	for (auto iter : sceneManager->getTransparent()) {
 		iter->update(msec);
 	}
 

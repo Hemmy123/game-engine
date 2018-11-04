@@ -154,7 +154,7 @@
     <ClCompile Include="RendererController.cpp" />
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="SceneLights.cpp" />
-    <ClCompile Include="SceneRenderObjects.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneShadows.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Skybox.cpp" />
@@ -173,7 +173,7 @@
     <ClInclude Include="RendererController.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="SceneLights.h" />
-    <ClInclude Include="SceneRenderObjects.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneShadows.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skybox.h" />
