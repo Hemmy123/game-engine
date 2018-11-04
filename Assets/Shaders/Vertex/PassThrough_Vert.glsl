@@ -1,7 +1,7 @@
 #version 330 core
 
 
-layout (location = 0)
+//layout (location = 0)
 
 in  vec3 position;
 in  vec2 texCoord;

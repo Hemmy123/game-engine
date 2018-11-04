@@ -15,7 +15,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 
 	m_postProcessor = new PostProcessor(m_renderer, m_screenQuad);
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
-	m_anaglyph3D = new Anaglyph3D(m_renderer);
+	m_anaglyph3D	= new Anaglyph3D(m_renderer);
 
 }
 

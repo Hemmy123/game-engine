@@ -11,7 +11,7 @@ Anaglyph3D::Anaglyph3D(Renderer* r):
 	m_width = m_parentRenderer->getWidth();
 	m_height = m_parentRenderer->getHeight();
 	m_defaultShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
-	m_3DShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"3D_Frag.glsl");
+	m_3DShader		= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"3D_Frag.glsl");
 
 	createFBOs();
 }
