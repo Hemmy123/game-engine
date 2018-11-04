@@ -253,8 +253,13 @@ void GraphicsNode::loadLevel(Level* level){
 				RenderObject* ro1 = new RenderObject(rabbitMesh, shader);
 				
 				Matrix4 const pos =  Matrix4::Translation(Vector3(obj->getPosition()));
+				Matrix4 const scale =  Matrix4::Scale(Vector3(obj->getScale()));
+				//Matrix4 const rot =  Matrix4::Rotation(Vector3(obj->getRotation()));
+
+				//Matrix4 modleMatrix = pos * scale * rot;
+				Matrix4 modleMatrix =  scale * pos;
 				// do scale and rotation here
-				ro1->setModelMatrix(pos);
+				ro1->setModelMatrix(modleMatrix);
 				//m_renderObjects.push_back(ro1);
 				m_sceneManager->pushRenderObject(ro1);
 
