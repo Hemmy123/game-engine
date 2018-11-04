@@ -141,6 +141,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Anaglyph3D.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GraphicsNode.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Skybox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Anaglyph3D.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GraphicsNode.h" />
     <ClInclude Include="GraphicsUtils.h" />

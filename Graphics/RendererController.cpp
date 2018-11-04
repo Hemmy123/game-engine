@@ -1,7 +1,5 @@
 #include "RendererController.h"
-
 #include "FilePaths.h"
-
 
 RendererController::RendererController(int height, int width, SceneManager* scene):
 	m_height(height), m_width(width)
@@ -10,7 +8,6 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_renderer = new Renderer(height, width, scene);
 
 	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
-
 	generateFBO();
 
 	m_screenQuad = Mesh::generateQuad();
@@ -18,6 +15,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 
 	m_postProcessor = new PostProcessor(m_renderer, m_screenQuad);
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
+	m_anaglyph3D = new Anaglyph3D(m_renderer);
 
 }
 
@@ -53,7 +51,14 @@ void RendererController::update(float msec)
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 	}
 	
-	m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+	// if 3D effect, skip this step?
+
+	if (m_settings.anaglyph3D) {
+		m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
+	}
+	else {
+		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+	}
 
 
 	if (m_settings.postProcessing) {

@@ -22,6 +22,7 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 
 	settings.skybox			= true;
 	settings.postProcessing = false;
+	settings.anaglyph3D		= true;
 	
 	m_rendererController->setSetting(settings);
 	createDemoScene();
@@ -258,21 +259,6 @@ void GraphicsNode::loadLevel(Level* level){
 				break;
 			}
 			case T_Terrain: {
-				
-
-
-				HeightMap* terrain = new HeightMap(
-					rawWidth, 
-					rawHeight, 
-					heightMap_x, 
-					heightMap_z, 
-					50, 
-					heightMap_tex_x, 
-					heightMap_tex_z, 
-					perlin);
-
-
-
 				break;
 			}
 			case T_Cube:{
