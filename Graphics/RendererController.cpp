@@ -2,7 +2,9 @@
 #include "FilePaths.h"
 
 RendererController::RendererController(int height, int width, SceneManager* scene):
-	m_height(height), m_width(width)
+	m_height(height), 
+	m_width(width),
+	m_sceneManager(scene)
 {
 
 	m_renderer = new Renderer(height, width, scene);
@@ -49,10 +51,16 @@ void RendererController::update(float msec)
 
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
+
+		if (m_sceneManager->getWater() != nullptr) {
+			HeightMap* water = m_sceneManager->getWater();
+			Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
+
+			m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
+		}
+		// render refections
 	}
 	
-	// if 3D effect, skip this step?
-
 	if (m_settings.anaglyph3D) {
 		m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
 	}
@@ -71,6 +79,12 @@ void RendererController::update(float msec)
 	m_renderer->swapBuffers();
 }
 
+void RendererController::initCamera() {
+	Vector3 pos(200, 250, 500);
+
+	m_renderer->getCamera()->setPosition(pos);
+
+}
 
 // ----- Pass through renderer methods ----- //
 

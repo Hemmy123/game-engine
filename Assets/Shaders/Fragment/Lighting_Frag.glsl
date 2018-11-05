@@ -42,12 +42,6 @@ void main(void) {
 
 	vec3	control 	= texCol.rgb;
 	
-	//outColour       	= vec4(ambient  , texCol.a);
-	//outColour       	= vec4(diffuse  , texCol.a);
-	//outColour       	= vec4(specular , texCol.a);
-
-	// outColour       	= vec4(control , texCol.a);
-
 
 	outColour       	= vec4(ambient + diffuse + specular , texCol.a);
 

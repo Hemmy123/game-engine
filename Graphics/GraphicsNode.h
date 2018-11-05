@@ -29,6 +29,7 @@ public:
     GraphicsNode(EventBus* eventBus, SubSystem subSystem);
     ~GraphicsNode();
 	
+
 	void createDemoScene();
 	void handleEvent(Event event);
     void update(float msec);
@@ -38,6 +39,9 @@ public:
 
 	
 	void updateLighting();
+	void updateWater();
+
+
 	void loadLevel(Level* level);
 	
 private:
@@ -48,6 +52,7 @@ private:
 	HeightMap* m_water;
 	float counter = 0;
 	PerlinNoise3D* m_perlin3D;
+	PerlinNoise2D* m_perlin2D;
 	/*--------------------------*/
 
 	

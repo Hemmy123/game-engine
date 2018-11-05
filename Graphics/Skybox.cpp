@@ -19,17 +19,7 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 	m_parentRenderer(r)
 {
 	m_skyboxShader = new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
-
-
-	/*m_cubeMap = SOIL_load_OGL_cubemap(
-		TEXTUREDIR"Skyboxes/1/posx.jpg",
-		TEXTUREDIR"Skyboxes/1/negx.jpg",
-		TEXTUREDIR"Skyboxes/1/posy.jpg",
-		TEXTUREDIR"Skyboxes/1/negy.jpg",
-		TEXTUREDIR"Skyboxes/1/posz.jpg",
-		TEXTUREDIR"Skyboxes/1/negz.jpg",
-		SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0);
-*/
+	m_refectShader = new Shader(SHADERVERTDIR"PerPixel_Vert.glsl", SHADERFRAGDIR"Reflect_Frag.glsl");
 
 	m_cubeMap = SOIL_load_OGL_cubemap(
 		TEXTUREDIR"Skyboxes/2/right.jpg",
@@ -57,6 +47,9 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 
 Skybox::~Skybox()
 {
+
+	delete m_skyboxShader;
+	delete m_refectShader;
 }
 
 
@@ -91,5 +84,32 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	glEnable(GL_CULL_FACE);
 	glUseProgram(0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+}
+
+void Skybox::drawRefection(Mesh* quad, GLuint fbo,HeightMap * heightmap, Vector3 cameraPos)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	m_parentRenderer->setCurrentShader(m_refectShader);
+	m_parentRenderer->updateShaderMatrices();
+
+	GLuint cameraPosLoc		= glGetUniformLocation(m_refectShader->getProgram(), "cameraPos");
+	GLuint diffuseTexLoc	= glGetUniformLocation(m_refectShader->getProgram(), "diffuseTex");
+	GLuint cubeTexLoc		= glGetUniformLocation(m_refectShader->getProgram(), "cubeTex");
+	
+
+	glUniform3fv(cameraPosLoc, 1, (float*)&cameraPos);
+	glUniform1i(diffuseTexLoc, 0);
+	glUniform1i(cubeTexLoc, 2);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+
+	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)) *
+		Matrix4::Rotation(2, Vector3(0.0f, 0.0f, 1.0f)));
+	m_parentRenderer->updateShaderMatrices();
+
+	heightmap->draw();
+
+	glUseProgram(0);
 
 }

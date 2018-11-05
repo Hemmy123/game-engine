@@ -59,8 +59,7 @@ GLuint RenderObject::loadTexture(const string & filename)
 void RenderObject::update(float msec){
 	// If parent, apply parent model matrix
 	if(m_parent) {
-		m_worldTransform = m_parent->m_modelMatrix * m_modelMatrix;
-		//worldTransform = modelMatrix * parent->modelMatrix;
+		m_worldTransform = m_parent->m_worldTransform * m_modelMatrix;
 	}
 	else {
 		m_worldTransform = m_modelMatrix;

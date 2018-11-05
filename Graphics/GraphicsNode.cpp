@@ -11,22 +11,26 @@
 #include "SOIL2.h"
 #include "FilePaths.h"
 #include "PerlinNoise2D.h"
+#include "GameHeightMap.h"
 
 GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	EventNode(bus,subSystem){
 	m_sceneManager = new SceneManager();
 	m_rendererController = new RendererController(1000, 1600, m_sceneManager);
 	m_perlin3D = new PerlinNoise3D(257,6);
-	
+	m_perlin2D = new PerlinNoise2D(257,6);
 	RendererSettings settings;
 
 	settings.skybox			= true;
 	settings.postProcessing = false;
-	settings.anaglyph3D		= true;
+	settings.anaglyph3D		= false;
 	
 	m_rendererController->setSetting(settings);
-	createDemoScene();
+	//createDemoScene();
 	
+
+	m_light = new Light(Vector3(100, 500, 25), Vector4(1, 1, 1, 1), 5000);
+
 }
 
 
@@ -57,6 +61,7 @@ GraphicsNode::~GraphicsNode(){
 
 }
 
+
 void GraphicsNode::createDemoScene(){
 
 	
@@ -70,12 +75,11 @@ void GraphicsNode::createDemoScene(){
 	
 	//Shader* shader 		= new Shader(vertexPath,fragPath);
 	Shader* shader 			= new Shader(lightingVert,lightingFrag);
-	Shader* transShader 	= new Shader(lightingVert,transFragPath);
+	Shader* transparentShader 	= new Shader(lightingVert,transFragPath);
 
 	m_shaders.push_back(shader);
-	m_shaders.push_back(transShader);
+	m_shaders.push_back(transparentShader);
 	
-	m_light = new Light(Vector3(100,500,25) , Vector4(1,1,1,1), 5000);
 
 	// ----- Create Meshes -----
 	int rawWidth = 257;
@@ -96,10 +100,15 @@ void GraphicsNode::createDemoScene(){
 	m_water->generateRandomTerrain(Vector3(0,0,0), 3, 5, 0.5);
 	terrain->generateRandomTerrain(Vector3(0,0,0), 8, 2, 0.5);
 
-	Mesh* mesh1 = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
-	Mesh* mesh2 = Mesh::readObjFile(MODELSDIR"cageCube.obj");
-	mesh1->loadTexture(TEXTUREDIR"Rabbit/Rabbit_D.tga");
-	mesh2->loadTexture(TEXTUREDIR"nyan.jpg");
+	Mesh* rabbitMesh = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
+	Mesh* cubeMesh = Mesh::readObjFile(MODELSDIR"cageCube.obj");
+	Mesh* carMesh = Mesh::readObjFile(MODELSDIR"Lamborghini_Aventador.obj");
+
+
+
+	rabbitMesh->loadTexture(TEXTUREDIR"Rabbit/Rabbit_D.tga");
+	cubeMesh->loadTexture(TEXTUREDIR"nyan.jpg");
+	carMesh->loadTexture(TEXTUREDIR"car/Lamborginhi Aventador_diffuse.jpeg");
 	
 	terrain->loadTexture(TEXTUREDIR"Grass.jpg");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -118,25 +127,30 @@ void GraphicsNode::createDemoScene(){
 	terrain->bufferData();
 
 	
-	mesh1->bufferData();
-	mesh2->bufferData();
+	rabbitMesh->bufferData();
+	cubeMesh->bufferData();
+	carMesh->bufferData();
 
-	m_meshes.push_back(mesh1);
-	m_meshes.push_back(mesh2);
+	m_meshes.push_back(rabbitMesh);
+	m_meshes.push_back(cubeMesh);
+	m_meshes.push_back(carMesh);
 
 	// ----- Render Objects -----
 	
 	
-	RenderObject* heightMap = new RenderObject(m_water, transShader);
+	RenderObject* heightMap = new RenderObject(m_water, transparentShader);
 	//heightMap->setTransparent(true);
 	RenderObject* terrainRO = new RenderObject(terrain, shader);
 
-	RenderObject* ground = new RenderObject(mesh2, shader);
+	RenderObject* ground = new RenderObject(cubeMesh, shader);
 
-	RenderObject* ro1 = new RenderObject(mesh1, shader);
-	RenderObject* ro2 = new RenderObject(mesh1, shader);
-	RenderObject* ro3 = new RenderObject(mesh1, shader);
-	RenderObject* ro4 = new RenderObject(mesh1, shader);
+	RenderObject* rabbit1 = new RenderObject(rabbitMesh, shader);
+	RenderObject* rabbit2 = new RenderObject(rabbitMesh, shader);
+	RenderObject* rabbit3 = new RenderObject(rabbitMesh, shader);
+	RenderObject* rabbit4 = new RenderObject(rabbitMesh, shader);
+
+
+	
 
 	// ----- Transformations -----
 	
@@ -156,18 +170,18 @@ void GraphicsNode::createDemoScene(){
 	terrainRO->setModelMatrix(terrainPos *heightmapScale);
 
 	ground->setModelMatrix(cubeScale * cubeTrans);
-	ro1->setModelMatrix(trans1 * cubeScale);
-	ro2->setModelMatrix(trans2 * cubeScale);
-	ro3->setModelMatrix(trans3 * cubeScale);
-	ro4->setModelMatrix(trans4 * cubeScale);
+	rabbit1->setModelMatrix(trans1 * cubeScale);
+	rabbit2->setModelMatrix(trans2 * cubeScale);
+	rabbit3->setModelMatrix(trans3 * cubeScale);
+	rabbit4->setModelMatrix(trans4 * cubeScale);
 
 	m_sceneManager->pushRenderObject(terrainRO);
 	m_sceneManager->pushRenderObject(heightMap);
 	m_sceneManager->pushRenderObject(ground);
-	m_sceneManager->pushRenderObject(ro1);
-	m_sceneManager->pushRenderObject(ro2);
-	m_sceneManager->pushRenderObject(ro3);
-	m_sceneManager->pushRenderObject(ro4);
+	m_sceneManager->pushRenderObject(rabbit1);
+	m_sceneManager->pushRenderObject(rabbit2);
+	m_sceneManager->pushRenderObject(rabbit3);
+	m_sceneManager->pushRenderObject(rabbit4);
 
 		
 	
@@ -180,7 +194,9 @@ void GraphicsNode::update(float msec){
 		
 		m_rendererController->update(msec);
 		counter+=(msec/40);
-		
+		if (m_sceneManager->getWater() != nullptr) {
+			//updateWater();
+		}
 		//m_water->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
 		//m_water->generateNormals();
 		
@@ -221,6 +237,13 @@ void GraphicsNode::updateLighting()
 
 }
 
+void GraphicsNode::updateWater()
+{
+	HeightMap* waterMesh = m_sceneManager->getWater();
+	waterMesh->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
+	waterMesh->generateNormals();
+}
+
 void GraphicsNode::loadLevel(Level* level){
 	
 	std::vector<GameObject*> gameObjects = level->getGameObjects();
@@ -241,7 +264,7 @@ void GraphicsNode::loadLevel(Level* level){
 	
 	for(auto obj: gameObjects){
 		
-		ObjectTag tag =obj->getTag();
+		ObjectTag tag = obj->getTag();
 		
 
 		switch(tag){
@@ -253,12 +276,60 @@ void GraphicsNode::loadLevel(Level* level){
 				RenderObject* ro1 = new RenderObject(rabbitMesh, shader);
 
 				ro1->setModelMatrix(obj->getModelMatrix());
-				//m_renderObjects.push_back(ro1);
+				//m_renderObjects.push_back(rabbit1);
 				m_sceneManager->pushRenderObject(ro1);
 
 				break;
 			}
 			case T_Terrain: {
+				GameHeightMap* heightMap = static_cast<GameHeightMap*>(obj);
+
+				HeightMap* terrain = new HeightMap(
+					heightMap->getRawWidth(),
+					heightMap->getRawHeight(),
+					heightMap->getXMultiplier(),
+					heightMap->getZMultiplier(),
+					heightMap->getYMultiplier() * 4,
+					heightMap->getTexCoordX(),
+					heightMap->getTexCoordZ(),
+					m_perlin2D );
+				terrain->generateRandomTerrain(Vector3(0, 0, 0), 8, 2, 0.5);
+				terrain->loadTexture(TEXTUREDIR"Grass.jpg");
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				terrain->generateNormals();
+				terrain->bufferData();
+
+				RenderObject* ro1 = new RenderObject(terrain, shader);
+				ro1->setModelMatrix(heightMap->getModelMatrix());
+				m_sceneManager->pushRenderObject(ro1);
+
+				break;
+			}
+			case T_Water: {
+				GameHeightMap* heightMap = static_cast<GameHeightMap*>(obj);
+				heightMap->setYMulti(2);
+
+				HeightMap* water = new HeightMap(
+					heightMap->getRawWidth(),
+					heightMap->getRawHeight(),
+					heightMap->getXMultiplier(),
+					heightMap->getZMultiplier(),
+					heightMap->getYMultiplier(),
+					heightMap->getTexCoordX(),
+					heightMap->getTexCoordZ(),
+					m_perlin2D);
+				water->generateRandomTerrain(Vector3(0, 0, 0), 3, 2, 0.5);
+				water->loadTexture(TEXTUREDIR"water.jpeg");
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				water->generateNormals();
+				water->bufferData();
+
+				RenderObject* ro1 = new RenderObject(water, transShader);
+				ro1->setModelMatrix(heightMap->getModelMatrix());
+				m_sceneManager->pushRenderObject(ro1);
+				m_sceneManager->setWater(water);
 				break;
 			}
 			case T_Cube:{
@@ -270,17 +341,9 @@ void GraphicsNode::loadLevel(Level* level){
 			}
 			case T_Wall:{
 				break;
-			}
-			case T_Water:{
-				break;
-			}
-				
+			}	
 		}
-		
-	
 	}
-	
-	
 }
 
 

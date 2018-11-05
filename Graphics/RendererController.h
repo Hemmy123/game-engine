@@ -20,8 +20,11 @@ public:
 
 	void init();
 	void update(float msec);
- 
-	void createCamera(InterfaceHandler* ih) { m_renderer->createCamera(ih); }
+	void initCamera();
+	void createCamera(InterfaceHandler* ih) { 
+		m_renderer->createCamera(ih); 
+		initCamera();
+	}
 
 	GLFWwindow* getWindow() const { return m_renderer->getWindow(); }
 
@@ -56,9 +59,10 @@ private:
 
 
 	// ----- Renderer classes ----- //
-	Renderer*		 m_renderer;
-	Skybox*			 m_skybox;
-	PostProcessor*	 m_postProcessor;
-	Anaglyph3D*		m_anaglyph3D;
+	Renderer*			m_renderer;
+	SceneManager*		m_sceneManager;
+	Skybox*				m_skybox;
+	PostProcessor*		m_postProcessor;
+	Anaglyph3D*			m_anaglyph3D;
 };
 

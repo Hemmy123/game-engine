@@ -58,10 +58,11 @@ public:
 
 	// ---------- Getters/Setters ---------- //
 
-	void setProjectionMatrix(Matrix4 proj) { m_projMatrix = proj; };
-	void setViewMatrix(Matrix4 view) { m_viewMatrix = view; };
-	void setOrthographicMatrix(Matrix4 ortho) { m_ortho = ortho; }
-	void setPerspectiveMatrix(Matrix4 persp) { m_persp = persp; }
+	void setProjectionMatrix(Matrix4 proj)		{ m_projMatrix = proj; };
+	void setViewMatrix(Matrix4 view)			{ m_viewMatrix = view; };
+	void setOrthographicMatrix(Matrix4 ortho)	{ m_ortho = ortho; }
+	void setPerspectiveMatrix(Matrix4 persp)	{ m_persp = persp; }
+	void setTextureMatrix(Matrix4 tex)			{ m_textureMatrix = tex; }
 
 	Matrix4 getProjectionMatrix() 		const { return m_projMatrix; }
 	Matrix4 getViewMatrix() 			const { return m_viewMatrix; }

@@ -49,9 +49,13 @@ public:
 	Matrix4 getWorldTransform() const 		{ return m_worldTransform; }
 	void    setWorldTransform(Matrix4 mat) 	{ m_worldTransform = mat;}
 	
-	bool 	getTransparent() const 		{ return m_transparent;}
-	void 	setTransparent(bool t)		{ m_transparent = t;}
+	bool 	getTransparent() const 			{ return m_transparent;}
+	void 	setTransparent(bool t)			{ m_transparent = t;}
 	
+	void	setParent(RenderObject* parent) { m_parent = parent; }
+	void	addChild(RenderObject* child)	{ m_children.push_back(child); }
+
+
 	const vector<RenderObject*>& getChildren() const  {return m_children;}
 	
 	
@@ -65,8 +69,8 @@ private:
 	
 	GLuint  m_texture;
 	
-	Matrix4 m_modelMatrix;
-	Matrix4 m_worldTransform;
+	Matrix4 m_modelMatrix;		// Local transform
+	Matrix4 m_worldTransform;	
 	
 	RenderObject*            m_parent;
 	vector<RenderObject*>    m_children;
