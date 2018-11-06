@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\game-engine-mac\Scene\Level.cpp">
+    <ClCompile Include="Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Level.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Level.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{02971B61-961B-4CAC-8054-B0F51BCE2362}</ProjectGuid>
@@ -122,12 +128,6 @@
       <AdditionalDependencies>Game.lib;Maths.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\game-engine-mac\Scene\Level.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Level.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

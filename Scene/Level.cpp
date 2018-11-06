@@ -25,7 +25,7 @@ void Level::createDemoLevel() {
 	int offSet = 35;
 	int y = 250;
 	int x = 200;
-	int z = 300;
+	int z = 300; 
 
 	// Very brute for way of adding gameobjects, only for testing atm
 	GameObject* rabbit1 = new GameObject(Vector3(x + -offSet * 2, y, z), Vector3(1, 1, 1), scale);
