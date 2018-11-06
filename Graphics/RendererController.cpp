@@ -54,7 +54,7 @@ void RendererController::update(float msec)
 	}
 	
 
-	// 3D
+	// 3D - not working
 	if (m_settings.anaglyph3D) {
 		m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
 	}

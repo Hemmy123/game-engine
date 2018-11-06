@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="Anaglyph3D.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ChildMeshInterface.h" />
     <ClInclude Include="CubeRobot.h" />
     <ClInclude Include="GraphicsNode.h" />
     <ClInclude Include="GraphicsUtils.h" />

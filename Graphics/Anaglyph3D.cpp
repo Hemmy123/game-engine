@@ -30,50 +30,32 @@ void Anaglyph3D::createFBOs()
 
 void Anaglyph3D::render(Mesh* quad,GLuint fbo, GLuint colourAttachment)
 {
+
 	renderRight();
-	m_parentRenderer->checkErrors();
 	renderLeft();
-	m_parentRenderer->checkErrors();
 
-	GLuint leftLocation = glGetUniformLocation(m_3DShader->getProgram(), "leftTex");
-	m_parentRenderer->checkErrors();
-	// bind texture to texture unit?
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colourAttachment, 0);
+	//glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
-	quad->setTexture(m_leftColourAttachment);
-	quad->setTextureType(Texture_2D);
-	quad->bindTexture();
-
-
-	glUniform1i(leftLocation, 1);
-
-	m_parentRenderer->checkErrors();
-	glBindTexture(GL_TEXTURE_2D, m_leftColourAttachment);
-
-
-
-
-	GLuint rightLocation = glGetUniformLocation(m_3DShader->getProgram(), "rightTex");
-	
-	m_parentRenderer->checkErrors();
-	glUniform1i(rightLocation, 2);
-	
-	m_parentRenderer->checkErrors();
-	glBindTexture(GL_TEXTURE_2D, m_rightColourAttachment);
-
-	m_parentRenderer->checkErrors();
-
-	glBindFramebuffer(GL_FRAMEBUFFER,fbo);
-	m_parentRenderer->setCurrentShader(m_3DShader);
+	GLuint leftTexloc = glGetUniformLocation(m_3DShader->getProgram(), "leftTex");
+	GLuint rightTexLoc = glGetUniformLocation(m_3DShader->getProgram(), "rightTex");
 	m_parentRenderer->updateShaderMatrices();
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colourAttachment, 0);
-
-
 	m_parentRenderer->checkErrors();
 
-	quad->setTexture(colourAttachment);
-	quad->setTextureType(Texture_2D);
-	quad->bindTexture();
+
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_leftColourAttachment);
+	m_parentRenderer->checkErrors();
+	glUniform1i(leftTexloc, 0);
+	m_parentRenderer->checkErrors();
+
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_rightColourAttachment);
+	glUniform1i(rightTexLoc, 1);
+	m_parentRenderer->checkErrors();
+
+
 	quad->draw();
 
 	m_parentRenderer->checkErrors();
