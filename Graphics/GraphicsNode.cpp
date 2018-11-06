@@ -328,7 +328,7 @@ void GraphicsNode::loadLevel(Level* level){
 
 				RenderObject* ro1 = new RenderObject(water, transShader);
 				ro1->setModelMatrix(heightMap->getModelMatrix());
-				m_sceneManager->pushRenderObject(ro1);
+				//m_sceneManager->pushRenderObject(ro1);
 				m_sceneManager->setWater(water);
 				break;
 			}

@@ -30,7 +30,9 @@ private:
 
 	// -- Misc
 	//Mesh*	m_waterQuad;
+	Light*	m_light;
 	GLuint 	m_cubeMap;
+	GLuint 	m_waterTex;
 	float 	m_waterRotate;
 };
 

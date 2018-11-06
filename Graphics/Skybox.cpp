@@ -20,7 +20,7 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 {
 	m_skyboxShader = new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
 	m_refectShader = new Shader(SHADERVERTDIR"PerPixel_Vert.glsl", SHADERFRAGDIR"Reflect_Frag.glsl");
-
+	m_waterTex = SOIL_load_OGL_texture(SHADERVERTDIR"water.jpeg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
 	m_cubeMap = SOIL_load_OGL_cubemap(
 		TEXTUREDIR"Skyboxes/2/right.jpg",
 		TEXTUREDIR"Skyboxes/2/left.jpg",
@@ -30,7 +30,11 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 		TEXTUREDIR"Skyboxes/2/back.jpg",
 		SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0);
 
+	Vector3 pos(100, 400, 500);
+	Vector4 col(1, 1, 1, 1);
+	int radius = 6000;
 
+	m_light = new Light(pos,col,radius);
 
 
 	if (m_cubeMap == 0) {
@@ -89,12 +93,15 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 
 void Skybox::drawRefection(Mesh* quad, GLuint fbo,HeightMap * heightmap, Vector3 cameraPos)
 {
+
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
 	m_parentRenderer->setCurrentShader(m_refectShader);
+	m_parentRenderer->setShaderLight(m_refectShader, *m_light);
 
-	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)) *
+	/*m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)) *
 		Matrix4::Rotation(2, Vector3(0.0f, 0.0f, 1.0f)));
-
+*/
 	m_parentRenderer->updateShaderMatrices();
 
 	GLuint cameraPosLoc		= glGetUniformLocation(m_refectShader->getProgram(), "cameraPos");
@@ -103,10 +110,17 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo,HeightMap * heightmap, Vector3
 	
 
 	glUniform3fv(cameraPosLoc, 1, (float*)&cameraPos);
+
+	GLuint waterTex = heightmap->getTexture();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, waterTex);
 	glUniform1i(diffuseTexLoc, 0);
-	glUniform1i(cubeTexLoc, 2);
-	glActiveTexture(GL_TEXTURE2);
+	m_parentRenderer->checkErrors();
+
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
+	glUniform1i(cubeTexLoc, 1);
+	m_parentRenderer->checkErrors();
 
 	
 	m_parentRenderer->updateShaderMatrices();

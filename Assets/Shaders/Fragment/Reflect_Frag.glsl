@@ -18,14 +18,19 @@ in Vertex{
 out vec4 outColour;
 
 void main(void){
-	vec4 	diffuse 	= texture(diffuseTex, IN.texCoord) * IN.colour;
-	vec3 	incident	= normalize(IN.worldPos - cameraPos);
+	vec4 	diffuse 	= texture(diffuseTex, IN.texCoord) * IN.colour;		// The water texture
+	// vec3 	incident	= normalize(IN.worldPos - cameraPos);				// vertex pos to camera pos
+	vec3 	incident	= normalize(cameraPos - IN.worldPos);				// vertex pos to camera pos
 	float 	dist		= length(lightPos - IN.worldPos);
 	float 	atten		= 1.0 - clamp(dist / lightRadius, 0.2, 1.0);
 	vec4	reflection 	= texture(cubeTex,
-							  reflect(incident, normalize(IN.normal))
-						);
-	outColour = (lightColour * diffuse * atten) * (diffuse + reflection);
-	
+						  reflect(incident, normalize(IN.normal)) );
+	 outColour = (lightColour * diffuse * atten) * (diffuse + reflection);
+	//outColour =  (diffuse + reflection);
+	//outColour = vec4(1,1,1,1);
+	//outColour = texture(diffuseTex, IN.texCoord);
+	// for testing
+	//outColour = texture(cubeTex, normalize(IN.worldPos));
+
 	
 }

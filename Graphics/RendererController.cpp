@@ -48,41 +48,43 @@ void RendererController::update(float msec)
 	m_renderer->updateScene(msec);
 
 	
-
+	// Skybox
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
-
-	
-		// render refections
 	}
 	
+
+	// 3D
 	if (m_settings.anaglyph3D) {
 		m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
 	}
 	else {
-		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+	// Render Scene
 
-		if (m_sceneManager->getWater() != nullptr && m_settings.skybox) {
-			HeightMap* water = m_sceneManager->getWater();
-			Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
-
-			m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
-		}
+		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);	
 	}
 
+	// Water reflection
+	if (m_sceneManager->getWater() != nullptr && m_settings.skybox) {
+		HeightMap* water = m_sceneManager->getWater();
+		Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
 
+		m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
+	}
+
+	// post processing
 	if (m_settings.postProcessing) {
 		m_postProcessor->drawPostProcess(m_buffColourAttachment);
 	}
 
 
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
-	//m_renderer->clearBuffers();
+	// m_renderer->clearBuffers();
 	m_renderer->swapBuffers();
 }
 
 void RendererController::initCamera() {
-	Vector3 pos(200, 250, 500);
+	Vector3 pos(200, 250, 2500);
 
 	m_renderer->getCamera()->setPosition(pos);
 
