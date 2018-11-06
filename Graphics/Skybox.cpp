@@ -91,6 +91,10 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo,HeightMap * heightmap, Vector3
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	m_parentRenderer->setCurrentShader(m_refectShader);
+
+	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)) *
+		Matrix4::Rotation(2, Vector3(0.0f, 0.0f, 1.0f)));
+
 	m_parentRenderer->updateShaderMatrices();
 
 	GLuint cameraPosLoc		= glGetUniformLocation(m_refectShader->getProgram(), "cameraPos");
@@ -104,11 +108,11 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo,HeightMap * heightmap, Vector3
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 
-	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)) *
-		Matrix4::Rotation(2, Vector3(0.0f, 0.0f, 1.0f)));
+	
 	m_parentRenderer->updateShaderMatrices();
 
 	heightmap->draw();
+	glActiveTexture(GL_TEXTURE0);
 
 	glUseProgram(0);
 

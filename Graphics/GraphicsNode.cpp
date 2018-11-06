@@ -191,18 +191,18 @@ void GraphicsNode::createDemoScene(){
 void GraphicsNode::update(float msec){
 	
     if (!m_rendererController->checkWindow()){
-		
+		updateLighting();
+
 		m_rendererController->update(msec);
 		counter+=(msec/40);
 		if (m_sceneManager->getWater() != nullptr) {
-			updateWater();
+			//updateWater();
 		}
 		//m_water->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
 		//m_water->generateNormals();
 		
 		/* --- Temp lighting test --- */
 		
-		updateLighting();
 		/* ------------------------- */
 		
     }

@@ -52,12 +52,7 @@ void RendererController::update(float msec)
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 
-		if (m_sceneManager->getWater() != nullptr) {
-			HeightMap* water = m_sceneManager->getWater();
-			Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
-
-			m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
-		}
+	
 		// render refections
 	}
 	
@@ -66,6 +61,13 @@ void RendererController::update(float msec)
 	}
 	else {
 		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+
+		if (m_sceneManager->getWater() != nullptr && m_settings.skybox) {
+			HeightMap* water = m_sceneManager->getWater();
+			Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
+
+			m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
+		}
 	}
 
 

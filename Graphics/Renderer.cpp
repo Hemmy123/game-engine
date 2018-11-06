@@ -209,15 +209,12 @@ void Renderer::setShaderLight(Shader* shader, Light &light) {
 	GLint posLoc = glGetUniformLocation(program, "lightPos");
 	GLint colLoc = glGetUniformLocation(program, "lightColour");
 	GLint radLoc = glGetUniformLocation(program, "lightRadius");
-	checkErrors();
 	Vector3 pos = light.getPosition();
 	Vector4 col = light.getColour();
 	float 	rad = light.getRadius();
 
 	glUniform3fv(posLoc, 1, (float*)&pos);
-	checkErrors();
 	glUniform4fv(colLoc, 1, (float*)&col);
-	checkErrors();
 	glUniform1f(radLoc, rad);
 	checkErrors();
 
