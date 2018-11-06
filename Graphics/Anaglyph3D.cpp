@@ -37,6 +37,13 @@ void Anaglyph3D::render(Mesh* quad,GLuint fbo, GLuint colourAttachment)
 
 	GLuint leftLocation = glGetUniformLocation(m_3DShader->getProgram(), "leftTex");
 	m_parentRenderer->checkErrors();
+	// bind texture to texture unit?
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colourAttachment, 0);
+
+	quad->setTexture(m_leftColourAttachment);
+	quad->setTextureType(Texture_2D);
+	quad->bindTexture();
+
 
 	glUniform1i(leftLocation, 1);
 

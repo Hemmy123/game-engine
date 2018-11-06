@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="Anaglyph3D.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CubeRobot.cpp" />
     <ClCompile Include="GraphicsNode.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
     <ClCompile Include="HeightMap.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="Anaglyph3D.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CubeRobot.h" />
     <ClInclude Include="GraphicsNode.h" />
     <ClInclude Include="GraphicsUtils.h" />
     <ClInclude Include="HeightMap.h" />

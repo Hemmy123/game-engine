@@ -8,8 +8,7 @@
 // and physics subsystems
 // ========================================
 
-#ifndef Level_hpp
-#define Level_hpp
+#pragma once
 
 #include <stdio.h>
 #include <vector>
@@ -17,16 +16,15 @@
 
 class Level {
 public:
-	
+
 	Level();
 	~Level();
-	
-	std::vector<GameObject*> getGameObjects() { return m_gameObjects;}
-	
+
+	std::vector<GameObject*> getGameObjects() { return m_gameObjects; }
+
 	void createDemoLevel();
-	
+
 private:
 	std::vector<GameObject*> m_gameObjects;
 };
 
-#endif /* Level_hpp */

@@ -2,11 +2,11 @@
 
 
 CubeRobot::CubeRobot(){
-	RenderObject* body = new RenderObject()
+	RenderObject* body = new RenderObject();
 
 }
 
-~CubeRobot::CubeRobot(){
+CubeRobot::~CubeRobot(){
 	
 }
 
