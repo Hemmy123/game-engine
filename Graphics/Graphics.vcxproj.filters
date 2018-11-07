@@ -134,9 +134,6 @@
     <ClInclude Include="CubeRobot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChildMeshInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shadows.h">
       <Filter>Header Files</Filter>
     </ClInclude>

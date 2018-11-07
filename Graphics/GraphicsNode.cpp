@@ -196,7 +196,7 @@ void GraphicsNode::update(float msec){
 		m_rendererController->update(msec);
 		counter+=(msec/40);
 		if (m_sceneManager->getWater() != nullptr) {
-			//updateWater();
+			updateWater();
 		}	
     }
 }
