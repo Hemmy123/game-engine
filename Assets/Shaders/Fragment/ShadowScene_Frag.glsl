@@ -10,7 +10,7 @@ uniform vec3 cameraPos;
 uniform float lightRadius;
 
 in Vertex{
-	vec3 colour;
+	vec4 colour;
 	vec2 texCoord;
 	vec3 normal;
 	vec3 tangent;

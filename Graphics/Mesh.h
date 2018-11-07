@@ -56,9 +56,17 @@ public:
     void draw();
 	void generateNormals();
 	
+	void generateTangents();
+	Vector3 generateTangent(
+		const Vector3 &a, const Vector3 &b,
+		const Vector3 &c, const Vector2 &ta,
+		const Vector2 &tb, const Vector2 &tc);
+
+
     GLuint m_type;
 
 	void setTexture(GLuint tex) {m_texture = tex;}
+	void setBumpTexture(GLuint bump) { m_bumpTexture = bump; m_hasBumpTexture = true; }
 
 	void bindTexture();
 
@@ -69,15 +77,28 @@ public:
 		return m_texture;
 	}
 
+	GLuint loadBumpTexture(std::string path) {
+		m_bumpTexture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
+		m_hasBumpTexture = true;
+		return m_texture;
+	}
+
+
 	void setTextureType(TextureType type) { m_textureType = type; }
 	TextureType setTextureType() const { return m_textureType; }
 	
+	bool hasBumpTexture() const { return m_hasBumpTexture; }
+
 protected:
+
+
     GLuint m_VAO;
     GLuint m_VBO[MAX_BUFFER];
 
+	bool m_hasBumpTexture;
+
 	GLuint m_texture;
-	
+	GLuint m_bumpTexture;
 
 	TextureType		m_textureType;
 
@@ -99,6 +120,8 @@ protected:
 	Vector3*		m_tangents;
 	//Pointer to vertex indices attribute data
 	unsigned int*	m_indices;
+
+	
 
 };
 

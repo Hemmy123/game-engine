@@ -88,6 +88,11 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 	setCurrentShader(shader);
 	
 	changeProjection(Perspective);
+
+	/*GLuint diffuseLoc = glGetUniformLocation(shader->getProgram(), "diffuseTex");
+	glUniform1i(diffuseLoc, 0);
+*/
+
 	updateShaderMatrices();
 	drawAllRenderObjects();
 

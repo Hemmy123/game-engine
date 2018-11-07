@@ -196,7 +196,7 @@ void GraphicsNode::update(float msec){
 		m_rendererController->update(msec);
 		counter+=(msec/40);
 		if (m_sceneManager->getWater() != nullptr) {
-			updateWater();
+			//updateWater();
 		}	
     }
 }
@@ -245,9 +245,13 @@ void GraphicsNode::loadLevel(Level* level){
 	string fragPath 		= SHADERFRAGDIR"Textured_Frag.glsl";
 	string transFragPath 	= SHADERFRAGDIR"Trans_Frag.glsl";
 	
-	string lightingVert = SHADERVERTDIR"Lighting_Vert.glsl";
-	string lightingFrag = SHADERFRAGDIR"Lighting_Frag.glsl";
+	//string lightingVert = SHADERVERTDIR"Lighting_Vert.glsl";
+	//string lightingFrag = SHADERFRAGDIR"Lighting_Frag.glsl";
 	
+	string lightingVert = SHADERVERTDIR"Bump_Vert.glsl";
+	string lightingFrag = SHADERFRAGDIR"Bump_Frag.glsl";
+
+
 	//Shader* shader 		= new Shader(vertexPath,fragPath);
 	Shader* shader 			= new Shader(lightingVert,lightingFrag);
 	Shader* transShader 	= new Shader(lightingVert,transFragPath);
@@ -264,6 +268,9 @@ void GraphicsNode::loadLevel(Level* level){
 			case T_Rabbit:{
 				Mesh* rabbitMesh = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
 				rabbitMesh->loadTexture(TEXTUREDIR"Rabbit/Rabbit_D.tga");
+				rabbitMesh->loadBumpTexture(TEXTUREDIR"Rabbit/Rabbit_N.tga");
+				rabbitMesh->generateTangents();
+
 				rabbitMesh->bufferData();
 				m_meshes.push_back(rabbitMesh);
 				RenderObject* ro1 = new RenderObject(rabbitMesh, shader);
@@ -287,10 +294,15 @@ void GraphicsNode::loadLevel(Level* level){
 					heightMap->getTexCoordZ(),
 					m_perlin2D );
 				terrain->generateRandomTerrain(Vector3(0, 0, 0), 8, 2, 0.5);
-				terrain->loadTexture(TEXTUREDIR"Grass.jpg");
+				terrain->loadTexture(TEXTUREDIR"GrassTextures/grassLush.png");
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				terrain->loadBumpTexture(TEXTUREDIR"GrassTextures/grassB.png");
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
 				terrain->generateNormals();
+				terrain->generateTangents();
 				terrain->bufferData();
 
 				RenderObject* ro1 = new RenderObject(terrain, shader);
@@ -313,12 +325,16 @@ void GraphicsNode::loadLevel(Level* level){
 					heightMap->getTexCoordZ(),
 					m_perlin2D);
 				water->generateRandomTerrain(Vector3(0, 0, 0), 3, 2, 0.5);
-				water->loadTexture(TEXTUREDIR"water.jpeg");
+				water->loadTexture(TEXTUREDIR"WaterTexture/water.jpg");
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				water->loadBumpTexture(TEXTUREDIR"WaterTexture/waterB.jpg");
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 				water->generateNormals();
+				water->generateTangents();
 				water->bufferData();
-
+			
 				RenderObject* ro1 = new RenderObject(water, transShader);
 				ro1->setModelMatrix(heightMap->getModelMatrix());
 				//m_sceneManager->pushRenderObject(ro1);

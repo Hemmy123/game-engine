@@ -14,6 +14,9 @@
 
 Mesh::Mesh(){
 	m_texture = 0;
+	m_bumpTexture = 0;
+	m_hasBumpTexture = false;
+
     m_numVertices = 0;
 	m_type = GL_TRIANGLES;
 	m_textureType = Texture_2D;			// Default to 2D texture
@@ -34,6 +37,7 @@ Mesh::~Mesh(){
 
 	
 	glDeleteTextures(1, &m_texture);		// Deletes Texture
+	glDeleteTextures(1, &m_bumpTexture);		// Deletes Texture
     glDeleteVertexArrays(1, &m_VAO);        // Delete our VAO
 	glDeleteBuffers(MAX_BUFFER, m_VBO);     // Delete our VBOs
     
@@ -104,13 +108,92 @@ void Mesh::generateNormals(){
 void Mesh::bindTexture()
 {
 	switch (m_textureType) {
-	case Texture_2D: glBindTexture(GL_TEXTURE_2D, m_texture); break;
+	case Texture_2D: {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_texture); 
+		
+		if (m_hasBumpTexture) {
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, m_bumpTexture);
+		}
+
+		break; 
+	}
+
 	case Cube_Map : glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture); break;
 	default : glBindTexture(GL_TEXTURE_2D, m_texture); break;
 	}
 
 
 }
+
+void Mesh::generateTangents(){
+	if (!m_tangents) {
+		m_tangents = new  Vector3[m_numVertices];
+
+	}
+	if (!m_textureCoords) {
+		return; //Can’t use  tex  coords  if  there  aren’t any!
+
+	}
+	for (GLuint i = 0; i < m_numVertices; ++i) {
+		m_tangents[i] = Vector3();
+
+	}
+
+	if (m_indices) {
+		for (GLuint i = 0; i < m_numIndices; i += 3) {
+			int a = m_indices[i];
+			int b = m_indices[i + 1];
+			int c = m_indices[i + 2];
+
+			Vector3  tangent = generateTangent(
+				m_vertices[a],		m_vertices[b],
+				m_vertices[c],		m_textureCoords[a],
+				m_textureCoords[b], m_textureCoords[c]);
+
+			m_tangents[a] += tangent;
+			m_tangents[b] += tangent;
+			m_tangents[c] += tangent;
+
+		}
+
+	}
+	else {
+		for (GLuint i = 0; i < m_numVertices; i += 3) {
+			Vector3  tangent = generateTangent(
+				m_vertices[i],		m_vertices[i + 1],		m_vertices[i + 2], 
+				m_textureCoords[i],	m_textureCoords[i + 1], m_textureCoords[i + 2]);
+
+			m_tangents[i] += tangent;
+			m_tangents[i + 1] += tangent;
+			m_tangents[i + 2] += tangent;
+
+		}
+
+	}
+	for (GLuint i = 0; i < m_numVertices; ++i) {
+		m_tangents[i].Normalise();
+
+	}
+
+}
+
+Vector3 Mesh::generateTangent(const Vector3 & a, const Vector3 & b, const Vector3 & c, const Vector2 & ta, const Vector2 & tb, const Vector2 & tc)
+{
+	Vector2  coord1 = tb - ta;
+	Vector2  coord2 = tc - ta;
+
+	Vector3  vertex1 = b - a;
+	Vector3  vertex2 = c - a;
+
+	Vector3  axis = Vector3(vertex1*coord2.y - vertex2 * coord1.y);
+
+	float  factor = 1.0f / (coord1.x * coord2.y - coord2.x * coord1.y);
+
+	return  axis * factor;
+}
+
 
 
 
@@ -347,6 +430,16 @@ void Mesh::bufferData(){
         glVertexAttribPointer(TEXTURE_BUFFER, 2, GL_FLOAT, GL_FALSE, 0, 0);
         glEnableVertexAttribArray(TEXTURE_BUFFER);
     }
+
+	if (m_tangents) {
+		glGenBuffers(1, &m_VBO[TANGENT_BUFFER]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TANGENT_BUFFER]);
+		glBufferData(GL_ARRAY_BUFFER, m_numVertices * sizeof(Vector3),
+			m_tangents,GL_STATIC_DRAW);
+		glVertexAttribPointer(TANGENT_BUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(TANGENT_BUFFER);
+
+	}
     
     //buffer colour data
     if (m_colours) {
