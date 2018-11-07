@@ -89,9 +89,7 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 	
 	changeProjection(Perspective);
 
-	/*GLuint diffuseLoc = glGetUniformLocation(shader->getProgram(), "diffuseTex");
-	glUniform1i(diffuseLoc, 0);
-*/
+
 
 	updateShaderMatrices();
 	drawAllRenderObjects();
@@ -107,8 +105,18 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 		GLuint program = o.getShader()->getProgram();
 		setCurrentShader(o.getShader());
 		glUseProgram(program);
+
+		if (o.getMesh()->hasBumpTexture()) {
+			GLuint diffuseLoc = glGetUniformLocation(program, "diffuseTex");
+			GLuint bumpTexLoc = glGetUniformLocation(program, "bumpTex");
+			glUniform1i(diffuseLoc, 0);
+			glUniform1i(bumpTexLoc, 1);
+
+		}
+
+
 		updateShaderMatrices();
-		o.getMesh()->setTextureType(Texture_2D);
+		//o.getMesh()->setTextureType(Texture_2D);
 		o.getMesh()->bindTexture();
 
 		o.draw();

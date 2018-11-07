@@ -144,5 +144,5 @@ int Shadows::generateFBO()
 	glDrawBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
+	return 0;
 }

@@ -30,7 +30,6 @@ public:
     ~GraphicsNode();
 	
 
-	void createDemoScene();
 	void handleEvent(Event event);
     void update(float msec);
 
