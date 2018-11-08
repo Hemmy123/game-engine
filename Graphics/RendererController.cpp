@@ -62,12 +62,9 @@ void RendererController::update(float msec)
 
 		if (m_settings.shadows) {
 			m_shadows->drawScene(m_sceneFBO);
-		}
-		else {
+		} else {
 			m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
 		}
-
-		// Render Scene
 	}
 
 	// Water reflection

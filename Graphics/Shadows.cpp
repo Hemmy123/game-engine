@@ -14,16 +14,19 @@ Shadows::Shadows(Renderer * parentRenderer):
 		SHADERFRAGDIR"shadow_frag.glsl");
 
 
-	Vector3 pos(100, 400, 100);
+	Vector3 pos(100, 700, 400);
 	Vector4 col(1, 1, 1, 1);
 	float radius	= 6000.0f;
 	m_light			= new Light(pos, col, radius);
 
-	// TODO: Check this!
-	m_biasMatrix = Matrix4(
-		Matrix4::Scale(Vector3(0.5, 0.5, 0.5)) *
-		Matrix4::Translation(Vector3(0.5,0.5,0.5))
-	);
+	static const float biasValues[16] = {
+		0.5, 0.0, 0.0, 0.0,
+		0.0, 0.5, 0.0, 0.0,
+		0.0, 0.0, 0.5, 0.0,
+		0.5, 0.5, 0.5, 1.0
+	};
+	m_biasMatrix = Matrix4(const_cast<float*>(biasValues));
+
 
 	generateFBO();
 }	
@@ -40,6 +43,7 @@ Shadows::~Shadows()
 
 void Shadows::drawShadowScene(){
 	glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
+	glEnable(GL_DEPTH_TEST);
 
 	// Clear depth buffer since we are about to draw to it.
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -52,17 +56,12 @@ void Shadows::drawShadowScene(){
 
 	m_parentRenderer->setCurrentShader(m_shadowShader);
 
-	m_parentRenderer->checkErrors();
-
 	Matrix4 lightViewMatrix = Matrix4::BuildViewMatrix(
 		m_light->getPosition(), Vector3(0, 0, 0));
 
 
-	Matrix4 lightTextureMatrix =
-		m_biasMatrix *
+	Matrix4 lightTextureMatrix = m_biasMatrix *
 		(m_parentRenderer->getProjectionMatrix() * m_parentRenderer->getViewMatrix());
-
-
 
 	m_parentRenderer->setViewMatrix(lightViewMatrix);
 	m_parentRenderer->setTextureMatrix(lightTextureMatrix);
@@ -73,13 +72,11 @@ void Shadows::drawShadowScene(){
 
 	// ?
 	m_parentRenderer->drawAllMeshes();
-
 	m_parentRenderer->checkErrors();
 
 
 	// back to default settings
 	glUseProgram(0);
-
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glViewport(0, 0, m_parentRenderer->getWidth(), m_parentRenderer->getHeight());
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -96,7 +93,7 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 	GLuint bumpTexLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "bumpTex");
 	GLuint shadowTexLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "shadowTex");
 	GLuint cameraLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "cameraPos");
-
+	
 
 	glUniform1i(diffuseTexLoc, 0);
 	m_parentRenderer->checkErrors();
@@ -135,7 +132,6 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 void Shadows::drawScene(GLuint sceneFBO)
 {
 	// clear buffers?
-
 	drawShadowScene();
 	drawCombinedScene(sceneFBO);
 }
@@ -156,6 +152,7 @@ int Shadows::generateFBO()
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
+	//unbind
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
 

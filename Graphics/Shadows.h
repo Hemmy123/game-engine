@@ -23,6 +23,7 @@ private:
 	GLuint m_shadowFBO;
 	GLuint m_shadowTex;
 
+	
 	Renderer*	m_parentRenderer;
 	Shader*		m_shadowShader;
 	Shader*		m_sceneShader;

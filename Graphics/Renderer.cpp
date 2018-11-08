@@ -132,11 +132,11 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 void Renderer::drawMesh(const RenderObject & o)
 {
 	Mesh* objMesh	= o.getMesh();
-	Shader* shader	= o.getShader();
 
 	if (objMesh) {
-		m_modelMatrix.ToIdentity();
+		//m_modelMatrix.ToIdentity();
 
+		// For mapping shadows
 		Matrix4 tempMatrix = m_textureMatrix * m_modelMatrix;
 		GLuint texMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"textureMatrix");
 		GLuint modelMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"modelMatrix");
