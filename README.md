@@ -1,14 +1,13 @@
 # Graphics/Game Engine
 
 ### TL;DR
-A game engine I was working on during the summer which is now being repurposed as a palce to build my own graphics framework for the "Advanced Graphics for Games" Module at Newcastle University 
+A game engine I was working on during the summer which is now being repurposed as a place to build my own graphics framework for the "Advanced Graphics for Games" Module at Newcastle University. Because of this, many of the other subsystem are incomplete.
+
+### Introduction
 
 This repo is what I managed to accomplish in the free time I had during summer. **Many** parts of engine are unfinished. 
 
-This was mainly a learning experience and not an actual attempt to create a polished game engine. Because of this, parts of the engine are hard coded in and are definitely not best practice! For example, the scene that is loaded in is hard coded in the Graphics Node. 
-This is great for quickly testing features and fancy graphics stuff, but not actual games! 
-
-
+This was mainly a learning experience and not an actual attempt to create a polished game engine. Because of this, parts of the engine are hard coded in and are definitely not best practice! For example, levels that are loaded in are still hard coded in the game and not data driven. 
 
 ### Where I'm at now
 - So far the engine can render 3D objects onto the screen using .obj files.
@@ -17,13 +16,14 @@ This is great for quickly testing features and fancy graphics stuff, but not act
 - Basic phong lighting
 - Basic blurring post processing effect using FBOs.
 - Pass around important events in the engine by using an event system.
+- Skyboxand reflections using cube mapping
 
 ### Still need to implement
-- A logger that logs errors and warnings in the system
+- A logging system that logs errors and warnings in the system
 - An basic Physics subsystem to move around objects (collisions and actual physics later)
 - an ECS (Entity Component System) to create game objects.
 - Add shadow mapping.
-- Cube mapping/Refections
+- ~~Cube mapping/Refections~~
 - Data driven system to load levels and other data
 - An audio subsystem for sound. 
 - And a million other things!
@@ -35,9 +35,6 @@ Where the main method is and handles initialisation and shutdown of the program
 
 ## Graphics
 At the start of a level, a level is loaded by a class in the Game subsystem and the picked up my other subsystems such as Graphics and Physics. The graphics subsystem takes the Level and turns it into graphics objects (or RenderObjects). This is what's used to render the object onto the screen. 
-
-### RendererNodes
-An idea I had to separate various rendering technologies into different classes to avoid having a huge Renderer class. Each node could be 'attached' to a Renderer and provide a specific effect. For example the Skybox class could be added to a renderer to add a skybox into the scene. Files where created for this but never finished.
 
 ### Graphics Node
 Handles communication between subsystems. This is where Levels are loaded in and turned into RenderObjects to be rendered to the screen.
