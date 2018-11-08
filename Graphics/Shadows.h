@@ -1,6 +1,5 @@
 #pragma once
 #include "Shader.h"
-#include "FilePaths.h"
 #include "Renderer.h"
 
 int const SHADOWSIZE = 2048;
@@ -12,7 +11,9 @@ public:
 	~Shadows();
 
 	void drawShadowScene();
-	void drawCombinedScene();
+	void drawCombinedScene(GLuint sceneFbo);
+
+	void drawScene(GLuint sceneFBO);
 
 	int generateFBO();
 

@@ -1,6 +1,7 @@
 #version 330 core
 
 uniform sampler2D diffuseTex;
+uniform sampler2D bumpTex;
 uniform sampler2DShadow shadowTex;
 
 
@@ -41,7 +42,7 @@ void  main(void)    {
 
 	float shadow = 1.0f;
 
-	if(IN.shadow.w >0){
+	if(IN.shadowProj.w >0){
 		shadow = textureProj(shadowTex, IN.shadowProj);
 	}
 
@@ -51,3 +52,4 @@ void  main(void)    {
 	colour 			+= (lightColour.rgb * sFactor) * 0.33;
 	fragColour 		= vec4(colour * atten * lambert, diffuse.a);
 	fragColour.rgb  += (diffuse.rgb * lightColour.rgb) * 0.1;
+}

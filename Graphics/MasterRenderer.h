@@ -69,7 +69,8 @@ public:
 	Matrix4 getOrthographicMatrix() 	const { return m_ortho; }
 	Matrix4 getPerspectiveMatrix() 		const { return m_persp; }
 
-	/// Calls glGetError and then prints out the error.
+	/// "Manual" error checking since I don't have callback implemented 
+	/// properly yet :(
 	void checkErrors();
 
 	int getWidth() const { return m_actualWidth; }

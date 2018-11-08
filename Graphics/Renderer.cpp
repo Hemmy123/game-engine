@@ -129,12 +129,47 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 
 }
 
+void Renderer::drawMesh(const RenderObject & o)
+{
+	Mesh* objMesh	= o.getMesh();
+	Shader* shader	= o.getShader();
+
+	if (objMesh) {
+		m_modelMatrix.ToIdentity();
+
+		Matrix4 tempMatrix = m_textureMatrix * m_modelMatrix;
+		GLuint texMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"textureMatrix");
+		GLuint modelMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"modelMatrix");
+		glUniformMatrix4fv(texMatLoc, 1, false, *&tempMatrix.values);
+		glUniformMatrix4fv(modelMatLoc, 1, false, *&m_modelMatrix.values);
+		
+		objMesh->bindTexture();
+		objMesh->draw();
+	}
+
+	for (auto iter : o.getChildren()) {
+
+		drawMesh(*iter);
+	}
+}
+
 void Renderer::drawAllRenderObjects(){
 	for (auto iter : sceneManager->getOpaque() ) {
 		drawRenderObject(*iter); 
 	}
 	for (auto iter : sceneManager->getTransparent()) {
 		drawRenderObject(*iter); 
+	}
+}
+
+void Renderer::drawAllMeshes()
+{
+
+	for (auto iter : sceneManager->getOpaque()) {
+		drawMesh(*iter);
+	}
+	for (auto iter : sceneManager->getTransparent()) {
+		drawMesh(*iter);
 	}
 }
 

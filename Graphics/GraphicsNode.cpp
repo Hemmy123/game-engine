@@ -24,7 +24,10 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	settings.skybox			= true;
 	settings.postProcessing = false;
 	settings.anaglyph3D		= false;
-	
+	settings.shadows		= true;
+	m_updateWater			= false;
+
+
 	m_rendererController->setSetting(settings);
 	//createDemoScene();
 	
@@ -54,9 +57,7 @@ GraphicsNode::~GraphicsNode(){
 	
 	delete m_currentLevel;
 	delete m_sceneManager;
-
 	delete m_perlin3D;
-
 	delete m_rendererController;
 
 }
@@ -68,9 +69,8 @@ void GraphicsNode::update(float msec){
 		updateLighting();
 
 		m_rendererController->update(msec);
-		counter+=(msec/40);
-		if (m_sceneManager->getWater() != nullptr) {
-			updateWater();
+		if (m_sceneManager->getWater() != nullptr && m_updateWater) {
+			updateWater(msec);
 		}	
     }
 }
@@ -104,11 +104,12 @@ void GraphicsNode::updateLighting()
 
 }
 
-void GraphicsNode::updateWater()
+void GraphicsNode::updateWater(float msec)
 {
 	HeightMap* waterMesh = m_sceneManager->getWater();
 	waterMesh->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
 	waterMesh->generateNormals();
+	counter += (msec / 40);
 }
 
 void GraphicsNode::loadLevel(Level* level){
@@ -119,12 +120,19 @@ void GraphicsNode::loadLevel(Level* level){
 	string fragPath 		= SHADERFRAGDIR"Textured_Frag.glsl";
 	string transFragPath 	= SHADERFRAGDIR"Trans_Frag.glsl";
 	
+
+	// Original
 	//string lightingVert = SHADERVERTDIR"Lighting_Vert.glsl";
 	//string lightingFrag = SHADERFRAGDIR"Lighting_Frag.glsl";
 	
-	string lightingVert = SHADERVERTDIR"Bump_Vert.glsl";
-	string lightingFrag = SHADERFRAGDIR"Bump_Frag.glsl";
 
+	// Bump testing
+	//string lightingVert = SHADERVERTDIR"Bump_Vert.glsl";
+	//string lightingFrag = SHADERFRAGDIR"Bump_Frag.glsl";
+
+	// Shadow Testing 
+	string lightingVert = SHADERVERTDIR"ShadowScene_Vert.glsl";
+	string lightingFrag = SHADERFRAGDIR"ShadowScene_Frag.glsl";
 
 	//Shader* shader 		= new Shader(vertexPath,fragPath);
 	//Shader* transShader 	= new Shader(lightingVert,transFragPath);
@@ -171,7 +179,7 @@ void GraphicsNode::loadLevel(Level* level){
 					heightMap->getTexCoordX(),
 					heightMap->getTexCoordZ(),
 					m_perlin2D );
-				terrain->generateRandomTerrain(Vector3(0, 0, 0), 8, 2, 0.5);
+				terrain->generateRandomTerrain(Vector3(0, 0, 0), 10, 2, 0.5);
 				terrain->loadTexture(TEXTUREDIR"GrassTextures2/grass01.jpg");
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

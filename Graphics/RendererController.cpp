@@ -18,7 +18,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_postProcessor = new PostProcessor(m_renderer, m_screenQuad);
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
 	m_anaglyph3D	= new Anaglyph3D(m_renderer);
-
+	m_shadows		= new Shadows(m_renderer);
 }
 
 
@@ -59,9 +59,15 @@ void RendererController::update(float msec)
 		m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
 	}
 	else {
-	// Render Scene
 
-		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);	
+		if (m_settings.shadows) {
+			m_shadows->drawScene(m_sceneFBO);
+		}
+		else {
+			m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+		}
+
+		// Render Scene
 	}
 
 	// Water reflection

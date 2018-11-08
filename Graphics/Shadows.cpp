@@ -1,4 +1,5 @@
 #include "Shadows.h"
+#include "FilePaths.h"
 
 Shadows::Shadows(Renderer * parentRenderer):
 	m_parentRenderer(parentRenderer)
@@ -15,8 +16,8 @@ Shadows::Shadows(Renderer * parentRenderer):
 
 	Vector3 pos(100, 400, 100);
 	Vector4 col(1, 1, 1, 1);
-	float radius = 6000.0f;
-	m_light = new Light(pos, col, radius);
+	float radius	= 6000.0f;
+	m_light			= new Light(pos, col, radius);
 
 	// TODO: Check this!
 	m_biasMatrix = Matrix4(
@@ -51,32 +52,34 @@ void Shadows::drawShadowScene(){
 
 	m_parentRenderer->setCurrentShader(m_shadowShader);
 
+	m_parentRenderer->checkErrors();
+
 	Matrix4 lightViewMatrix = Matrix4::BuildViewMatrix(
 		m_light->getPosition(), Vector3(0, 0, 0));
 
+
 	Matrix4 lightTextureMatrix =
 		m_biasMatrix *
-		(m_parentRenderer->getProjectionMatrix() *
-		m_parentRenderer->getViewMatrix());
+		(m_parentRenderer->getProjectionMatrix() * m_parentRenderer->getViewMatrix());
+
 
 
 	m_parentRenderer->setViewMatrix(lightViewMatrix);
 	m_parentRenderer->setTextureMatrix(lightTextureMatrix);
 
-
 	m_parentRenderer->updateShaderMatrices();
-	
-	glUseProgram(0);
-
-
+	m_parentRenderer->checkErrors();
 
 
 	// ?
-	m_parentRenderer->drawAllRenderObjects();
+	m_parentRenderer->drawAllMeshes();
 
+	m_parentRenderer->checkErrors();
 
 
 	// back to default settings
+	glUseProgram(0);
+
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glViewport(0, 0, m_parentRenderer->getWidth(), m_parentRenderer->getHeight());
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -84,33 +87,57 @@ void Shadows::drawShadowScene(){
 
 }
 
-void Shadows::drawCombinedScene(){
+void Shadows::drawCombinedScene(GLuint sceneFbo){
+
+	glBindFramebuffer(GL_FRAMEBUFFER, sceneFbo);
 
 	m_parentRenderer->setCurrentShader(m_sceneShader);
-	GLuint diffuseTexLoc = glGetUniformLocation(m_sceneShader->getProgram(), "diffuseTex");
-	GLuint shadowTexLoc = glGetUniformLocation(m_sceneShader->getProgram(), "shadowTex");
-	GLuint cameraLoc = glGetUniformLocation(m_sceneShader->getProgram(), "cameraPos");
+	GLuint diffuseTexLoc	= glGetUniformLocation(m_sceneShader->getProgram(), "diffuseTex");
+	GLuint bumpTexLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "bumpTex");
+	GLuint shadowTexLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "shadowTex");
+	GLuint cameraLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "cameraPos");
 
 
 	glUniform1i(diffuseTexLoc, 0);
-	glUniform1i(shadowTexLoc, 1);
-	Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
+	m_parentRenderer->checkErrors();
 
+	glUniform1i(bumpTexLoc, 1);
+	m_parentRenderer->checkErrors();
+
+	glUniform1i(shadowTexLoc, 2);
+	m_parentRenderer->checkErrors();
+
+	Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
 	glUniform3fv(cameraLoc, 1, (float*)&cameraPos);
+	m_parentRenderer->checkErrors();
+
 
 	m_parentRenderer->setShaderLight(m_sceneShader, *m_light);
-	
+	m_parentRenderer->checkErrors();
 
-	glActiveTexture(GL_TEXTURE1);
+
+	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, m_shadowTex);
 
 	Matrix4 viewMatrix = m_parentRenderer->getCamera()->BuildViewMatrix();
 	m_parentRenderer->setViewMatrix(viewMatrix);
 
+	// Has to use somesort of raw draw method
 	m_parentRenderer->drawAllRenderObjects();
+	
+	
+	m_parentRenderer->checkErrors();
 
 	glUseProgram(0);
 
+}
+
+void Shadows::drawScene(GLuint sceneFBO)
+{
+	// clear buffers?
+
+	drawShadowScene();
+	drawCombinedScene(sceneFBO);
 }
 
 int Shadows::generateFBO()

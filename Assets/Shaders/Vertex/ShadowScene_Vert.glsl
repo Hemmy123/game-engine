@@ -12,7 +12,7 @@ in vec3 position;
 in vec4 colour;
 in vec3 normal;
 in vec3 tangent;
-in vec3 texCoord;
+in vec2 texCoord;
 
 out Vertex{
 	vec4 colour;
