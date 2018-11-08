@@ -73,12 +73,12 @@ public:
 	GLuint getTexture() const { return m_texture; }
 
 	GLuint loadTexture(std::string path) {
-		m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
+		m_texture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
 		return m_texture;
 	}
 
 	GLuint loadBumpTexture(std::string path) {
-		m_bumpTexture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
+		m_bumpTexture = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
 		m_hasBumpTexture = true;
 		return m_texture;
 	}

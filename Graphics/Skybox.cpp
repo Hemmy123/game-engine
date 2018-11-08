@@ -99,7 +99,7 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo,HeightMap * heightmap, Vector3
 	m_parentRenderer->setCurrentShader(m_refectShader);
 	m_parentRenderer->setShaderLight(m_refectShader, *m_light);
 
-	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)));
+	//m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)));
 
 	m_parentRenderer->updateShaderMatrices();
 

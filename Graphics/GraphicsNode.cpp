@@ -29,7 +29,7 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	//createDemoScene();
 	
 
-	m_light = new Light(Vector3(100, 500, 25), Vector4(1, 1, 1, 1), 10000);
+	m_light = new Light(Vector3(100, 500, 25), Vector4(1, 1, 1, 1), 5000);
 
 }
 
@@ -70,7 +70,7 @@ void GraphicsNode::update(float msec){
 		m_rendererController->update(msec);
 		counter+=(msec/40);
 		if (m_sceneManager->getWater() != nullptr) {
-			//updateWater();
+			updateWater();
 		}	
     }
 }
@@ -172,11 +172,11 @@ void GraphicsNode::loadLevel(Level* level){
 					heightMap->getTexCoordZ(),
 					m_perlin2D );
 				terrain->generateRandomTerrain(Vector3(0, 0, 0), 8, 2, 0.5);
-				terrain->loadTexture(TEXTUREDIR"GrassTextures/grassLush.png");
+				terrain->loadTexture(TEXTUREDIR"GrassTextures2/grass01.jpg");
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-				terrain->loadBumpTexture(TEXTUREDIR"GrassTextures/grassB.png");
+				terrain->loadBumpTexture(TEXTUREDIR"GrassTextures2/grass01_n.jpg");
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
