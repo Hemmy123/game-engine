@@ -1,7 +1,7 @@
 # Graphics/Game Engine
 
 ### TL;DR
-A game engine I was working on during the summer which is now being repurposed as a place to build my own graphics framework for the "Advanced Graphics for Games" Module at Newcastle University. Because of this, many of the other subsystem are incomplete.
+A game engine I was working on during the summer which is now being repurposed as a place to build my own graphics framework for the "Advanced Graphics for Games" Module at Newcastle University. Because of this, much of the graphics project is still a WIP.
 
 ### Introduction
 
