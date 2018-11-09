@@ -83,6 +83,7 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	m_parentRenderer->checkErrors();
 
 	
+	// Back to default settings
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);

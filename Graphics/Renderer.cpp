@@ -111,9 +111,7 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 			GLuint bumpTexLoc = glGetUniformLocation(program, "bumpTex");
 			glUniform1i(diffuseLoc, 0);
 			glUniform1i(bumpTexLoc, 1);
-
 		}
-
 
 		updateShaderMatrices();
 		//o.getMesh()->setTextureType(Texture_2D);
@@ -137,11 +135,13 @@ void Renderer::drawMesh(const RenderObject & o)
 		//m_modelMatrix.ToIdentity();
 
 		// For mapping shadows
-		Matrix4 tempMatrix = m_textureMatrix * m_modelMatrix;
+		Matrix4 modelMatrix = o.getModelMatrix();
+
+		Matrix4 tempMatrix = m_textureMatrix * modelMatrix;
 		GLuint texMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"textureMatrix");
 		GLuint modelMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"modelMatrix");
 		glUniformMatrix4fv(texMatLoc, 1, false, *&tempMatrix.values);
-		glUniformMatrix4fv(modelMatLoc, 1, false, *&m_modelMatrix.values);
+		glUniformMatrix4fv(modelMatLoc, 1, false, *&modelMatrix.values);
 		
 		objMesh->bindTexture();
 		objMesh->draw();

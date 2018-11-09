@@ -40,7 +40,7 @@ void  main(void)    {
 	float  rFactor  = max(0.0, dot(halfDir , normal ));    // Different!
 	float  sFactor  = pow(rFactor , 33.0 );
 
-	float shadow = 1.0f;
+	float shadow = 1.0;
 
 	if(IN.shadowProj.w >0){
 		shadow = textureProj(shadowTex, IN.shadowProj);

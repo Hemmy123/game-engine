@@ -28,6 +28,7 @@ private:
 	Shader*		m_shadowShader;
 	Shader*		m_sceneShader;
 	Matrix4		m_biasMatrix;
+	Matrix4		m_lightTextureMatrix;
 	Light*		m_light;
 };
 

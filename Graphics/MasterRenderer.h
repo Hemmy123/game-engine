@@ -29,7 +29,7 @@
 #include <windows.h>
 #include <fcntl.h>
 
-//These two defines cut a lot of crap out of the Windows libraries
+
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
 

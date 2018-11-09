@@ -26,8 +26,6 @@ Shadows::Shadows(Renderer * parentRenderer):
 		0.5, 0.5, 0.5, 1.0
 	};
 	m_biasMatrix = Matrix4(const_cast<float*>(biasValues));
-
-
 	generateFBO();
 }	
 
@@ -54,23 +52,23 @@ void Shadows::drawShadowScene(){
 	// Don't draw any colours! (R,G,B,A)
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
+	m_parentRenderer->changeProjection(Perspective);
 	m_parentRenderer->setCurrentShader(m_shadowShader);
 
 	Matrix4 lightViewMatrix = Matrix4::BuildViewMatrix(
 		m_light->getPosition(), Vector3(0, 0, 0));
 
+	m_parentRenderer->setViewMatrix(lightViewMatrix);
+	m_parentRenderer->setTextureMatrix(m_lightTextureMatrix);
 
-	Matrix4 lightTextureMatrix = m_biasMatrix *
+	m_lightTextureMatrix = m_biasMatrix *
 		(m_parentRenderer->getProjectionMatrix() * m_parentRenderer->getViewMatrix());
 
-	m_parentRenderer->setViewMatrix(lightViewMatrix);
-	m_parentRenderer->setTextureMatrix(lightTextureMatrix);
 
 	m_parentRenderer->updateShaderMatrices();
+	glUniformMatrix4fv(glGetUniformLocation(m_shadowShader->getProgram(), "textureMatrix"),	1, false, (float*)&m_lightTextureMatrix);
 	m_parentRenderer->checkErrors();
 
-
-	// ?
 	m_parentRenderer->drawAllMeshes();
 	m_parentRenderer->checkErrors();
 
@@ -89,6 +87,8 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 	glBindFramebuffer(GL_FRAMEBUFFER, sceneFbo);
 
 	m_parentRenderer->setCurrentShader(m_sceneShader);
+	//m_parentRenderer->updateShaderMatrices();
+	glUseProgram(m_sceneShader->getProgram());
 	GLuint diffuseTexLoc	= glGetUniformLocation(m_sceneShader->getProgram(), "diffuseTex");
 	GLuint bumpTexLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "bumpTex");
 	GLuint shadowTexLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "shadowTex");
@@ -119,8 +119,12 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 	Matrix4 viewMatrix = m_parentRenderer->getCamera()->BuildViewMatrix();
 	m_parentRenderer->setViewMatrix(viewMatrix);
 
+	m_parentRenderer->updateShaderMatrices();
+
 	// Has to use somesort of raw draw method
-	m_parentRenderer->drawAllRenderObjects();
+	//m_parentRenderer->drawAllRenderObjects();
+	//glUniformMatrix4fv(glGetUniformLocation(m_shadowShader->getProgram(), "textureMatrix"), 1, false, (float*)&m_lightTextureMatrix);
+	m_parentRenderer->drawAllMeshes();
 	
 	
 	m_parentRenderer->checkErrors();
@@ -138,9 +142,10 @@ void Shadows::drawScene(GLuint sceneFBO)
 
 int Shadows::generateFBO()
 {
-	glGenTextures(1, &m_shadowTex);
 
-	// Generate Texture
+	// ===== Generate Texture ===== //
+
+	glGenTextures(1, &m_shadowTex);
 	glBindTexture(GL_TEXTURE_2D, m_shadowTex);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -156,10 +161,8 @@ int Shadows::generateFBO()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
 
-	// Generate FBO
-
+	// ===== Generate FBO ===== //
 	glGenFramebuffers(1, &m_shadowFBO);
-
 	glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
 	// Creating depth attachment
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_shadowTex, 0);
