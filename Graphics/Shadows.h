@@ -3,6 +3,7 @@
 #include "Renderer.h"
 
 int const SHADOWSIZE = 2048;
+//int const SHADOWSIZE = 32;
 
 class Shadows
 {

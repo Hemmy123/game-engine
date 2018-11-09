@@ -106,7 +106,9 @@ void GraphicsNode::updateLighting()
 
 void GraphicsNode::updateWater(float msec)
 {
-	HeightMap* waterMesh = m_sceneManager->getWater();
+	RenderObject* waterObj = m_sceneManager->getWater();
+	HeightMap*	waterMesh = static_cast<HeightMap*>(waterObj->getMesh());
+
 	waterMesh->updateTerrain(m_perlin3D,Vector3(0 ,0,counter), 3, 10, 0.5);
 	waterMesh->generateNormals();
 	counter += (msec / 40);
@@ -225,7 +227,8 @@ void GraphicsNode::loadLevel(Level* level){
 				RenderObject* ro1 = new RenderObject(water, transShader);
 				ro1->setModelMatrix(heightMap->getModelMatrix());
 				//m_sceneManager->pushRenderObject(ro1);
-				m_sceneManager->setWater(water);
+				ro1->setTransparent(true);
+				m_sceneManager->setWater(ro1);
 				break;
 			}
 			case T_Cube:{

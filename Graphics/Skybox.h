@@ -18,7 +18,7 @@ public:
 	
 	void drawSkybox(Mesh* quad, GLuint fbo);
 
-	void drawRefection(Mesh* quad, GLuint fbo,HeightMap* heightmap, Vector3 cameraPos);
+	void drawRefection(Mesh* quad, GLuint fbo, RenderObject* heightmap, Vector3 cameraPos);
 
 private:
 	

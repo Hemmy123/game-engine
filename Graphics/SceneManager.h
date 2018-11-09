@@ -16,15 +16,15 @@ public:
 
 	void pushRenderObject(RenderObject* ro);
 
-	void setWater(HeightMap* w) { m_water = w; };
+	void setWater(RenderObject* w) { m_water = w; };
 
-	HeightMap* getWater() { return m_water; };
+	RenderObject* getWater() { return m_water; };
 
 private:
 	vector<RenderObject*> m_transparent;
 	vector<RenderObject*> m_opaque;
 
-	HeightMap* m_water;
+	RenderObject* m_water;
 
 };
 

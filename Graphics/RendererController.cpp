@@ -69,7 +69,7 @@ void RendererController::update(float msec)
 
 	// Water reflection
 	if (m_sceneManager->getWater() != nullptr && m_settings.skybox) {
-		HeightMap* water = m_sceneManager->getWater();
+		RenderObject* water = m_sceneManager->getWater();
 		Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
 
 		m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);

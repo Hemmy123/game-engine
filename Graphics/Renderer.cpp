@@ -86,11 +86,7 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	setCurrentShader(shader);
-	
 	changeProjection(Perspective);
-
-
-
 	updateShaderMatrices();
 	drawAllRenderObjects();
 

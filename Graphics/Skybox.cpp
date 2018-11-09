@@ -92,14 +92,16 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 
 }
 
-void Skybox::drawRefection(Mesh* quad, GLuint fbo,HeightMap * heightmap, Vector3 cameraPos)
+void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 cameraPos)
 {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
+	HeightMap* heightmap = static_cast<HeightMap*>(obj->getMesh());
+
 	m_parentRenderer->setCurrentShader(m_refectShader);
 	m_parentRenderer->setShaderLight(m_refectShader, *m_light);
-
+	m_parentRenderer->setModelMatrix(obj->getModelMatrix());
 	//m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)));
 
 	m_parentRenderer->updateShaderMatrices();
