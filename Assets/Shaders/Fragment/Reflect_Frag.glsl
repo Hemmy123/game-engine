@@ -21,7 +21,7 @@ void main(void){
 	int blend = 1;
 
 	vec4 	diffuse 	= texture(diffuseTex, IN.texCoord) ;		// The water texture
-	 vec3 	incident	= normalize(IN.worldPos - cameraPos);				// vertex pos to camera pos
+	vec3 	incident	= normalize(IN.worldPos - cameraPos);				// vertex pos to camera pos
 	float 	dist		= length(lightPos - IN.worldPos);
 	float 	atten		= 1.0 - clamp(dist / lightRadius, 0.2, 1.0);
 	vec4	reflection 	= texture(cubeTex,

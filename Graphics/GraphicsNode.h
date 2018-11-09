@@ -30,7 +30,6 @@ public:
     ~GraphicsNode();
 	
 
-	void createDemoScene();
 	void handleEvent(Event event);
     void update(float msec);
 
@@ -39,7 +38,7 @@ public:
 
 	
 	void updateLighting();
-	void updateWater();
+	void updateWater(float msec);
 
 
 	void loadLevel(Level* level);
@@ -47,13 +46,15 @@ public:
 private:
 	SceneManager* m_sceneManager;
 	RendererController* m_rendererController;
-	/*----- Testing ------------*/
 	
+
+	bool m_updateWater;
 	HeightMap* m_water;
 	float counter = 0;
+
+
 	PerlinNoise3D* m_perlin3D;
 	PerlinNoise2D* m_perlin2D;
-	/*--------------------------*/
 
 	
 	

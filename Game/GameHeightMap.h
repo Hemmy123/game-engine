@@ -23,8 +23,8 @@ public:
 	float getTexCoordZ() const { return m_heightMap_tex_z; }
 
 private:
-	int m_rawWidth = 257;
-	int m_rawHeight = 257;
+	int m_rawWidth	= 256 + 1;
+	int m_rawHeight = 256 + 1;
 	float m_x_multiplier = 1;
 	float m_z_multiplier = 1;
 	float m_y_multiplier = 10;

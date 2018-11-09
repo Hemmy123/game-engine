@@ -88,6 +88,9 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 	setCurrentShader(shader);
 	
 	changeProjection(Perspective);
+
+
+
 	updateShaderMatrices();
 	drawAllRenderObjects();
 
@@ -102,8 +105,16 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 		GLuint program = o.getShader()->getProgram();
 		setCurrentShader(o.getShader());
 		glUseProgram(program);
+
+		if (o.getMesh()->hasBumpTexture()) {
+			GLuint diffuseLoc = glGetUniformLocation(program, "diffuseTex");
+			GLuint bumpTexLoc = glGetUniformLocation(program, "bumpTex");
+			glUniform1i(diffuseLoc, 0);
+			glUniform1i(bumpTexLoc, 1);
+		}
+
 		updateShaderMatrices();
-		o.getMesh()->setTextureType(Texture_2D);
+		//o.getMesh()->setTextureType(Texture_2D);
 		o.getMesh()->bindTexture();
 
 		o.draw();
@@ -116,12 +127,49 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 
 }
 
+void Renderer::drawMesh(const RenderObject & o)
+{
+	Mesh* objMesh	= o.getMesh();
+
+	if (objMesh) {
+		//m_modelMatrix.ToIdentity();
+
+		// For mapping shadows
+		Matrix4 modelMatrix = o.getModelMatrix();
+
+		Matrix4 tempMatrix = m_textureMatrix * modelMatrix;
+		GLuint texMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"textureMatrix");
+		GLuint modelMatLoc = glGetUniformLocation(m_currentShader->getProgram(),"modelMatrix");
+		glUniformMatrix4fv(texMatLoc, 1, false, *&tempMatrix.values);
+		glUniformMatrix4fv(modelMatLoc, 1, false, *&modelMatrix.values);
+		
+		objMesh->bindTexture();
+		objMesh->draw();
+	}
+
+	for (auto iter : o.getChildren()) {
+
+		drawMesh(*iter);
+	}
+}
+
 void Renderer::drawAllRenderObjects(){
 	for (auto iter : sceneManager->getOpaque() ) {
 		drawRenderObject(*iter); 
 	}
 	for (auto iter : sceneManager->getTransparent()) {
 		drawRenderObject(*iter); 
+	}
+}
+
+void Renderer::drawAllMeshes()
+{
+
+	for (auto iter : sceneManager->getOpaque()) {
+		drawMesh(*iter);
+	}
+	for (auto iter : sceneManager->getTransparent()) {
+		drawMesh(*iter);
 	}
 }
 

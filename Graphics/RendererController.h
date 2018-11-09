@@ -3,6 +3,7 @@
 #include "Skybox.h"
 #include "PostProcessor.h"
 #include "Anaglyph3D.h"
+#include "Shadows.h"
 
 
 // A simple struct to toggle features on and off
@@ -10,6 +11,7 @@ struct RendererSettings{
 	bool skybox;
 	bool postProcessing;
 	bool anaglyph3D;
+	bool shadows; 
 };
 
 class RendererController
@@ -64,5 +66,6 @@ private:
 	Skybox*				m_skybox;
 	PostProcessor*		m_postProcessor;
 	Anaglyph3D*			m_anaglyph3D;
+	Shadows*			m_shadows;
 };
 

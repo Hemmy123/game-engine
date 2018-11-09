@@ -159,12 +159,12 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneShadows.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shadows.cpp" />
     <ClCompile Include="Skybox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Anaglyph3D.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ChildMeshInterface.h" />
     <ClInclude Include="CubeRobot.h" />
     <ClInclude Include="GraphicsNode.h" />
     <ClInclude Include="GraphicsUtils.h" />
@@ -181,6 +181,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneShadows.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shadows.h" />
     <ClInclude Include="Skybox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -52,7 +52,10 @@ public:
 	/// Draws a renderObject onto whatever FBO is currently bound.
 	void drawRenderObject(const RenderObject &o);
 
+	void drawMesh(const RenderObject &o);
+
 	void drawAllRenderObjects();
+	void drawAllMeshes();
 
 	void changeProjection(Projection proj);
 	// ---------- Updating ---------- //

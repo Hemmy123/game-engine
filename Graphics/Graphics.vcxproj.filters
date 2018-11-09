@@ -72,6 +72,9 @@
     <ClCompile Include="CubeRobot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shadows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SceneLights.h">
@@ -131,7 +134,7 @@
     <ClInclude Include="CubeRobot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChildMeshInterface.h">
+    <ClInclude Include="Shadows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
