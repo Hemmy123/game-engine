@@ -14,7 +14,7 @@ Shadows::Shadows(Renderer * parentRenderer):
 		SHADERFRAGDIR"shadow_frag.glsl");
 
 
-	Vector3 pos(100, 700, 400);
+	Vector3 pos(100, 700, -400);
 	Vector4 col(1, 1, 1, 1);
 	float radius	= 6000.0f;
 	m_light			= new Light(pos, col, radius);
