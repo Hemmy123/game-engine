@@ -47,7 +47,9 @@ void RendererController::update(float msec)
 	
 	m_renderer->updateScene(msec);
 
-	
+	if (m_settings.basicLighting) {
+		updateLighting();
+	}
 	// Skybox
 	if (m_settings.skybox) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
@@ -94,6 +96,22 @@ void RendererController::initCamera() {
 }
 
 // ----- Pass through renderer methods ----- //
+
+void RendererController::updateLighting()
+{
+	for (auto ro : m_sceneManager->getOpaque()) {
+		for (auto light : m_sceneManager->getLights()) {
+			Shader* shader = ro->getShader();
+
+			GLuint program = shader->getProgram();
+			setShaderLight(shader, light);
+
+			glUseProgram(program);
+			Vector3 cameraPos = getCamera()->GetPosition();
+			glUniform3fv(glGetUniformLocation(program, "cameraPos"), 1, (float*)&cameraPos);
+		}
+	}
+}
 
 void RendererController::generateFBO()
 {

@@ -13,8 +13,9 @@
 //#include "TinyObjConverter.h"
 
 Mesh::Mesh(){
-	m_texture = 0;
-	m_bumpTexture = 0;
+	m_id			= 0;
+	m_texture		= 0;
+	m_bumpTexture	= 0;
 	m_hasBumpTexture = false;
 
     m_numVertices = 0;

@@ -20,6 +20,8 @@
 // later as this hard coded tag method
 // is rather messy
 enum ObjectTag{
+	T_StartTag,
+
 	T_Player,
 	T_Wall,
 	T_Platform,
@@ -34,6 +36,8 @@ enum ObjectTag{
 	T_Cube,
 
 	T_Light,
+
+	T_EndTag
 	
 };
 

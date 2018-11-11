@@ -139,7 +139,7 @@ void Shadows::drawScene(GLuint sceneFBO)
 	if (count > 1000) {
 		count = 0;
 	}
-	count += 1;
+	count += 0.2;
 
 	m_light->setPosition(Vector3(100, count, -400));
 

@@ -24,15 +24,17 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	settings.skybox			= true;
 	settings.postProcessing = false;
 	settings.anaglyph3D		= false;
-	settings.shadows		= true;
-	m_updateWater			= true;
+	settings.shadows		= false;
+	settings.basicLighting	= true;
+	settings.differedRendering = false;
+	m_updateWater			= false;
 
 
 	m_rendererController->setSetting(settings);
 	//createDemoScene();
 	
 
-	m_light = new Light(Vector3(100, 500, 25), Vector4(1, 1, 1, 1), 5000);
+	//m_light = new Light(Vector3(100, 500, 25), Vector4(1, 1, 1, 1), 5000);
 
 	m_levelLoader = new LevelLoader(m_sceneManager);
 
@@ -70,7 +72,6 @@ GraphicsNode::~GraphicsNode(){
 void GraphicsNode::update(float msec){
 	
     if (!m_rendererController->checkWindow()){
-		updateLighting();
 
 		m_rendererController->update(msec);
 		if (m_sceneManager->getWater() != nullptr && m_updateWater) {
@@ -93,20 +94,7 @@ void GraphicsNode::handleEvent(Event event){
 	
 }
 
-void GraphicsNode::updateLighting()
-{
-	for (auto ro : m_sceneManager->getOpaque() ) {
-		Shader* shader = ro->getShader();
 
-		GLuint program = shader->getProgram();
-		m_rendererController->setShaderLight(shader, m_light);
-
-		glUseProgram(program);
-		Vector3 cameraPos = m_rendererController->getCamera()->GetPosition();
-		glUniform3fv(glGetUniformLocation(program, "cameraPos"), 1, (float*)&cameraPos);
-	}
-
-}
 
 void GraphicsNode::updateWater(float msec)
 {

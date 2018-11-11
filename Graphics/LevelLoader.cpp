@@ -7,6 +7,11 @@ LevelLoader::LevelLoader(SceneManager * sceneManager):
 	m_perlin3D = new PerlinNoise3D(257, 6);
 	m_perlin2D = new PerlinNoise2D(257, 6);
 
+
+	for (int i = T_StartTag; i < T_EndTag; i++) {
+		m_loadedObjects.insert({ i, false });
+	}
+
 }
 
 LevelLoader::~LevelLoader()
@@ -22,6 +27,15 @@ LevelLoader::~LevelLoader()
 	delete m_perlin2D;
 	delete m_perlin3D;
 
+}
+
+Mesh * LevelLoader::findMesh(int id)
+{
+	for (auto mesh : m_meshes) {
+		if (mesh->getId() == id) {
+			return mesh;
+		}
+	}
 }
 
 void LevelLoader::loadLevel(Level * level)
@@ -65,13 +79,24 @@ void LevelLoader::loadLevel(Level * level)
 
 		switch (tag) {
 		case T_Rabbit: {
-			Mesh* rabbitMesh = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
-			rabbitMesh->loadTexture(TEXTUREDIR"Rabbit/Rabbit_D.tga");
-			rabbitMesh->loadBumpTexture(TEXTUREDIR"Rabbit/Rabbit_N.tga");
-			rabbitMesh->generateTangents();
 
-			rabbitMesh->bufferData();
-			m_meshes.push_back(rabbitMesh);
+			Mesh* rabbitMesh;
+			if (m_loadedObjects.at(T_Rabbit) != true) {
+				rabbitMesh = Mesh::readObjFile(MODELSDIR"Rabbit.obj");
+				rabbitMesh->setId(T_Rabbit);
+				rabbitMesh->loadTexture(TEXTUREDIR"Rabbit/Rabbit_D.tga");
+				rabbitMesh->loadBumpTexture(TEXTUREDIR"Rabbit/Rabbit_N.tga");
+				rabbitMesh->generateTangents();
+				rabbitMesh->bufferData();
+
+				m_loadedObjects.at(T_Rabbit) = true;
+				m_meshes.push_back(rabbitMesh);
+
+			}
+			else {
+				rabbitMesh = findMesh(T_Rabbit);
+			}
+		
 			RenderObject* ro1 = new RenderObject(rabbitMesh, shader);
 
 			ro1->setModelMatrix(obj->getModelMatrix());
@@ -144,8 +169,15 @@ void LevelLoader::loadLevel(Level * level)
 			m_sceneManager->setWater(ro1);
 			break;
 		}
+		case T_Light: {
+			GameLight* gameLight = static_cast<GameLight*>(obj);
+
+			Light* light = new Light(gameLight->getPosition(), gameLight->getColour(), gameLight->getRadius());
+			
+			m_sceneManager->pushLight(light);
+			break;
+		}
 		case T_Cube: {
-			std::cout << "Cube!" << std::endl;
 			break;
 		}
 		case T_Player: {

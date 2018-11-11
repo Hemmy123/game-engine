@@ -8,39 +8,42 @@
 
 #include "Level.h"
 #include "GameHeightMap.h"
-
+#include "GameLight.h"
 
 Level::Level() {
 
 }
 
 Level::~Level() {
-
+	for (auto gameObj : m_gameObjects) {
+		delete gameObj;
+	}
 }
 
 void Level::createDemoLevel() {
 
-	Vector3 scale(30, 30, 30);
-
-	int offSet = 35;
-	int y = 195;
-	int x = 200;
-	int z = 300; 
-
-	// Very brute for way of adding gameobjects, only for testing atm
-	GameObject* rabbit1 = new GameObject(Vector3(x + -offSet * 2, y, z), Vector3(1, 1, 1), scale);
-	GameObject* rabbit2 = new GameObject(Vector3(x + -offSet, y, z), Vector3(1, 1, 1), scale);
-	GameObject* rabbit3 = new GameObject(Vector3(x + 0, y, z), Vector3(1, 1, 1), scale);
-
-	GameObject* rabbit4 = new GameObject(Vector3(x + -offSet * 2, y, z + offSet), Vector3(1, 1, 1), scale);
-	GameObject* rabbit5 = new GameObject(Vector3(x + -offSet, y, z + offSet), Vector3(1, 1, 1), scale);
-	GameObject* rabbit6 = new GameObject(Vector3(x + 0, y, z + offSet), Vector3(1, 1, 1), scale);
-
-	GameObject* rabbit7 = new GameObject(Vector3(x + -offSet * 2, y, z + (2 * offSet)), Vector3(1, 1, 1), scale);
-	GameObject* rabbit8 = new GameObject(Vector3(x + -offSet, y, z + (2 * offSet)), Vector3(1, 1, 1), scale);
-	GameObject* rabbit9 = new GameObject(Vector3(x + 0, y, z + (2 * offSet)), Vector3(1, 1, 1), scale);
+	// Hard coding a level for coursework. Should really be data driven later
 
 
+	 // ===== Rabbits ===== //
+	Vector3 obj1_scale(30, 30, 30);
+
+	int obj1_offSet = 35;
+	int obj1_y = 195;
+	int obj1_x = 200;
+	int obj1_z = 300; 
+
+	GameObject* rabbit1 = new GameObject(Vector3(obj1_x + -obj1_offSet * 2, obj1_y, obj1_z), Vector3(1, 1, 1), obj1_scale);
+	GameObject* rabbit2 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z), Vector3(1, 1, 1), obj1_scale);
+	GameObject* rabbit3 = new GameObject(Vector3(obj1_x + 0, obj1_y, obj1_z), Vector3(1, 1, 1), obj1_scale);
+
+	GameObject* rabbit4 = new GameObject(Vector3(obj1_x + -obj1_offSet * 2, obj1_y, obj1_z + obj1_offSet), Vector3(1, 1, 1), obj1_scale);
+	GameObject* rabbit5 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z + obj1_offSet), Vector3(1, 1, 1), obj1_scale);
+	GameObject* rabbit6 = new GameObject(Vector3(obj1_x + 0, obj1_y, obj1_z + obj1_offSet), Vector3(1, 1, 1), obj1_scale);
+
+	GameObject* rabbit7 = new GameObject(Vector3(obj1_x + -obj1_offSet * 2, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
+	GameObject* rabbit8 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
+	GameObject* rabbit9 = new GameObject(Vector3(obj1_x + 0, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
 
 	rabbit1->setTag(T_Rabbit);
 	rabbit2->setTag(T_Rabbit);
@@ -52,10 +55,6 @@ void Level::createDemoLevel() {
 	rabbit8->setTag(T_Rabbit);
 	rabbit9->setTag(T_Rabbit);
 
-	GameHeightMap* terrain = new GameHeightMap(Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(10, 10, 10));
-	GameHeightMap* water = new GameHeightMap(Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(10, 10, 10));
-	terrain->setTag(T_Terrain);
-	water->setTag(T_Water);
 	m_gameObjects.push_back(rabbit1);
 	m_gameObjects.push_back(rabbit2);
 	m_gameObjects.push_back(rabbit3);
@@ -65,7 +64,32 @@ void Level::createDemoLevel() {
 	m_gameObjects.push_back(rabbit7);
 	m_gameObjects.push_back(rabbit8);
 	m_gameObjects.push_back(rabbit9);
+
+	// ===== Lighting ===== //
+
+
+	Vector3 light_pos(500,500,-300);
+	Vector4 light_col(1,1,1,1);
+	float	light_rad = 1000;
+
+	GameLight* light = new GameLight(light_pos, light_col, light_rad);
+	light->setTag(T_Light);
+	m_gameObjects.push_back(light);
+
+	// ===== Terrain ===== //
+
+
+	GameHeightMap* terrain = new GameHeightMap(Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(10, 10, 10));
+	terrain->setTag(T_Terrain);
 	m_gameObjects.push_back(terrain);
+
+	// ===== Water ===== //
+
+	GameHeightMap* water = new GameHeightMap(Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(10, 10, 10));
+	water->setTag(T_Water);
 	m_gameObjects.push_back(water);
+
+
+
 
 }

@@ -12,6 +12,8 @@ struct RendererSettings{
 	bool postProcessing;
 	bool anaglyph3D;
 	bool shadows; 
+	bool basicLighting;	// true for basic
+	bool differedRendering;
 };
 
 class RendererController
@@ -31,7 +33,7 @@ public:
 
 	GLFWwindow* getWindow() const { return m_renderer->getWindow(); }
 
-	
+	void updateLighting();
 
 	void setSetting(RendererSettings setting) { m_settings = setting; }
 

@@ -89,8 +89,10 @@ public:
 	
 	bool hasBumpTexture() const { return m_hasBumpTexture; }
 
+	void setId(int i) { m_id = i; }
+	int getId() const { return m_id; }
 protected:
-
+	int m_id;
 
     GLuint m_VAO;
     GLuint m_VBO[MAX_BUFFER];

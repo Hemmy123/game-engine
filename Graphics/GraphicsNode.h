@@ -36,8 +36,6 @@ public:
 	void createCamera(InterfaceHandler* ih) { m_rendererController->createCamera(ih);}
 	GLFWwindow* getWindow() const { return m_rendererController->getWindow(); }
 
-	
-	void updateLighting();
 	void updateWater(float msec);
 	
 private:
@@ -45,17 +43,13 @@ private:
 	RendererController* m_rendererController;
 	LevelLoader*		m_levelLoader;
 	
-
 	bool m_updateWater;
 	HeightMap* m_water;
 	float counter = 0;
 
-
 	PerlinNoise3D* m_perlin3D;
 	PerlinNoise2D* m_perlin2D;
 
-	
-	
 	vector<Shader*> 		m_shaders;
 	vector<Mesh*>			m_meshes;
 	vector<RenderObject*> 	m_renderObjects;
