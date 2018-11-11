@@ -87,7 +87,7 @@ void RendererController::update(float msec)
 }
 
 void RendererController::initCamera() {
-	Vector3 pos(200, 250, 2500);
+	Vector3 pos(200, 250, 250);
 
 	m_renderer->getCamera()->setPosition(pos);
 

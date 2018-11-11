@@ -23,6 +23,7 @@ public:
 	void init();
 	void update(float msec);
 	void initCamera();
+
 	void createCamera(InterfaceHandler* ih) { 
 		m_renderer->createCamera(ih); 
 		initCamera();

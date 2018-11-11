@@ -31,7 +31,9 @@ enum ObjectTag{
 	T_Rabbit,
 	T_Terrain,
 	T_Water,
-	T_Cube
+	T_Cube,
+
+	T_Light,
 	
 };
 

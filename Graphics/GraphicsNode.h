@@ -20,7 +20,7 @@
 #include "Level.h"
 #include "RendererController.h"
 #include "SceneManager.h"
-
+#include "LevelLoader.h"
 
 using std::vector;
 
@@ -39,13 +39,11 @@ public:
 	
 	void updateLighting();
 	void updateWater(float msec);
-
-
-	void loadLevel(Level* level);
 	
 private:
-	SceneManager* m_sceneManager;
+	SceneManager*		m_sceneManager;
 	RendererController* m_rendererController;
+	LevelLoader*		m_levelLoader;
 	
 
 	bool m_updateWater;

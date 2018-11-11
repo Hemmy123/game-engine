@@ -76,7 +76,7 @@ void HeightMap::generateFlatTerrain(){
 }
 
 
-void HeightMap::generateRandomTerrain(Vector3 position,int octaves, float frequency, float persistance) {
+void HeightMap::generateRandomTerrain(Vector3 position,int octaves, float frequency, float persistance, float min, float max) {
 	m_numVertices = m_rawWidth * m_rawHeight;
 	m_numIndices = (m_rawWidth - 1) * (m_rawHeight - 1) * 6;
 	
@@ -103,10 +103,14 @@ void HeightMap::generateRandomTerrain(Vector3 position,int octaves, float freque
 			
 			float noise = m_noiseGenerator->noiseAt(point, octaves, frequency, persistance);
 			
-			float ground = -0.3f;
 			
-			if (noise < ground) {
-				noise = ground;
+			
+			if (noise < min) {
+				noise = min;
+			}
+
+			if (noise > max) {
+				noise = max;
 			}
 		
 			m_vertices[offset]		= Vector3(x * m_xMultiplier, noise * m_yMultiplier, z * m_zMultiplier);

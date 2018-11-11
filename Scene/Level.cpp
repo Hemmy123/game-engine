@@ -23,7 +23,7 @@ void Level::createDemoLevel() {
 	Vector3 scale(30, 30, 30);
 
 	int offSet = 35;
-	int y = 250;
+	int y = 195;
 	int x = 200;
 	int z = 300; 
 

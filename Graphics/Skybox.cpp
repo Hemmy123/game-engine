@@ -102,7 +102,7 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	m_parentRenderer->setCurrentShader(m_refectShader);
 	m_parentRenderer->setShaderLight(m_refectShader, *m_light);
 	m_parentRenderer->setModelMatrix(obj->getModelMatrix());
-	//m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(10.0f, 10.0f, 10.0f)));
+	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(1,1,1)));
 
 	m_parentRenderer->updateShaderMatrices();
 
@@ -110,21 +110,22 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	GLuint diffuseTexLoc	= glGetUniformLocation(m_refectShader->getProgram(), "diffuseTex");
 	GLuint cubeTexLoc		= glGetUniformLocation(m_refectShader->getProgram(), "cubeTex");
 	
-
+	// Set camera pos uniform
 	glUniform3fv(cameraPosLoc, 1, (float*)&cameraPos);
 
+	// set diffuse tex uniform
 	GLuint waterTex = heightmap->getTexture();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, waterTex);
 	glUniform1i(diffuseTexLoc, 0);
 	m_parentRenderer->checkErrors();
 
+	// set cubmap tex uniform
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 	glUniform1i(cubeTexLoc, 1);
 	m_parentRenderer->checkErrors();
 
-	
 	m_parentRenderer->updateShaderMatrices();
 
 	heightmap->draw();

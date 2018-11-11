@@ -24,6 +24,7 @@ private:
 	GLuint m_shadowFBO;
 	GLuint m_shadowTex;
 
+	float count = 0;
 	
 	Renderer*	m_parentRenderer;
 	Shader*		m_shadowShader;

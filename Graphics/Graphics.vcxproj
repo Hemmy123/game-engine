@@ -147,6 +147,7 @@
     <ClCompile Include="GraphicsNode.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="GraphicsNode.h" />
     <ClInclude Include="GraphicsUtils.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="Mesh.h" />

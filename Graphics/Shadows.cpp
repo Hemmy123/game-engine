@@ -136,6 +136,13 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 void Shadows::drawScene(GLuint sceneFBO)
 {
 	// clear buffers?
+	if (count > 1000) {
+		count = 0;
+	}
+	count += 1;
+
+	m_light->setPosition(Vector3(100, count, -400));
+
 	drawShadowScene();
 	drawCombinedScene(sceneFBO);
 }

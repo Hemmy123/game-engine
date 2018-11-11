@@ -29,7 +29,7 @@ public:
 	~HeightMap();
 	
 	void generateFlatTerrain();
-	void generateRandomTerrain(Vector3 position,int octaves, float frequency, float persistance );
+	void generateRandomTerrain(Vector3 position,int octaves, float frequency, float persistance, float min, float max );
 	void updateTerrain(PerlinNoise3D* perlin3D, Vector3 position,int octaves, float frequency, float persistance);
 	
 
