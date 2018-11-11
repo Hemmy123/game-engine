@@ -14,10 +14,10 @@ Shadows::Shadows(Renderer * parentRenderer):
 		SHADERFRAGDIR"shadow_frag.glsl");
 
 
-	Vector3 pos(100, 700, -400);
-	Vector4 col(1, 1, 1, 1);
-	float radius	= 6000.0f;
-	m_light			= new Light(pos, col, radius);
+	//Vector3 pos(100, 700, -400);
+	//Vector4 col(1, 1, 1, 1);
+	//float radius	= 6000.0f;
+	//m_light			= new Light(pos, col, radius);
 
 	static const float biasValues[16] = {
 		0.5, 0.0, 0.0, 0.0,
@@ -135,16 +135,42 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 
 void Shadows::drawScene(GLuint sceneFBO)
 {
-	// clear buffers?
-	if (count > 1000) {
-		count = 0;
-	}
-	count += 0.2;
 
-	m_light->setPosition(Vector3(100, count, -400));
-
+	moveLight();
 	drawShadowScene();
 	drawCombinedScene(sceneFBO);
+}
+
+void Shadows::moveLight()
+{
+	Vector3 currentPos = m_light->getPosition();
+	float newx = currentPos.x;
+
+	float min = 100;
+	float max = 900;
+
+	if (newx < min) {
+		right = true;
+		left = false;
+	} 
+
+	if (newx > max) {
+		left = true;
+		right = false;
+	}
+
+	if (left) {
+		newx -= 0.5;
+	}
+	else {
+		newx += 0.5;
+	}
+
+	
+
+	Vector3 newPos(newx, currentPos.y, currentPos.z);
+	m_light->setPosition(newPos);
+
 }
 
 int Shadows::generateFBO()

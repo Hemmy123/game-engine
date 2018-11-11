@@ -24,7 +24,7 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	settings.skybox			= true;
 	settings.postProcessing = false;
 	settings.anaglyph3D		= false;
-	settings.shadows		= false;
+	settings.shadows		= true;
 	settings.basicLighting	= true;
 	settings.differedRendering = false;
 	m_updateWater			= false;

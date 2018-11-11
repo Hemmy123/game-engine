@@ -68,9 +68,9 @@ void Level::createDemoLevel() {
 	// ===== Lighting ===== //
 
 
-	Vector3 light_pos(500,500,-300);
+	Vector3 light_pos(500,800,-300);
 	Vector4 light_col(1,1,1,1);
-	float	light_rad = 1000;
+	float	light_rad = 3000;
 
 	GameLight* light = new GameLight(light_pos, light_col, light_rad);
 	light->setTag(T_Light);

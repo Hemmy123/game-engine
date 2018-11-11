@@ -16,15 +16,21 @@ public:
 
 	void drawScene(GLuint sceneFBO);
 
+	// basic movelight method for testing moving shadows
+	void moveLight();
+
 	int generateFBO();
 
+	void setLight(Light* l) { m_light = l; }
+	Light* getLight() const { return m_light; }
 
 private:
 
 	GLuint m_shadowFBO;
 	GLuint m_shadowTex;
 
-	float count = 0;
+	bool left	= false;
+	bool right	= false;
 	
 	Renderer*	m_parentRenderer;
 	Shader*		m_shadowShader;

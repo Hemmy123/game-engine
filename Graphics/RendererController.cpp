@@ -45,6 +45,8 @@ void RendererController::update(float msec)
 {
 	glfwPollEvents();
 	
+	
+
 	m_renderer->updateScene(msec);
 
 	if (m_settings.basicLighting) {
@@ -63,6 +65,11 @@ void RendererController::update(float msec)
 	else {
 
 		if (m_settings.shadows) {
+			// TODO: refactor this, for testing only!
+			if (!m_shadows->getLight()) {
+				m_shadows->setLight(m_sceneManager->getLights()[0]);
+			}
+
 			m_shadows->drawScene(m_sceneFBO);
 		} else {
 			m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
