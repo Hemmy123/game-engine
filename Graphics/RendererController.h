@@ -17,6 +17,8 @@ public:
 	void update(float msec);
 	void initCamera();
 
+	void setSettings();
+
 	void createCamera(InterfaceHandler* ih) { 
 		m_renderer->createCamera(ih); 
 		initCamera();

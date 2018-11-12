@@ -22,6 +22,59 @@ Level::~Level() {
 
 void Level::createDeferredLevelDemo()
 {
+
+	m_rendererSettings.skybox				= true;
+	m_rendererSettings.postProcessing		= false;
+	m_rendererSettings.anaglyph3D			= false;
+	m_rendererSettings.shadows				= true;
+	m_rendererSettings.basicLighting		= true;
+	m_rendererSettings.differedRendering	= true;
+
+	// ===== Lights ===== //
+
+	const int rows			= 10;
+	const int columns		= 5;
+	const int totalLights	= rows * columns;
+	
+	
+	float lightRadius	= 100;
+	Vector4 lightColour(1, 1, 1, 1);
+
+	float lightOffset	= 50;
+
+	float origin		= 0;	// The origin for all of the lights
+	float height		= 100;
+	Vector3 lightPos[totalLights];
+
+
+	// Create positions
+	for (int col = 0; col < columns; col++) {
+		for (int row = 0; row < rows; row++) {
+			int offset = col * columns;
+			lightPos[offset] = Vector3(origin * col, height, origin * row);
+		}
+	}
+
+
+
+	// create light with positions
+	for (int i = 0; i < totalLights; i++) {
+		Vector3 light_pos = lightPos[i];
+		GameLight* light = new GameLight(light_pos, lightColour, lightRadius);
+		light->setTag(T_Light);
+		m_gameObjects.push_back(light);
+	}
+
+
+	GameHeightMap* terrain = new GameHeightMap(Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(10, 10, 10));
+	terrain->setTag(T_Terrain);
+	m_gameObjects.push_back(terrain);
+
+	
+
+
+
+
 }
 
 void Level::createDemoLevel() {

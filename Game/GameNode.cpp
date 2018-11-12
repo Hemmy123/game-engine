@@ -38,7 +38,12 @@ void GameNode::checkInputs(){
 		break;
 	}
 	case(GLFW_KEY_1): {
+		std::cout << "1 pressed" << std::endl;
 		if (!m_currentLevel) {
+			m_currentLevel = new Level();
+		}
+		else {
+			delete m_currentLevel;
 			m_currentLevel = new Level();
 		}
 		m_currentLevel->createDemoLevel();
@@ -49,7 +54,27 @@ void GameNode::checkInputs(){
 
 		m_bus->addEvent(graphicsEvent);
 		m_bus->addEvent(physicsEvent);
+		break;
 	}
+	case(GLFW_KEY_2): {
+		if (!m_currentLevel) {
+			m_currentLevel = new Level();
+		}
+		else {
+			delete m_currentLevel;
+			m_currentLevel = new Level();
+		}
+		m_currentLevel->createDeferredLevelDemo();
+
+
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+		Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+
+		m_bus->addEvent(graphicsEvent);
+		m_bus->addEvent(physicsEvent);
+		break;
+	}
+
 	}
 
 	

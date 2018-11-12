@@ -17,12 +17,26 @@
 
 // A simple struct to toggle features on and off
 struct RendererSettings {
+	RendererSettings() {
+		init();
+	};
+
 	bool skybox;
 	bool postProcessing;
 	bool anaglyph3D;
 	bool shadows;
 	bool basicLighting;	// true for basic
 	bool differedRendering;
+
+	void init() {
+		skybox				= false;
+		postProcessing		= false;
+		anaglyph3D			= false;
+		shadows				= false;
+		basicLighting		= false;
+		differedRendering	= false;
+	}
+
 };
 
 
@@ -37,6 +51,7 @@ public:
 
 	void createDeferredLevelDemo();
 	void createDemoLevel();
+
 	RendererSettings getSettings() const { return m_rendererSettings; };
 
 private:

@@ -40,6 +40,8 @@ public:
 	~KeyboardInterface();
 	void update();
 	
+	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
 	KeyState getKeyState() const {return m_keystate; }
 	
 private:

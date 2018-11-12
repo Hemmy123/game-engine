@@ -10,7 +10,9 @@
 #include <iostream>
 
 KeyboardInterface::KeyboardInterface(GLFWwindow *windowListener):m_windowListener(windowListener){
-	}
+	
+	glfwSetKeyCallback(windowListener, this->key_callback);
+}
 
 KeyboardInterface::~KeyboardInterface(){
 	
