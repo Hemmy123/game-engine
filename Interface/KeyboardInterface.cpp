@@ -40,8 +40,23 @@ void KeyboardInterface::update(){
 		m_keystate = KeyState(GLFW_KEY_C, GLFW_PRESS, GLFW_KEY_UNKNOWN);
 	}
 
+	else if (glfwGetKey(m_windowListener, GLFW_KEY_0) == GLFW_PRESS) {
+		m_keystate = KeyState(GLFW_KEY_0, GLFW_PRESS, GLFW_KEY_UNKNOWN);
+	}
+
+	else if (glfwGetKey(m_windowListener, GLFW_KEY_1) == GLFW_PRESS) {
+		m_keystate = KeyState(GLFW_KEY_1, GLFW_PRESS, GLFW_KEY_UNKNOWN);
+	}
+
+	else if (glfwGetKey(m_windowListener, GLFW_KEY_2) == GLFW_PRESS) {
+		m_keystate = KeyState(GLFW_KEY_2, GLFW_PRESS, GLFW_KEY_UNKNOWN);
+	}
+
+	else if (glfwGetKey(m_windowListener, GLFW_KEY_3) == GLFW_PRESS) {
+		m_keystate = KeyState(GLFW_KEY_3, GLFW_PRESS, GLFW_KEY_UNKNOWN);
+	}
+
 	else if (glfwGetKey( m_windowListener, GLFW_KEY_ESCAPE ) == GLFW_PRESS){
-		std::cout << "print pressed!" << std::endl;
 		m_keystate = KeyState(GLFW_KEY_ESCAPE, GLFW_PRESS, GLFW_KEY_UNKNOWN);
 	}
 	else{

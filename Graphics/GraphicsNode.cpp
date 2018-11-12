@@ -21,16 +21,8 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	m_perlin2D = new PerlinNoise2D(257,6);
 	RendererSettings settings;
 
-	settings.skybox			= true;
-	settings.postProcessing = false;
-	settings.anaglyph3D		= false;
-	settings.shadows		= true;
-	settings.basicLighting	= true;
-	settings.differedRendering = false;
-	m_updateWater			= false;
 
 
-	m_rendererController->setSetting(settings);
 	//createDemoScene();
 	
 
@@ -90,6 +82,8 @@ void GraphicsNode::handleEvent(Event event){
 		m_currentLevel = static_cast<Level*>(event.getData());
 		//loadLevel(m_currentLevel);
 		m_levelLoader->loadLevel(m_currentLevel);
+		m_rendererController->setSetting(m_sceneManager->getSettings());
+
 	}
 	
 }

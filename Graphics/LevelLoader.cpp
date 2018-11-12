@@ -41,6 +41,7 @@ Mesh * LevelLoader::findMesh(int id)
 void LevelLoader::loadLevel(Level * level)
 {
 	std::vector<GameObject*> gameObjects = level->getGameObjects();
+	m_sceneManager->setSettings(level->getSettings());
 
 	string vertexPath = SHADERVERTDIR"Basic_Vert.glsl";
 	string fragPath = SHADERFRAGDIR"Textured_Frag.glsl";

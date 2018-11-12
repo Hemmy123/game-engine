@@ -4,17 +4,8 @@
 #include "PostProcessor.h"
 #include "Anaglyph3D.h"
 #include "Shadows.h"
+#include "Level.h"
 
-
-// A simple struct to toggle features on and off
-struct RendererSettings{
-	bool skybox;
-	bool postProcessing;
-	bool anaglyph3D;
-	bool shadows; 
-	bool basicLighting;	// true for basic
-	bool differedRendering;
-};
 
 class RendererController
 {
@@ -58,6 +49,7 @@ private:
 	// ----- screen quads ----- //
 	Mesh*		m_screenQuad;
 	Shader*		m_sceneShader;
+
 	GLuint		m_sceneFBO;
 	GLuint		m_buffColourAttachment;
 	GLuint		m_buffDepthAttachment;

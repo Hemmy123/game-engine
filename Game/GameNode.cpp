@@ -13,12 +13,7 @@ EventNode(bus,subSystem),
 m_endGame(false),
 m_interfaceHandler(ih){
 	loadTestLevel();
-	
-	Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
-	Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
-	
-	m_bus->addEvent(graphicsEvent);
-	m_bus->addEvent(physicsEvent);
+
 
 	
 }
@@ -38,10 +33,26 @@ void GameNode::checkInputs(){
 	KeyState s = m_interfaceHandler->getKeyState();
 	
 	switch(s.m_key){
-		case(GLFW_KEY_ESCAPE): {
-			m_endGame = true;
-		}
+	case(GLFW_KEY_ESCAPE): {
+		m_endGame = true;
+		break;
 	}
+	case(GLFW_KEY_1): {
+		if (!m_currentLevel) {
+			m_currentLevel = new Level();
+		}
+		m_currentLevel->createDemoLevel();
+
+
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+		Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+
+		m_bus->addEvent(graphicsEvent);
+		m_bus->addEvent(physicsEvent);
+	}
+	}
+
+	
 }
 
 
@@ -53,7 +64,6 @@ void GameNode::handleEvent(Event e){
 
 
 void GameNode::loadTestLevel(){
-	m_currentLevel = new Level();
-	m_currentLevel->createDemoLevel();
+	
 	
 }

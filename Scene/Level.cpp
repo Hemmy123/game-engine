@@ -20,10 +20,20 @@ Level::~Level() {
 	}
 }
 
+void Level::createDeferredLevelDemo()
+{
+}
+
 void Level::createDemoLevel() {
 
 	// Hard coding a level for coursework. Should really be data driven later
 
+	m_rendererSettings.skybox				= true;
+	m_rendererSettings.postProcessing		= false;
+	m_rendererSettings.anaglyph3D			= false;
+	m_rendererSettings.shadows				= true;
+	m_rendererSettings.basicLighting		= true;
+	m_rendererSettings.differedRendering	= false;
 
 	 // ===== Rabbits ===== //
 	Vector3 obj1_scale(30, 30, 30);
@@ -90,6 +100,6 @@ void Level::createDemoLevel() {
 	m_gameObjects.push_back(water);
 
 
-
+	
 
 }
