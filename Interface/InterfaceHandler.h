@@ -32,6 +32,7 @@ public:
 	GLFWwindow* getWindowListener() const {return m_windowListener;}
 
 	KeyState getKeyState() const {return m_keyboardInterface->getKeyState();}
+	bool* getPressedKeys() const {return m_keyboardInterface->getPressedKeys();}
 	
 private:
 	
