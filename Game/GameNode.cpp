@@ -12,8 +12,17 @@ GameNode::GameNode(EventBus* bus,SubSystem subSystem, InterfaceHandler* ih):
 EventNode(bus,subSystem),
 m_endGame(false),
 m_interfaceHandler(ih){
-	loadTestLevel();
+	//loadTestLevel();
 
+
+	m_currentLevel = new Level();
+	m_currentLevel->createDemoLevel();
+
+	Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+	Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+
+	m_bus->addEvent(graphicsEvent);
+	m_bus->addEvent(physicsEvent);
 
 	
 }
