@@ -59,6 +59,7 @@ private:
 
 	// ----- Renderer classes ----- //
 	Renderer*			m_renderer;
+
 	SceneManager*		m_sceneManager;
 	Skybox*				m_skybox;
 	PostProcessor*		m_postProcessor;

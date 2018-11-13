@@ -19,6 +19,8 @@ public:
 	/// Created a single coloured light (Ambient, Diffuse and Specular all the same)
 	/// with a position and radius
 	Light(Vector3 position, Vector4 colour, float radius):m_position(position), m_colour(colour), m_radius(radius){}
+	Light();
+	
 	~Light() {};
 	
 	// ---------- Getters / Setters ---------- //

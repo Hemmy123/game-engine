@@ -37,7 +37,7 @@ void GameNode::checkInputs(){
 		bool previous = false;
 		if (!previous) {
 			std::cout << "1 pressed" << std::endl;
-
+			
 		}
 
 	}
