@@ -9,9 +9,8 @@
 #include "InterfaceHandler.h"
 
 InterfaceHandler::InterfaceHandler(GLFWwindow* window):m_windowListener(window){
-	m_mouseInterface = new MouseInterface(window);
+	m_mouseInterface	= new MouseInterface(window);
 	m_keyboardInterface = new KeyboardInterface(window);
-
 }
 
 

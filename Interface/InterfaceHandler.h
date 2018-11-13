@@ -24,15 +24,13 @@ public:
 	
 	void update();
 	
-	
-	
 	Vector2 getMouseRelativePos() const { return m_mouseInterface->getRelativePosition();}
 	Vector2 getMouseAbsolutePos() const { return m_mouseInterface->getAbsolutePosition();}
 
 	GLFWwindow* getWindowListener() const {return m_windowListener;}
 
-	KeyState getKeyState() const {return m_keyboardInterface->getKeyState();}
 	bool* getPressedKeys() const {return m_keyboardInterface->getPressedKeys();}
+	bool* getHeldKeys() const {return m_keyboardInterface->getHeldHeys();}
 	
 private:
 	
