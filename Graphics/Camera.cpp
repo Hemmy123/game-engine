@@ -43,38 +43,33 @@ void Camera::updateCamera(float msec)
 	}
 	
 	
-	KeyState s = m_interfaceHandler->getKeyState();
-	
-	switch(s.m_key){
-		case(GLFW_KEY_W): {
-			m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+	bool* heldKeys = m_interfaceHandler->getHeldKeys();
+
+	if (heldKeys[GLFW_KEY_W]) {
+		m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
 			Vector3(0.0f, 0.0f, -1.0f) * msec * m_movementSpeed;
-			break;
-		}
-		case(GLFW_KEY_A):{
-			m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+	}
+	if (heldKeys[GLFW_KEY_A]) {
+		m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
 			Vector3(-1.0f, 0.0f, 0.0f) * msec * m_movementSpeed;
-			break;
-		}
-		case(GLFW_KEY_S):{
-			m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+	}
+	if (heldKeys[GLFW_KEY_S]) {
+		m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
 			Vector3(0.0f, 0.0f, -1.0f) * msec * m_movementSpeed;
-			break;
-		}
-		case(GLFW_KEY_D):{
-			m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+
+	}
+	if (heldKeys[GLFW_KEY_D]) {
+		m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
 			Vector3(-1.0f, 0.0f, 0.0f) * msec * m_movementSpeed;
-			break;
-		}
-		case(GLFW_KEY_SPACE):{
-			m_position.y += m_dt * m_movementSpeed;
-			break;
-		}
-		case(GLFW_KEY_C):{
-			m_position.y -= m_dt * m_movementSpeed;
-			break;
-		}
-			
+
+	}
+	if (heldKeys[GLFW_KEY_C]) {
+		m_position.y -= m_dt * m_movementSpeed;
+
+	}
+	if (heldKeys[GLFW_KEY_SPACE]) {
+		m_position.y += m_dt * m_movementSpeed;
+
 	}
 }
 

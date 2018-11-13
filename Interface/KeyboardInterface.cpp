@@ -28,83 +28,44 @@ void KeyboardInterface::key_callback(GLFWwindow * window, int key, int scancode,
 	if (key == GLFW_KEY_UNKNOWN) return;
 
 
-	handleHeldPress(key, action);
 	handleSinglePress(key, action);
-
+	handleHeldPress(key, action);
+	handleRelease(key, action);
 	
 
 
 }
 
 void KeyboardInterface::update(){
-	/*if (glfwGetKey( m_windowListener, GLFW_KEY_W ) == GLFW_PRESS){
-		m_keystate = KeyState(GLFW_KEY_W, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-	
-	else if (glfwGetKey( m_windowListener, GLFW_KEY_A ) == GLFW_PRESS){
-		m_keystate = KeyState(GLFW_KEY_A, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-	
-	else if (glfwGetKey( m_windowListener, GLFW_KEY_S ) == GLFW_PRESS){
-		m_keystate = KeyState(GLFW_KEY_S, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-	
-	else if (glfwGetKey( m_windowListener, GLFW_KEY_D ) == GLFW_PRESS){
-		m_keystate = KeyState(GLFW_KEY_D, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-	
-	else if (glfwGetKey( m_windowListener, GLFW_KEY_SPACE ) == GLFW_PRESS){
-		m_keystate = KeyState(GLFW_KEY_SPACE, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-	else if (glfwGetKey( m_windowListener, GLFW_KEY_C ) == GLFW_PRESS){
-		m_keystate = KeyState(GLFW_KEY_C, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
 
-	else if (glfwGetKey(m_windowListener, GLFW_KEY_0) == GLFW_PRESS) {
-		m_keystate = KeyState(GLFW_KEY_0, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-
-	else if (glfwGetKey(m_windowListener, GLFW_KEY_1) == GLFW_PRESS) {
-		m_keystate = KeyState(GLFW_KEY_1, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-
-	else if (glfwGetKey(m_windowListener, GLFW_KEY_2) == GLFW_PRESS) {
-		m_keystate = KeyState(GLFW_KEY_2, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-
-	else if (glfwGetKey(m_windowListener, GLFW_KEY_3) == GLFW_PRESS) {
-		m_keystate = KeyState(GLFW_KEY_3, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-
-	else if (glfwGetKey( m_windowListener, GLFW_KEY_ESCAPE ) == GLFW_PRESS){
-		m_keystate = KeyState(GLFW_KEY_ESCAPE, GLFW_PRESS, GLFW_KEY_UNKNOWN);
-	}
-	else{
-		m_keystate = KeyState();
-	}*/
-
-	
+	// Reset pressed keys
+	for (int i = GLFW_KEY_SPACE; i < GLFW_KEY_LAST; i++) {
+		m_pressedKeys[i] = false;
+	}	
 }
 
 void KeyboardInterface::handleSinglePress(int key, int action)
 {
-
-	bool lastState = KeyboardInterface::m_pressedKeys[key];
-
 	if (action == GLFW_PRESS) {
-
 		KeyboardInterface::m_pressedKeys[key] = true;
-		std::cout << "1 pressed" << std::endl;
-	}
-	else if (action == GLFW_RELEASE) {
-		KeyboardInterface::m_pressedKeys[key] = false;
-
 	}
 
 }
 
 void KeyboardInterface::handleHeldPress(int key, int action)
 {
+	if (action == GLFW_PRESS) {
+		KeyboardInterface::m_heldKeys[key] = true;
+	}
+}
+
+void KeyboardInterface::handleRelease(int key, int action)
+{
+	if (action == GLFW_RELEASE) {
+		KeyboardInterface::m_pressedKeys[key]	= false;
+		KeyboardInterface::m_heldKeys[key]		= false;
+	}
+
 
 }
 
