@@ -46,7 +46,7 @@ void RendererController::init()
 
 void RendererController::update(float msec)
 {
-	glfwPollEvents();
+	
 	
 	
 

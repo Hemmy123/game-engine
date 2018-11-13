@@ -67,7 +67,6 @@ void Renderer::defaultGLSettings()
 void Renderer::update(float msec) {
 	m_dt = msec;
 	checkErrors();
-	glfwPollEvents();
 	updateScene(m_dt);
 
 	clearBuffers();

@@ -47,6 +47,7 @@ public:
 	static void handleSinglePress(int key, int action);
 
 	static void handleHeldPress(int key, int action);
+	static void handleRelease(int key, int action);
 
 	KeyState getKeyState() const {return m_keystate; }
 	

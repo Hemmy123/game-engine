@@ -23,4 +23,7 @@ InterfaceHandler::~InterfaceHandler(){
 void InterfaceHandler::update(){
 	m_mouseInterface->update();
 	m_keyboardInterface->update();
+
+	// only place where this is called!
+	glfwPollEvents(); 
 }

@@ -33,13 +33,14 @@ void GameNode::checkInputs(){
 	//KeyState s = m_interfaceHandler->getKeyState();
 	
 
-	if (KeyboardInterface::m_pressedKeys[GLFW_KEY_1]) {
-		bool previous = false;
-		if (!previous) {
-			std::cout << "1 pressed" << std::endl;
+	if (KeyboardInterface::m_heldKeys[GLFW_KEY_1]) {
+		std::cout << "1 Helded" << std::endl;
 
-		}
+	}
 
+
+	if (KeyboardInterface::m_pressedKeys[GLFW_KEY_2]) {
+		std::cout << "2 Pressed" << std::endl;
 	}
 
 	//switch(s.m_key){
