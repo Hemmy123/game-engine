@@ -39,15 +39,22 @@ void GameNode::update(float dt){
 }
 
 void GameNode::checkInputs(){
-	KeyState s = m_interfaceHandler->getKeyState();
+	//KeyState s = m_interfaceHandler->getKeyState();
+
 	
-	switch(s.m_key){
-	case(GLFW_KEY_ESCAPE): {
+	bool* pressedKeys = m_interfaceHandler->getPressedKeys();
+
+
+	if(pressedKeys[GLFW_KEY_ESCAPE]) {
 		m_endGame = true;
-		break;
 	}
-	case(GLFW_KEY_1): {
+	if(pressedKeys[GLFW_KEY_1]) {
+		std::cout << "Level 1 loaded" << std::endl;
 		if (!m_currentLevel) {
+			m_currentLevel = new Level();
+		}
+		else {
+			delete m_currentLevel;
 			m_currentLevel = new Level();
 		}
 		m_currentLevel->createDemoLevel();
@@ -59,6 +66,25 @@ void GameNode::checkInputs(){
 		m_bus->addEvent(graphicsEvent);
 		m_bus->addEvent(physicsEvent);
 	}
+	if(pressedKeys[GLFW_KEY_2]) {
+		std::cout << "Level 2 loaded" << std::endl;
+
+		if (!m_currentLevel) {
+			m_currentLevel = new Level();
+		}
+		else {
+			delete m_currentLevel;
+			m_currentLevel = new Level();
+		}
+		m_currentLevel->createDeferredLevelDemo();
+
+
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+		Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+
+		m_bus->addEvent(graphicsEvent);
+		m_bus->addEvent(physicsEvent);
+
 	}
 
 	

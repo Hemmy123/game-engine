@@ -12,6 +12,8 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_sceneShader = new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Scene_Frag.glsl");
 	generateFBO();
 
+	m_settings = RendererSettings();
+
 	m_screenQuad = Mesh::generateQuad();
 	m_screenQuad->bufferData();
 
@@ -19,6 +21,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
 	m_anaglyph3D	= new Anaglyph3D(m_renderer);
 	m_shadows		= new Shadows(m_renderer);
+
 }
 
 
@@ -43,51 +46,61 @@ void RendererController::init()
 
 void RendererController::update(float msec)
 {
-	glfwPollEvents();
+	
 	
 	
 
 	m_renderer->updateScene(msec);
 
-	if (m_settings.basicLighting) {
-		updateLighting();
-	}
-	// Skybox
-	if (m_settings.skybox) {
-		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
-	}
-	
+	if (m_settings.differedRendering) {
+		m_renderer->clearBuffers();
+		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
 
-	// 3D - not working
-	if (m_settings.anaglyph3D) {
-		m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
 	}
 	else {
+		if (m_settings.basicLighting) {
+			updateLighting();
+		}
+		// Skybox
+		if (m_settings.skybox) {
+			m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
+		}
 
-		if (m_settings.shadows) {
-			// TODO: refactor this, for testing only!
-			if (!m_shadows->getLight()) {
-				m_shadows->setLight(m_sceneManager->getLights()[0]);
+
+		// 3D - not working
+		if (m_settings.anaglyph3D) {
+			m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
+		}
+		else {
+
+			if (m_settings.shadows) {
+				// TODO: refactor this, for testing only!
+				if (!m_shadows->getLight()) {
+					m_shadows->setLight(m_sceneManager->getLights()[0]);
+				}
+
+				m_shadows->drawScene(m_sceneFBO);
 			}
+			else {
+				m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+			}
+		}
 
-			m_shadows->drawScene(m_sceneFBO);
-		} else {
-			m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+		// Water reflection
+		if (m_sceneManager->getWater() != nullptr && m_settings.skybox) {
+			RenderObject* water = m_sceneManager->getWater();
+			Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
+
+			m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
+		}
+
+		// post processing
+		if (m_settings.postProcessing) {
+			m_postProcessor->drawPostProcess(m_buffColourAttachment);
 		}
 	}
 
-	// Water reflection
-	if (m_sceneManager->getWater() != nullptr && m_settings.skybox) {
-		RenderObject* water = m_sceneManager->getWater();
-		Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
-
-		m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
-	}
-
-	// post processing
-	if (m_settings.postProcessing) {
-		m_postProcessor->drawPostProcess(m_buffColourAttachment);
-	}
+	
 
 
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
@@ -100,6 +113,11 @@ void RendererController::initCamera() {
 
 	m_renderer->getCamera()->setPosition(pos);
 
+}
+
+void RendererController::setSettings()
+{
+	
 }
 
 // ----- Pass through renderer methods ----- //

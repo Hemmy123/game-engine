@@ -22,6 +22,7 @@ public:
 	vector<Light*> getLights()				{ return m_lights; };
 	RendererSettings getSettings()	const	{ return m_settings; };
 
+	void clearAllObjects();
 
 private:
 	vector<RenderObject*>	m_transparent;

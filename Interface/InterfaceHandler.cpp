@@ -9,9 +9,8 @@
 #include "InterfaceHandler.h"
 
 InterfaceHandler::InterfaceHandler(GLFWwindow* window):m_windowListener(window){
-	m_mouseInterface = new MouseInterface(window);
+	m_mouseInterface	= new MouseInterface(window);
 	m_keyboardInterface = new KeyboardInterface(window);
-
 }
 
 
@@ -23,4 +22,7 @@ InterfaceHandler::~InterfaceHandler(){
 void InterfaceHandler::update(){
 	m_mouseInterface->update();
 	m_keyboardInterface->update();
+
+	// only place where this is called!
+	glfwPollEvents(); 
 }
