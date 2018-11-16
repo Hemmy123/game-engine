@@ -71,7 +71,7 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 
 	GLuint texCubeLocation = glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex");
 
-	glUniform1i(texCubeLocation, 0);
+	glUniform1i(texCubeLocation, TextureUniforms::CubeMap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 
 
@@ -117,13 +117,13 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	GLuint waterTex = heightmap->getTexture();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, waterTex);
-	glUniform1i(diffuseTexLoc, 0);
+	glUniform1i(diffuseTexLoc, TextureUniforms::Diffuse);
 	m_parentRenderer->checkErrors();
 
 	// set cubmap tex uniform
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
-	glUniform1i(cubeTexLoc, 1);
+	glUniform1i(cubeTexLoc, TextureUniforms::CubeMap);
 	m_parentRenderer->checkErrors();
 
 	m_parentRenderer->updateShaderMatrices();

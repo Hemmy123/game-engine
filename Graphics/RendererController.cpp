@@ -52,7 +52,7 @@ void RendererController::update(float msec)
 
 	m_renderer->updateScene(msec);
 
-	if (m_settings.differedRendering) {
+	if (m_settings.deferredRendering) {
 		m_renderer->clearBuffers();
 		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
 

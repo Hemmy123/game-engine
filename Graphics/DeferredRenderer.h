@@ -20,6 +20,10 @@ public:
 
 	void attachTextures();
 
+	void fillBuffers();
+	void drawLights();
+
+
 private:
 
 

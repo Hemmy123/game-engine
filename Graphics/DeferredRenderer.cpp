@@ -1,7 +1,6 @@
 #include "DeferredRenderer.h"
 
 
-
 DeferredRenderer::DeferredRenderer()
 {
 }
@@ -128,3 +127,55 @@ void DeferredRenderer::attachTextures()
 
 
 }
+
+void DeferredRenderer::fillBuffers()
+{
+	// Bind the G buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, m_Gbuffer);
+
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+	m_parentRenderer->setCurrentShader(m_sceneShader);
+
+	GLuint diffuseLoc	= glGetUniformLocation(m_sceneShader->getProgram(), "diffuseTex");
+	GLuint bumpLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "bumpTex");
+	
+	glUniform1i(diffuseLoc, TextureUniforms::Diffuse);
+	glUniform1i(bumpLoc, TextureUniforms::Bump);
+
+	m_parentRenderer->changeProjection(Projection::Perspective);
+	// Change model matrix here?
+	m_parentRenderer->updateShaderMatrices();
+
+	// draw stuff here
+
+
+	glUseProgram(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void DeferredRenderer::drawLights()
+{
+	// Bind our lighting FBO
+	glBindFramebuffer(GL_FRAMEBUFFER, m_lightFBO);
+
+	m_parentRenderer->setCurrentShader(m_lightShader);
+
+	glClearColor(0, 0, 0, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// Check how this blending works?
+	glBlendFunc(GL_ONE, GL_ONE);
+	
+	GLuint depthTexLoc	= glGetUniformLocation(m_lightShader->getProgram(), "depthTex");
+	GLuint normTexLoc	= glGetUniformLocation(m_lightShader->getProgram(), "normTex");
+
+
+	glUniform1i(depthTexLoc, Depth);
+	glUniform1i(normTexLoc, Normal);
+
+
+//	glActiveTexture(GL_TEXTURE)
+
+}
+

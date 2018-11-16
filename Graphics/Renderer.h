@@ -24,9 +24,27 @@
 
 using std::vector;
 
-enum Projection {
+enum class Projection {
 	Orthographic,
 	Perspective,
+
+};
+
+
+enum  TextureUniforms {
+	Diffuse = 0,
+	CubeMap = 0,
+
+	Bump = 1,
+	Shadow = 2,
+
+	Depth = 3,
+	Normal = 4,
+
+	// For Anaglyph#3D
+	Left = 5,
+	Right = 6
+
 
 };
 

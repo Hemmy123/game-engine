@@ -26,7 +26,7 @@ struct RendererSettings {
 	bool anaglyph3D;
 	bool shadows;
 	bool basicLighting;	// true for basic
-	bool differedRendering;
+	bool deferredRendering;
 
 	void init() {
 		skybox				= false;
@@ -34,7 +34,7 @@ struct RendererSettings {
 		anaglyph3D			= false;
 		shadows				= false;
 		basicLighting		= false;
-		differedRendering	= false;
+		deferredRendering	= false;
 	}
 
 };

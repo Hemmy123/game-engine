@@ -85,7 +85,7 @@ void Renderer::renderScene(Mesh* quad, Shader* shader, GLuint fbo) {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	setCurrentShader(shader);
-	changeProjection(Perspective);
+	changeProjection(Projection::Perspective);
 	updateShaderMatrices();
 	drawAllRenderObjects();
 
@@ -104,8 +104,8 @@ void Renderer::drawRenderObject(const RenderObject &o) {
 		if (o.getMesh()->hasBumpTexture()) {
 			GLuint diffuseLoc = glGetUniformLocation(program, "diffuseTex");
 			GLuint bumpTexLoc = glGetUniformLocation(program, "bumpTex");
-			glUniform1i(diffuseLoc, 0);
-			glUniform1i(bumpTexLoc, 1);
+			glUniform1i(diffuseLoc, TextureUniforms::Diffuse);
+			glUniform1i(bumpTexLoc, TextureUniforms::Bump);
 		}
 
 		updateShaderMatrices();
@@ -171,8 +171,8 @@ void Renderer::drawAllMeshes()
 void Renderer::changeProjection(Projection proj)
 {
 	switch (proj) {
-	case Orthographic: m_projMatrix = m_ortho; break;
-	case Perspective: m_projMatrix = m_persp; break;
+	case Projection::Orthographic: m_projMatrix = m_ortho; break;
+	case Projection::Perspective: m_projMatrix = m_persp; break;
 	}
 
 }
@@ -229,7 +229,7 @@ void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	clearBuffers();	// Clears defualt frame buffer, not the one objects are rendererd to!
 	setCurrentShader(sceneShader);
-	changeProjection(Orthographic);
+	changeProjection(Projection::Orthographic);
 	setViewMatrix(Matrix4());
 	updateShaderMatrices();
 

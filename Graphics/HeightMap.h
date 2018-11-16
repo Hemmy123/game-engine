@@ -36,12 +36,12 @@ public:
 	int getRawWidth() const { return m_rawWidth; };
 	int getRawHeight() const { return m_rawHeight; };
 
-	int getXMilti() const { return m_xMultiplier; };
-	int getZMilti() const { return m_zMultiplier; };
-	int getYMilti() const { return m_yMultiplier; };
+	float getXMilti() const { return m_xMultiplier; };
+	float getZMilti() const { return m_zMultiplier; };
+	float getYMilti() const { return m_yMultiplier; };
 
-	int getXTex() const { return m_xTexCoord; };
-	int getZTex() const { return m_zTexCoord; };
+	float getXTex() const { return m_xTexCoord; };
+	float getZTex() const { return m_zTexCoord; };
 
 
 private:

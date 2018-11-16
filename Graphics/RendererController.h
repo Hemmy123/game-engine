@@ -5,7 +5,7 @@
 #include "Anaglyph3D.h"
 #include "Shadows.h"
 #include "Level.h"
-
+#include "DeferredRenderer.h"
 
 class RendererController
 {
@@ -65,5 +65,6 @@ private:
 	PostProcessor*		m_postProcessor;
 	Anaglyph3D*			m_anaglyph3D;
 	Shadows*			m_shadows;
+	DeferredRenderer*	m_deferred;
 };
 

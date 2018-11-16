@@ -46,13 +46,13 @@ void Anaglyph3D::render(Mesh* quad,GLuint fbo, GLuint colourAttachment)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_leftColourAttachment);
 	m_parentRenderer->checkErrors();
-	glUniform1i(leftTexloc, 0);
+	glUniform1i(leftTexloc, TextureUniforms::Left);
 	m_parentRenderer->checkErrors();
 
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, m_rightColourAttachment);
-	glUniform1i(rightTexLoc, 1);
+	glUniform1i(rightTexLoc, TextureUniforms::Right);
 	m_parentRenderer->checkErrors();
 
 
@@ -75,7 +75,7 @@ void Anaglyph3D::renderRight()
 
 	m_parentRenderer->setCurrentShader(m_defaultShader);
 
-	m_parentRenderer->changeProjection(Perspective);
+	m_parentRenderer->changeProjection(Projection::Perspective);
 	m_parentRenderer->updateShaderMatrices();
 	m_parentRenderer->drawAllRenderObjects();
 
@@ -95,7 +95,7 @@ void Anaglyph3D::renderLeft()
 
 	m_parentRenderer->setCurrentShader(m_defaultShader);
 
-	m_parentRenderer->changeProjection(Perspective);
+	m_parentRenderer->changeProjection(Projection::Perspective);
 	m_parentRenderer->updateShaderMatrices();
 	m_parentRenderer->drawAllRenderObjects();
 
