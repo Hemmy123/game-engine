@@ -316,19 +316,22 @@ Mesh* Mesh::readObjFile(std::string path){
 				Vector3 tempV(vx,vy,vz);
 				vertices.push_back(tempV);
 				
-				tinyobj::real_t nx = attrib.normals[3*idx.normal_index+0];
-				tinyobj::real_t ny = attrib.normals[3*idx.normal_index+1];
-				tinyobj::real_t nz = attrib.normals[3*idx.normal_index+2];
+				if (!attrib.normals.empty()) {
+					tinyobj::real_t nx = attrib.normals[3 * idx.normal_index + 0];
+					tinyobj::real_t ny = attrib.normals[3 * idx.normal_index + 1];
+					tinyobj::real_t nz = attrib.normals[3 * idx.normal_index + 2];
+
+					Vector3 tempN(nx, ny, nz);
+					normals.push_back(tempN);
+				}
 				
-				Vector3 tempN(nx,ny,nz);
-				normals.push_back(tempN);
-				
-				tinyobj::real_t tx = attrib.texcoords[2*idx.texcoord_index+0];
-				tinyobj::real_t ty = 1 - attrib.texcoords[2*idx.texcoord_index+1];
-				
-				Vector2 tempT(tx,ty);
-				texCoords.push_back(tempT);
-				
+				if (!attrib.texcoords.empty()) {
+					tinyobj::real_t tx = attrib.texcoords[2 * idx.texcoord_index + 0];
+					tinyobj::real_t ty = 1 - attrib.texcoords[2 * idx.texcoord_index + 1];
+
+					Vector2 tempT(tx, ty);
+					texCoords.push_back(tempT);
+				}
 			}
 			index_offset += fv;
 			
@@ -346,19 +349,19 @@ Mesh* Mesh::readObjFile(std::string path){
 		m->m_vertices[i] = vertices[i];
 	}
 
-	m->m_textureCoords = new Vector2[texCoords.size()];
-	for(int i = 0 ; i < texCoords.size() ; i++){
-		m->m_textureCoords[i] = texCoords[i];
+	if (!attrib.texcoords.empty()) {
+		m->m_textureCoords = new Vector2[texCoords.size()];
+		for (int i = 0; i < texCoords.size(); i++) {
+			m->m_textureCoords[i] = texCoords[i];
+		}
 	}
-
-	m->m_normals = new Vector3[normals.size()];
-	for(int i = 0 ; i < normals.size(); i++){
-		m->m_normals[i] = normals[i];
-	}
-
-
-
 	
+	if (!attrib.normals.empty()) {
+		m->m_normals = new Vector3[normals.size()];
+		for (int i = 0; i < normals.size(); i++) {
+			m->m_normals[i] = normals[i];
+		}
+	}
 	
 	return m;
 }

@@ -8,7 +8,7 @@ uniform mat4 textureMatrix;
 uniform mat4 mvp;
 
 in vec3 position;
-out mat4 inverseProjView
+out mat4 inverseProjView;
 
 void main(void) {
 	gl_Position = mvp * vec4(position, 1.0);

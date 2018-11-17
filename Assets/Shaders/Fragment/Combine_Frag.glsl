@@ -11,9 +11,9 @@ in Vertex{
 out vec4 fragColour;
 
 void main(void){
-	vec3 diffuse 	= texture(diffuseTex, in.texCoord).xyz;
-	vec3 light 		= texture(emissiveTex, in.texCoord).xyz;
-	vec3 specular 	= texture(specularTex, in.texCoord).xyz;
+	vec3 diffuse 	= texture(diffuseTex, 	IN.texCoord).xyz;
+	vec3 light 		= texture(emissiveTex, 	IN.texCoord).xyz;
+	vec3 specular 	= texture(specularTex, 	IN.texCoord).xyz;
 
 	fragColour.xyz 	= diffuse * 0.2;	// ambient
 	fragColour.xyz += diffuse * light;	// lambert

@@ -5,11 +5,16 @@ DeferredRenderer::DeferredRenderer(Renderer * parentRenderer,Mesh* quad):
 	m_quad(quad),
 	m_parentRenderer(parentRenderer)
 {
-	m_sceneShader = new Shader(SHADERVERTDIR"Bump_Vert.glsl", SHADERFRAGDIR"Buffer_Frag.glsl");
-	m_sceneShader = new Shader(SHADERVERTDIR"Combine_Vert.glsl", SHADERFRAGDIR"Combine_Frag.glsl");
-	m_sceneShader = new Shader(SHADERVERTDIR"PointLight_Vert.glsl", SHADERFRAGDIR"PointLight_Frag.glsl");
+	m_sceneShader	= new Shader(SHADERVERTDIR"Bump_Vert.glsl",			SHADERFRAGDIR"Buffer_Frag.glsl");
+	m_combineShader = new Shader(SHADERVERTDIR"Combine_Vert.glsl",		SHADERFRAGDIR"Combine_Frag.glsl");
+	m_lightShader	= new Shader(SHADERVERTDIR"PointLight_Vert.glsl",	SHADERFRAGDIR"PointLight_Frag.glsl");
+	
+	createLights();
+	m_parentRenderer->checkErrors();
 
 	initBuffers();
+	m_parentRenderer->checkErrors();
+
 }
 
 
@@ -29,6 +34,21 @@ DeferredRenderer::~DeferredRenderer()
 
 }
 
+void DeferredRenderer::renderScene(GLuint FBO)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+	fillBuffers();
+	m_parentRenderer->checkErrors();
+	drawLights();
+	m_parentRenderer->checkErrors();
+	combineBuffers();
+	m_parentRenderer->checkErrors();
+
+	
+}
+
 void DeferredRenderer::initBuffers()
 {
 	generateBuffers();
@@ -40,7 +60,7 @@ void DeferredRenderer::createLights()
 {
 	m_lights = new Light[rowLenth * rowLenth];
 
-	Mesh* lightMesh = Mesh::readObjFile("");
+	Mesh* lightMesh = Mesh::readObjFile(MODELSDIR"sphere.obj");
 
 	int RAW_WIDTH = 257;
 	int RAW_HEIGHT = 257;
@@ -48,7 +68,7 @@ void DeferredRenderer::createLights()
 	int HEIGHTMAP_Z = 16;
 
 	for (int x = 0; x < rowLenth; ++x) {	
-		for (int z = 0; x < rowLenth; ++z) {
+		for (int z = 0; z < rowLenth; ++z) {
 			Light &l = m_lights[(x * rowLenth) + z];
 
 			 float xPos = (RAW_WIDTH * HEIGHTMAP_X / (rowLenth - 1)) * x;
@@ -61,7 +81,8 @@ void DeferredRenderer::createLights()
 			 l.setColour(Vector4(r, g, b, 1.0f));
 			
 			 float radius = (RAW_WIDTH * HEIGHTMAP_X / rowLenth);
-			 l.setRadius(radius);
+			 l.setRadius(radius);
+
 			 l.setMesh(lightMesh);
 
 		}
@@ -165,16 +186,24 @@ void DeferredRenderer::fillBuffers()
 	m_parentRenderer->setCurrentShader(m_sceneShader);
 
 	GLuint diffuseLoc	= glGetUniformLocation(m_sceneShader->getProgram(), "diffuseTex");
+	m_parentRenderer->checkErrors();
+
 	GLuint bumpLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "bumpTex");
+	m_parentRenderer->checkErrors();
+
 	
 	glUniform1i(diffuseLoc, TextureUniforms::Diffuse);
+	m_parentRenderer->checkErrors();
+
 	glUniform1i(bumpLoc, TextureUniforms::Bump);
+	m_parentRenderer->checkErrors();
 
 	m_parentRenderer->changeProjection(Projection::Perspective);
 	// Change model matrix here?
 	m_parentRenderer->updateShaderMatrices();
-
+	m_parentRenderer->checkErrors();
 	// draw stuff here
+	m_parentRenderer->drawAllMeshes();
 
 
 	glUseProgram(0);

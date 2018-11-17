@@ -1,7 +1,7 @@
 #version 330 core
 
 uniform sampler2D diffuseTex; 
-uniform sample2D bumpTex; // bumpmap texture
+uniform sampler2D bumpTex; // bumpmap texture
 
 
 in Vertex{
@@ -23,6 +23,6 @@ void main(void){
 					texture2D(bumpTex, IN.texCoord).rgb* 2.0 - 1.0);
 
 	fragColour[0] = texture2D(diffuseTex, IN.texCoord);
-	fragColour[1] = vec4(normal(.xyz * 0.5) + 0.5, 1.0);
+	fragColour[1] = vec4((normal.xyz * 0.5) + 0.5, 1.0);
 	
 }

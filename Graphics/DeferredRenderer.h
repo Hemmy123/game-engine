@@ -5,8 +5,11 @@
 class DeferredRenderer
 {
 public:
-	DeferredRenderer(Renderer * parentRenderer,Mesh* quad);
+	DeferredRenderer(Renderer * parentRenderer, Mesh* quad);
 	~DeferredRenderer();
+
+	// Rendering
+	void renderScene(GLuint FBO);
 
 	// Setting up
 	void createLights();
