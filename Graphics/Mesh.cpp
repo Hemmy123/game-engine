@@ -110,11 +110,11 @@ void Mesh::bindTexture()
 {
 	switch (m_textureType) {
 	case Texture_2D: {
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0 + TextureUniforms::Diffuse);
 		glBindTexture(GL_TEXTURE_2D, m_texture); 
 		
 		if (m_hasBumpTexture) {
-			glActiveTexture(GL_TEXTURE1);
+			glActiveTexture(GL_TEXTURE0 + TextureUniforms::Bump);
 			glBindTexture(GL_TEXTURE_2D, m_bumpTexture);
 		}
 

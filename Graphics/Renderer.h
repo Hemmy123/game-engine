@@ -31,23 +31,6 @@ enum class Projection {
 };
 
 
-enum  TextureUniforms {
-	Diffuse = 0,
-	CubeMap = 0,
-
-	Bump = 1,
-	Shadow = 2,
-
-	Depth = 3,
-	Normal = 4,
-
-	// For Anaglyph#3D
-	Left = 5,
-	Right = 6
-
-
-};
-
 class Renderer : public MasterRenderer {
 public:
 	Renderer(int height, int width, SceneManager* sm);

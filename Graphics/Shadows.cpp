@@ -113,7 +113,7 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 	m_parentRenderer->checkErrors();
 
 
-	glActiveTexture(GL_TEXTURE2);
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Shadow);
 	glBindTexture(GL_TEXTURE_2D, m_shadowTex);
 
 	Matrix4 viewMatrix = m_parentRenderer->getCamera()->BuildViewMatrix();

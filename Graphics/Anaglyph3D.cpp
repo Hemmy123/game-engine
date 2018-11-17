@@ -43,14 +43,14 @@ void Anaglyph3D::render(Mesh* quad,GLuint fbo, GLuint colourAttachment)
 
 
 
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(TextureUniforms::Left);
 	glBindTexture(GL_TEXTURE_2D, m_leftColourAttachment);
 	m_parentRenderer->checkErrors();
 	glUniform1i(leftTexloc, TextureUniforms::Left);
 	m_parentRenderer->checkErrors();
 
 
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(TextureUniforms::Right);
 	glBindTexture(GL_TEXTURE_2D, m_rightColourAttachment);
 	glUniform1i(rightTexLoc, TextureUniforms::Right);
 	m_parentRenderer->checkErrors();

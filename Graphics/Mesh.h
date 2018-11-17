@@ -34,6 +34,27 @@ enum TextureType {
 	Cube_Map
 };
 
+
+enum  TextureUniforms {
+	Default = 0,
+	
+	Diffuse = 0,
+	CubeMap = 1,
+
+	Bump = 1,
+	Shadow = 2,
+
+	Depth = 3,
+	Normal = 4,
+
+	// For Anaglyph#3D
+	Left = 5,
+	Right = 6,
+
+
+};
+
+
 /*
 Stores mesh data and has to be manually buffered into OGL
 with the bufferData method.
