@@ -87,6 +87,9 @@ public:
 
 	Shader* getCurrentShader()  { return m_currentShader; }
 
+	void setClearColour(Vector4 colour) { m_clearColour = colour; }
+
+
 	// ---------- Post processing test methods ---------- //
 
 	void setCurrentShader(Shader* s) { m_currentShader = s; }

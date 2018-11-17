@@ -21,6 +21,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
 	m_anaglyph3D	= new Anaglyph3D(m_renderer);
 	m_shadows		= new Shadows(m_renderer);
+	m_deferred = new DeferredRenderer(m_renderer, m_screenQuad);
 
 }
 

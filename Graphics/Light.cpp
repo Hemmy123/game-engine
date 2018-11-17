@@ -14,4 +14,6 @@ Light::Light():
 	m_radius(0)
 {
 
+
+
 }

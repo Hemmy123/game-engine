@@ -51,6 +51,9 @@ enum  TextureUniforms {
 	Left = 5,
 	Right = 6,
 
+	LightEmissive = 7,
+	LightSpecular = 8,
+
 
 };
 

@@ -1,8 +1,15 @@
 #include "DeferredRenderer.h"
+#include "FilePaths.h"
 
-
-DeferredRenderer::DeferredRenderer()
+DeferredRenderer::DeferredRenderer(Renderer * parentRenderer,Mesh* quad):
+	m_quad(quad),
+	m_parentRenderer(parentRenderer)
 {
+	m_sceneShader = new Shader(SHADERVERTDIR"Bump_Vert.glsl", SHADERFRAGDIR"Buffer_Frag.glsl");
+	m_sceneShader = new Shader(SHADERVERTDIR"Combine_Vert.glsl", SHADERFRAGDIR"Combine_Frag.glsl");
+	m_sceneShader = new Shader(SHADERVERTDIR"PointLight_Vert.glsl", SHADERFRAGDIR"PointLight_Frag.glsl");
+
+	initBuffers();
 }
 
 
@@ -33,10 +40,30 @@ void DeferredRenderer::createLights()
 {
 	m_lights = new Light[rowLenth * rowLenth];
 
-	for (int x = 0; x < rowLenth; ++x) {	
+	Mesh* lightMesh = Mesh::readObjFile("");
 
-		for (int x = 0; x < rowLenth; ++x) {
-		
+	int RAW_WIDTH = 257;
+	int RAW_HEIGHT = 257;
+	int HEIGHTMAP_X = 16;
+	int HEIGHTMAP_Z = 16;
+
+	for (int x = 0; x < rowLenth; ++x) {	
+		for (int z = 0; x < rowLenth; ++z) {
+			Light &l = m_lights[(x * rowLenth) + z];
+
+			 float xPos = (RAW_WIDTH * HEIGHTMAP_X / (rowLenth - 1)) * x;
+			 float zPos = (RAW_HEIGHT * HEIGHTMAP_Z / (rowLenth - 1)) * z;
+			 l.setPosition(Vector3(xPos, 100.0f, zPos));
+			
+			 float r = 0.5f + (float)(rand() % 129) / 128.0f;
+			 float g = 0.5f + (float)(rand() % 129) / 128.0f;
+			 float b = 0.5f + (float)(rand() % 129) / 128.0f;
+			 l.setColour(Vector4(r, g, b, 1.0f));
+			
+			 float radius = (RAW_WIDTH * HEIGHTMAP_X / rowLenth);
+			 l.setRadius(radius);
+			 l.setMesh(lightMesh);
+
 		}
 	}
 
@@ -166,16 +193,114 @@ void DeferredRenderer::drawLights()
 
 	// Check how this blending works?
 	glBlendFunc(GL_ONE, GL_ONE);
-	
+
+
+	// Setting up Depth and Normal textures
 	GLuint depthTexLoc	= glGetUniformLocation(m_lightShader->getProgram(), "depthTex");
 	GLuint normTexLoc	= glGetUniformLocation(m_lightShader->getProgram(), "normTex");
 
-
 	glUniform1i(depthTexLoc, Depth);
 	glUniform1i(normTexLoc, Normal);
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);
+	glBindTexture(GL_TEXTURE_2D, TextureUniforms::Depth);
+
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Normal);
+	glBindTexture(GL_TEXTURE_2D, TextureUniforms::Normal);
 
 
-//	glActiveTexture(GL_TEXTURE)
+	// Setting up camera and pixel size
+	GLuint cameraPosLoc = glGetUniformLocation(m_lightShader->getProgram(), "cameraPos");
+	GLuint pixelSizeLoc = glGetUniformLocation(m_lightShader->getProgram(), "pixelSize");
+	glUniform3fv(cameraPosLoc, 1, (float*)&m_parentRenderer->getCamera()->GetPosition());
+
+	int width = m_parentRenderer->getWidth();
+	int height = m_parentRenderer->getHeight();
+
+	glUniform2f(pixelSizeLoc, 1.0f / width, 1.0f / height);
+
+	float heightY = 10;
+	float heightX = 16;
+	float heightZ = 16;
+
+	Vector3 translate = Vector3(
+		(heightY*heightX / 2),
+		500,
+		(heightY*heightX / 2));
+
+	Matrix4 pushMatrix = Matrix4::Translation(translate);
+	Matrix4 popMatrix  = Matrix4::Translation(-translate);
+
+	float rotation = 10;
+	for (int x = 0; x < rowLenth; ++x) {
+		for (int z = 0; z < rowLenth; ++z) {
+			Light &l = m_lights[(x*rowLenth) + z];
+			float radius = l.getRadius();
+
+			Matrix4 modelMatrix =
+				pushMatrix * Matrix4::Rotation(rotation, Vector3(0, 1, 0)) *
+				popMatrix *
+				Matrix4::Translation(l.getPosition()) *
+				Matrix4::Scale(Vector3(radius, radius, radius));
+
+			m_parentRenderer->setModelMatrix(modelMatrix);
+
+			l.setPosition(modelMatrix.GetPositionVector());
+		
+			m_parentRenderer->setShaderLight(m_lightShader, l);
+			m_parentRenderer->updateShaderMatrices();
+
+			Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
+
+			float cameraDis = (l.getPosition() - cameraPos).Length();
+
+			if (cameraDis < radius) {
+				glCullFace(GL_FRONT);
+			}
+			else {
+				glCullFace(GL_BACK);
+			}
+
+			l.getMesh()->draw();
+		}
+	}
+
+	// Back to default settings
+	
+	glCullFace(GL_BACK);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_parentRenderer->setClearColour(Vector4(0.3, 0.5, 0.4, 1));
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glUseProgram(0);
+
+}
+
+void DeferredRenderer::combineBuffers(){
+	m_parentRenderer->setCurrentShader(m_combineShader);
+
+	m_parentRenderer->changeProjection(Projection::Orthographic);
+
+	m_parentRenderer->updateShaderMatrices();
+
+	GLuint diffuseTexLoc = glGetUniformLocation(m_combineShader->getProgram(), "diffuseTex");
+	GLuint emissiveTexLoc = glGetUniformLocation(m_combineShader->getProgram(), "emissiveTex");
+	GLuint specularTexLoc = glGetUniformLocation(m_combineShader->getProgram(), "specularTex");
+
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Diffuse);
+	glBindTexture(GL_TEXTURE_2D, m_GColour);
+
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::LightEmissive);
+	glBindTexture(GL_TEXTURE_2D, m_lightEmissive);
+
+
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::LightSpecular);
+	glBindTexture(GL_TEXTURE_2D, m_lightSpecular);
+
+	// bind first?
+	m_quad->setTextureType(Texture_2D);
+	m_quad->bindTexture();
+	m_quad->draw();
+
+	glUseProgram(0);
 
 }
 

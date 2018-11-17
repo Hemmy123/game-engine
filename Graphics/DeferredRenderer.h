@@ -5,23 +5,23 @@
 class DeferredRenderer
 {
 public:
-	DeferredRenderer();
+	DeferredRenderer(Renderer * parentRenderer,Mesh* quad);
 	~DeferredRenderer();
 
-
-	void initBuffers();
-
-
+	// Setting up
 	void createLights();
-
+	void initBuffers();
 	void generateBuffers();
+
 	void generateAllTextures();
 	void generateScreenTexture(GLuint &into, bool depth = false);
-
 	void attachTextures();
 
+	// Rendering 
 	void fillBuffers();
 	void drawLights();
+	void combineBuffers();
+
 
 
 private:
@@ -29,7 +29,10 @@ private:
 
 	// Temp array of lights for testing;
 	const int rowLenth = 8;
+
+
 	Light* m_lights;
+	Mesh* m_quad;
 
 
 	//
