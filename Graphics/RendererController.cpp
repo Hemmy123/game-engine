@@ -52,6 +52,13 @@ void RendererController::update(float msec)
 	if (m_settings.deferredRendering) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 		m_deferred->renderScene(m_sceneFBO);
+		// draw skyboz here;
+		
+		GLuint skyboxTex = m_buffColourAttachment;
+		GLuint renderTex = m_deferred->getCombinedColour;
+		
+		m_renderer->combineTextures(skyboxTex, renderTex);
+
 
 	}
 	else {

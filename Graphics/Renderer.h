@@ -103,6 +103,9 @@ public:
 	/// extras are finished.
 	void presentScene(Mesh* quad, Shader* sceneShader, GLuint texture);
 
+	/// Draws one texture (colour attachemnt with another)
+	void combineTextures(GLuint a, GLuint b);
+
 
 protected:
 

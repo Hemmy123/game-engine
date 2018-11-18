@@ -25,7 +25,8 @@ public:
 	void drawLights();
 	void combineBuffers(GLuint sceneFBO);
 
-
+	GLuint getCombineFBO()		const { return m_combinedFBO; }
+	GLuint getCombinedColour()	const { return m_combinedColour; }
 
 private:
 

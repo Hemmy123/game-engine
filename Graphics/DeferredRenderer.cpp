@@ -331,7 +331,7 @@ void DeferredRenderer::drawLights()
 }
 
 void DeferredRenderer::combineBuffers(GLuint sceneFBO) {
-	glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_combinedFBO);
 
 	m_parentRenderer->setCurrentShader(m_combineShader);
 	m_parentRenderer->changeProjection(Projection::Orthographic);
@@ -358,6 +358,7 @@ void DeferredRenderer::combineBuffers(GLuint sceneFBO) {
 	m_quad->draw();
 	m_parentRenderer->checkErrors();
 
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glUseProgram(0);
 
 }

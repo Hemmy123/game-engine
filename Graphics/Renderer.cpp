@@ -242,6 +242,12 @@ void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
 	
 }
 
+void Renderer::combineTextures(GLuint a, GLuint b){
+
+
+
+}
+
 
 void Renderer::setShaderLight(Shader* shader, Light &light) {
 
