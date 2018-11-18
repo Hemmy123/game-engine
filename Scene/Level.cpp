@@ -26,8 +26,8 @@ void Level::createDeferredLevelDemo()
 	m_rendererSettings.skybox				= true;
 	m_rendererSettings.postProcessing		= false;
 	m_rendererSettings.anaglyph3D			= false;
-	m_rendererSettings.shadows				= true;
-	m_rendererSettings.basicLighting		= true;
+	m_rendererSettings.shadows				= false;
+	m_rendererSettings.basicLighting		= false;
 	m_rendererSettings.deferredRendering	= true;
 
 	// ===== Lights ===== //

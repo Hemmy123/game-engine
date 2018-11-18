@@ -23,7 +23,7 @@ public:
 	// Rendering 
 	void fillBuffers();
 	void drawLights();
-	void combineBuffers();
+	void combineBuffers(GLuint sceneFBO);
 
 
 
@@ -33,12 +33,9 @@ private:
 	// Temp array of lights for testing;
 	const int rowLenth = 8;
 
-
 	Light* m_lights;
 	Mesh* m_quad;
 
-
-	//
 	Shader* m_sceneShader;
 	Shader* m_lightShader;
 	Shader* m_combineShader;
@@ -53,6 +50,13 @@ private:
 	GLuint m_lightFBO;
 	GLuint m_lightEmissive;
 	GLuint m_lightSpecular;
+
+	// The final combined to be used
+	// by other processing such as 
+	// combining with a cubemap or
+	// post processing
+	GLuint m_combinedFBO;
+	GLuint m_combinedColour;
 
 };
 

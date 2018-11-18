@@ -72,6 +72,8 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	GLuint texCubeLocation = glGetUniformLocation(m_skyboxShader->getProgram(), "cubeTex");
 
 	glUniform1i(texCubeLocation, TextureUniforms::CubeMap);
+	
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::CubeMap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap);
 
 

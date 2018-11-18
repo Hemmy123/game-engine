@@ -47,14 +47,10 @@ void RendererController::init()
 
 void RendererController::update(float msec)
 {
-	
-	
-	
-
 	m_renderer->updateScene(msec);
 
 	if (m_settings.deferredRendering) {
-		m_renderer->clearBuffers();
+		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 		m_deferred->renderScene(m_sceneFBO);
 
 	}
@@ -102,10 +98,10 @@ void RendererController::update(float msec)
 	}
 
 	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
-	// m_renderer->clearBuffers();
 	m_renderer->swapBuffers();
 }
 
