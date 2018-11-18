@@ -121,15 +121,14 @@ void DeferredRenderer::generateScreenTexture(GLuint & into, bool depth)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	
-
-
 	glTexImage2D(GL_TEXTURE_2D, 0,
 		depth ? GL_DEPTH_COMPONENT24 : GL_RGBA8,
 		width, height, 0,
 		depth ? GL_DEPTH_COMPONENT : GL_RGBA,
 		GL_UNSIGNED_BYTE, NULL);
+
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -159,7 +158,7 @@ void DeferredRenderer::attachTextures()
 	// Set up light buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, m_lightFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_lightEmissive, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_lightEmissive, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_lightSpecular, 0);
 	glDrawBuffers(2, buffers);
 
 
@@ -184,13 +183,15 @@ void DeferredRenderer::fillBuffers()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 	m_parentRenderer->setCurrentShader(m_sceneShader);
+	
+
+	m_parentRenderer->changeProjection(Projection::Perspective);
+	// Change model matrix here?
+	m_parentRenderer->updateShaderMatrices();
+	m_parentRenderer->checkErrors();
 
 	GLuint diffuseLoc	= glGetUniformLocation(m_sceneShader->getProgram(), "diffuseTex");
-	m_parentRenderer->checkErrors();
-
 	GLuint bumpLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "bumpTex");
-	m_parentRenderer->checkErrors();
-
 	
 	glUniform1i(diffuseLoc, TextureUniforms::Diffuse);
 	m_parentRenderer->checkErrors();
@@ -198,10 +199,7 @@ void DeferredRenderer::fillBuffers()
 	glUniform1i(bumpLoc, TextureUniforms::Bump);
 	m_parentRenderer->checkErrors();
 
-	m_parentRenderer->changeProjection(Projection::Perspective);
-	// Change model matrix here?
-	m_parentRenderer->updateShaderMatrices();
-	m_parentRenderer->checkErrors();
+	
 	// draw stuff here
 	m_parentRenderer->drawAllMeshes();
 
@@ -216,36 +214,44 @@ void DeferredRenderer::drawLights()
 	glBindFramebuffer(GL_FRAMEBUFFER, m_lightFBO);
 
 	m_parentRenderer->setCurrentShader(m_lightShader);
+	glUseProgram(m_lightShader->getProgram());
 
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Check how this blending works?
 	glBlendFunc(GL_ONE, GL_ONE);
-
-
+	m_parentRenderer->checkErrors();
+	
 	// Setting up Depth and Normal textures
 	GLuint depthTexLoc	= glGetUniformLocation(m_lightShader->getProgram(), "depthTex");
 	GLuint normTexLoc	= glGetUniformLocation(m_lightShader->getProgram(), "normTex");
 
 	glUniform1i(depthTexLoc, Depth);
 	glUniform1i(normTexLoc, Normal);
+	m_parentRenderer->checkErrors();
+
+	
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);
-	glBindTexture(GL_TEXTURE_2D, TextureUniforms::Depth);
+	glBindTexture(GL_TEXTURE_2D, m_GDepth);
+	m_parentRenderer->checkErrors();
 
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Normal);
-	glBindTexture(GL_TEXTURE_2D, TextureUniforms::Normal);
+	glBindTexture(GL_TEXTURE_2D, m_GNormal);
+	m_parentRenderer->checkErrors();
 
 
 	// Setting up camera and pixel size
 	GLuint cameraPosLoc = glGetUniformLocation(m_lightShader->getProgram(), "cameraPos");
 	GLuint pixelSizeLoc = glGetUniformLocation(m_lightShader->getProgram(), "pixelSize");
 	glUniform3fv(cameraPosLoc, 1, (float*)&m_parentRenderer->getCamera()->GetPosition());
+	m_parentRenderer->checkErrors();
 
 	int width = m_parentRenderer->getWidth();
 	int height = m_parentRenderer->getHeight();
 
 	glUniform2f(pixelSizeLoc, 1.0f / width, 1.0f / height);
+	m_parentRenderer->checkErrors();
 
 	float heightY = 10;
 	float heightX = 16;
@@ -277,6 +283,7 @@ void DeferredRenderer::drawLights()
 		
 			m_parentRenderer->setShaderLight(m_lightShader, l);
 			m_parentRenderer->updateShaderMatrices();
+			m_parentRenderer->checkErrors();
 
 			Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
 
@@ -289,7 +296,10 @@ void DeferredRenderer::drawLights()
 				glCullFace(GL_BACK);
 			}
 
+			l.getMesh()->setTextureType(Texture_2D);
+			l.getMesh()->bindTexture();
 			l.getMesh()->draw();
+			m_parentRenderer->checkErrors();
 		}
 	}
 
