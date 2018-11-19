@@ -30,9 +30,9 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 		TEXTUREDIR"Skyboxes/2/back.jpg",
 		SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0);
 
-	Vector3 pos(100, 400, 500);
-	Vector4 col(1, 1, 1, 1);
-	int radius = 6000;
+	Vector3 pos(100.0f, 400.0f, 500.0f);
+	Vector4 col(1.0f, 1.0f, 1.0f, 1.0f);
+	float radius = 6000;
 
 	m_light = new Light(pos,col,radius);
 

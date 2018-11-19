@@ -293,7 +293,7 @@ void DeferredRenderer::drawLights()
 			Light &l = m_lights[(x*rowLenth) + z];
 			float radius = l.getRadius();
 
-			int scale = radius;
+			float scale = radius;
 
 			Matrix4 modelMatrix =
 				pushMatrix *
@@ -329,7 +329,7 @@ void DeferredRenderer::drawLights()
 	glCullFace(GL_BACK);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_parentRenderer->setClearColour(Vector4(0.3, 0.5, 0.4, 1));
+	m_parentRenderer->setClearColour(Vector4(0.3f, 0.5f, 0.4f, 1.0f));
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glUseProgram(0);

@@ -219,8 +219,6 @@ void Renderer::updateShaderMatrices( ) {
 	glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, false, (float*)&mvp);
 
 
-
-
 }
 
 void Renderer::presentScene(Mesh* quad, Shader* sceneShader, GLuint texture) {
