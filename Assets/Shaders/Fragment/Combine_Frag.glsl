@@ -22,7 +22,7 @@ void main(void){
 
 	// If the depth is infinitely far away, then it's
 	// probably the skybox
-	if(depth ==1){
+	if(depth == 1){
 		discard;
 	} else{
 

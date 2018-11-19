@@ -93,7 +93,7 @@ void DeferredRenderer::createLights()
 			float b = 0.5f + (float)(rand() % 129) / 128.0f;
 			l.setColour(Vector4(r, g, b, 1.0f));
 
-			float radius = (RAW_WIDTH * HEIGHTMAP_X / rowLenth);
+			float radius = (200);
 			l.setRadius(radius);
 
 			l.setMesh(lightMesh);
@@ -266,7 +266,9 @@ void DeferredRenderer::drawLights()
 	// Setting up camera and pixel size
 	GLuint cameraPosLoc = glGetUniformLocation(m_lightShader->getProgram(), "cameraPos");
 	GLuint pixelSizeLoc = glGetUniformLocation(m_lightShader->getProgram(), "pixelSize");
-	glUniform3fv(cameraPosLoc, 1, (float*)&m_parentRenderer->getCamera()->GetPosition());
+	Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
+
+	glUniform3fv(cameraPosLoc, 1, (float*)&cameraPos);
 
 	int width = m_parentRenderer->getWidth();
 	int height = m_parentRenderer->getHeight();
@@ -291,7 +293,7 @@ void DeferredRenderer::drawLights()
 			Light &l = m_lights[(x*rowLenth) + z];
 			float radius = l.getRadius();
 
-			int scale = 500;
+			int scale = radius;
 
 			Matrix4 modelMatrix =
 				pushMatrix *
@@ -302,7 +304,7 @@ void DeferredRenderer::drawLights()
 
 			m_parentRenderer->setModelMatrix(modelMatrix);
 
-			l.setPosition(modelMatrix.GetPositionVector());
+			//l.setPosition(modelMatrix.GetPositionVector());
 
 			m_parentRenderer->setShaderLight(m_lightShader, l);
 			m_parentRenderer->updateShaderMatrices();

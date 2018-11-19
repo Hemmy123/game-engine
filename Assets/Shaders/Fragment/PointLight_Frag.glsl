@@ -10,10 +10,12 @@ uniform float 	lightRadius;
 uniform vec3 	lightPos;
 uniform vec4 	lightColour;
 
-in mat4	inverseProjView;
-out vec4 fragColour[2];
+in 	mat4 inverseProjView;
+out vec4 fragColour[2]; // [0] diffuse, [1] specular
 
 void main(void){
+
+
 	vec3 pos 	= vec3( (gl_FragCoord.x * pixelSize.x), 
 						(gl_FragCoord.y * pixelSize.y), 
 						0.0);
@@ -23,19 +25,25 @@ void main(void){
 	vec3 normal = normalize(texture(normTex, pos.xy).xyz*2.0 - 1.0);
 
 	vec4 clip 	= inverseProjView * vec4(pos * 2.0 - 1.0, 1.0);
+	
+	// The final position of the fragment
 	pos 		= clip.xyz / clip.w;
 
+
+	// How far away this fragment is from the light volumn 
 	float dist 	= length(lightPos - pos);
 	float atten = 1.0 - clamp(dist / lightRadius ,0.0, 1.0);
 
-	if(atten == 0.0){
+	if(atten == 0.0){ // If it is too far, discard the fragment
 		discard;
 	}
+
 
 	vec3 incident 	= normalize(lightPos 	- pos);
 	vec3 viewDir 	= normalize(cameraPos 	- pos);
 	vec3 halfDir	= normalize(incident 	+ viewDir);
 
+	
 	float lambert = clamp(dot(incident, normal), 0.0, 1.0);
 	float rFactor = clamp(dot(halfDir, normal), 0.0, 1.0);
 	float sFactor = pow(rFactor, 33.0);
