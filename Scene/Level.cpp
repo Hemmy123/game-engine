@@ -37,13 +37,13 @@ void Level::createDeferredLevelDemo()
 	const int totalLights	= rows * columns;
 	
 	
-	float lightRadius	= 480;
-
+	float lightRadius	= 150;
+	Vector3 scale(100, 200, 100);
 	
 
 	float lightOffset	= 300;
 
-	Vector3 origin(400, 300, 100);
+	Vector3 origin(400, 250, 100);
 
 	Vector3 lightPos[totalLights];
 
@@ -72,8 +72,8 @@ void Level::createDeferredLevelDemo()
 
 		//Vector3 light_pos(i * lightOffset, height, i * lightOffset );
 
-		GameLight* light = new GameLight(light_pos, lightColour, lightRadius);
-		light->setTag(T_Light);
+		GameLight* light = new GameLight(light_pos, lightColour, scale);
+		light->setTag(T_SpotLight);
 		m_gameObjects.push_back(light);
 	}
 
@@ -149,10 +149,12 @@ void Level::createDemoLevel() {
 
 	Vector3 light_pos(500,800,-300);
 	Vector4 light_col(1,1,1,1);
-	float	light_rad = 3000;
+	//float	light_rad = 3000;
 
-	GameLight* light = new GameLight(light_pos, light_col, light_rad);
-	light->setTag(T_Light);
+	Vector3 light_scale(3000, 3000, 3000);
+
+	GameLight* light = new GameLight(light_pos, light_col, light_scale);
+	light->setTag(T_PointLight);
 	m_gameObjects.push_back(light);
 
 	// ===== Terrain ===== //

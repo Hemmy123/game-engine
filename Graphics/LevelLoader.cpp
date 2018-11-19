@@ -172,29 +172,48 @@ void LevelLoader::loadLevel(Level * level)
 			m_sceneManager->setWater(ro1);
 			break;
 		}
-		case T_Light: {
+		case T_SpotLight: {
 			GameLight* gameLight = static_cast<GameLight*>(obj);
 
 			Mesh* lightMesh	;
-			if (m_loadedObjects.at(T_Light) != true) {
-				lightMesh = Mesh::readObjFile(MODELSDIR"ico.obj");
-				lightMesh->setId(T_Light);
+			if (m_loadedObjects.at(T_SpotLight) != true) {
+				lightMesh = Mesh::readObjFile(MODELSDIR"cone.obj");
+				lightMesh->setId(T_SpotLight);
 				lightMesh->bufferData();
-				m_loadedObjects.at(T_Light) = true;
+				m_loadedObjects.at(T_SpotLight) = true;
 				m_meshes.push_back(lightMesh);
 
 			}
 			else {
-				lightMesh = findMesh(T_Light);
+				lightMesh = findMesh(T_SpotLight);
 			}
+			Light* light = new Light(gameLight->getPosition(), gameLight->getColour(), gameLight->getScale());
 
-			Light* light = new Light(gameLight->getPosition(), gameLight->getColour(), gameLight->getRadius());
 			light->setMesh(lightMesh);
 			m_sceneManager->pushLight(light);
 
 			break;
 		}
-		case T_Cube: {
+		case T_PointLight: {
+
+			GameLight* gameLight = static_cast<GameLight*>(obj);
+
+			Mesh* lightMesh;
+			if (m_loadedObjects.at(T_PointLight) != true) {
+				lightMesh = Mesh::readObjFile(MODELSDIR"ico.obj");
+				lightMesh->setId(T_PointLight);
+				lightMesh->bufferData();
+				m_loadedObjects.at(T_PointLight) = true;
+				m_meshes.push_back(lightMesh);
+
+			}
+			else {
+				lightMesh = findMesh(T_PointLight);
+			}
+			Light* light = new Light(gameLight->getPosition(), gameLight->getColour(), gameLight->getRadius());
+
+			light->setMesh(lightMesh);
+			m_sceneManager->pushLight(light);
 			break;
 		}
 		case T_Player: {

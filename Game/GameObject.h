@@ -35,7 +35,9 @@ enum ObjectTag{
 	T_Water,
 	T_Cube,
 
-	T_Light,
+	T_PointLight,
+	T_SpotLight,
+
 
 	T_EndTag
 	
