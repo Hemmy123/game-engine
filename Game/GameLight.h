@@ -25,9 +25,8 @@ public:
 
 	GameLight(Vector3 position, Vector4 colour, Vector3 scale) :
 		m_position(position),
-		m_colour(colour),
-		m_scale(scale) {
-
+		m_colour(colour){
+		m_scale = scale;
 		m_type = GameLightType::SpotLight;
 		m_radius = m_scale.y;
 	};
@@ -43,7 +42,6 @@ public:
 
 	void setPosition(Vector3 position)	{ m_position = position; }
 	void setColour(Vector4 colour)		{ m_colour	= colour; }
-	void setScale(Vector3 scale)		{ m_scale	= scale; }
 	void setRadius(float radius)		{ m_radius	= radius; }
 	void setType(GameLightType type)	{ m_type = type; }
 private:
@@ -51,6 +49,5 @@ private:
 	Vector3 m_position;
 	Vector4 m_colour;
 	float	m_radius;
-	Vector3	m_scale;
 };
 

@@ -38,12 +38,12 @@ void Level::createDeferredLevelDemo()
 	
 	
 	float lightRadius	= 150;
-	Vector3 scale(100, 200, 100);
+	Vector3 scale(100, 500, 100);
 	
 
-	float lightOffset	= 300;
+	float lightOffset	= 500;
 
-	Vector3 origin(400, 250, 100);
+	Vector3 origin(400, 230, 100);
 
 	Vector3 lightPos[totalLights];
 
