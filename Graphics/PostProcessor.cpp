@@ -49,7 +49,7 @@ void PostProcessor::drawPostProcess(GLuint buffColourAttachment)
 	glDisable(GL_DEPTH_TEST);
 
 	m_parentRenderer->setCurrentShader(m_processShader);	// Change to our post processing shader
-	m_parentRenderer->changeProjection(Orthographic);			
+	m_parentRenderer->changeProjection(Projection::Orthographic);
 	m_parentRenderer->setViewMatrix(Matrix4());				// set to identitiy matrix
 	m_parentRenderer->updateShaderMatrices();
 

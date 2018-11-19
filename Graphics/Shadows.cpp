@@ -52,7 +52,7 @@ void Shadows::drawShadowScene(){
 	// Don't draw any colours! (R,G,B,A)
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-	m_parentRenderer->changeProjection(Perspective);
+	m_parentRenderer->changeProjection(Projection::Perspective);
 	m_parentRenderer->setCurrentShader(m_shadowShader);
 
 	Matrix4 lightViewMatrix = Matrix4::BuildViewMatrix(
@@ -95,13 +95,13 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 	GLuint cameraLoc		= glGetUniformLocation(m_sceneShader->getProgram(), "cameraPos");
 	
 
-	glUniform1i(diffuseTexLoc, 0);
+	glUniform1i(diffuseTexLoc, TextureUniforms::Diffuse);
 	m_parentRenderer->checkErrors();
 
-	glUniform1i(bumpTexLoc, 1);
+	glUniform1i(bumpTexLoc, TextureUniforms::Bump);
 	m_parentRenderer->checkErrors();
 
-	glUniform1i(shadowTexLoc, 2);
+	glUniform1i(shadowTexLoc, TextureUniforms::Shadow);
 	m_parentRenderer->checkErrors();
 
 	Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
@@ -113,7 +113,7 @@ void Shadows::drawCombinedScene(GLuint sceneFbo){
 	m_parentRenderer->checkErrors();
 
 
-	glActiveTexture(GL_TEXTURE2);
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Shadow);
 	glBindTexture(GL_TEXTURE_2D, m_shadowTex);
 
 	Matrix4 viewMatrix = m_parentRenderer->getCamera()->BuildViewMatrix();

@@ -26,9 +26,9 @@ void Level::createDeferredLevelDemo()
 	m_rendererSettings.skybox				= true;
 	m_rendererSettings.postProcessing		= false;
 	m_rendererSettings.anaglyph3D			= false;
-	m_rendererSettings.shadows				= true;
-	m_rendererSettings.basicLighting		= true;
-	m_rendererSettings.differedRendering	= true;
+	m_rendererSettings.shadows				= false;
+	m_rendererSettings.basicLighting		= false;
+	m_rendererSettings.deferredRendering	= true;
 
 	// ===== Lights ===== //
 
@@ -86,7 +86,7 @@ void Level::createDemoLevel() {
 	m_rendererSettings.anaglyph3D			= false;
 	m_rendererSettings.shadows				= true;
 	m_rendererSettings.basicLighting		= true;
-	m_rendererSettings.differedRendering	= false;
+	m_rendererSettings.deferredRendering	= false;
 
 	 // ===== Rabbits ===== //
 	Vector3 obj1_scale(30, 30, 30);

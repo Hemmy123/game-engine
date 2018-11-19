@@ -102,7 +102,7 @@ std::string MasterRenderer::glEnumToString(unsigned e) {
 	}
 	case GL_INVALID_OPERATION: {
 		errStr = "GL_INVALID_OPERATION";
-
+		break;
 	}
 	case GL_INVALID_FRAMEBUFFER_OPERATION: {
 		errStr = "GL_INVALID_FRAMEBUFFER_OPERATION";

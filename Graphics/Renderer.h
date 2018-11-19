@@ -24,11 +24,12 @@
 
 using std::vector;
 
-enum Projection {
+enum class Projection {
 	Orthographic,
 	Perspective,
 
 };
+
 
 class Renderer : public MasterRenderer {
 public:
@@ -86,6 +87,9 @@ public:
 
 	Shader* getCurrentShader()  { return m_currentShader; }
 
+	void setClearColour(Vector4 colour) { m_clearColour = colour; }
+
+
 	// ---------- Post processing test methods ---------- //
 
 	void setCurrentShader(Shader* s) { m_currentShader = s; }
@@ -99,15 +103,19 @@ public:
 	/// extras are finished.
 	void presentScene(Mesh* quad, Shader* sceneShader, GLuint texture);
 
+	/// Draws one texture (colour attachemnt with another)
+	void combineTextures(GLuint a, GLuint b);
+
 
 protected:
 
 
 
-	// ---------- Functions ---------- //
+	// ---------- Shaders ---------- //
 
 	Shader* m_currentShader;
 
+	Shader* m_combineShader;
 	// ---------- Fields ---------- //
 	float m_dt;
 

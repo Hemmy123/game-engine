@@ -21,6 +21,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
 	m_anaglyph3D	= new Anaglyph3D(m_renderer);
 	m_shadows		= new Shadows(m_renderer);
+	m_deferred = new DeferredRenderer(m_renderer, m_skybox, m_screenQuad);
 
 }
 
@@ -46,15 +47,12 @@ void RendererController::init()
 
 void RendererController::update(float msec)
 {
-	
-	
-	
-
 	m_renderer->updateScene(msec);
 
-	if (m_settings.differedRendering) {
-		m_renderer->clearBuffers();
-		m_renderer->renderScene(m_screenQuad, m_sceneShader, m_sceneFBO);
+	if (m_settings.deferredRendering) {
+		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
+		m_deferred->renderScene(m_sceneFBO);
+
 
 	}
 	else {
@@ -101,10 +99,10 @@ void RendererController::update(float msec)
 	}
 
 	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
-	// m_renderer->clearBuffers();
 	m_renderer->swapBuffers();
 }
 

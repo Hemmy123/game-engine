@@ -42,9 +42,9 @@ int main() {
 			double dt = min(frameTime, MAXDT);
 			inputHandler->update();
 			bus->update();
-			game->update(dt);
+			game->update((float)dt);
 
-			graphics->update(dt);
+			graphics->update((float)dt);
 
 			frameTime -= dt;
 
