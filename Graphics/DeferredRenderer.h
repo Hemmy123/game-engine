@@ -25,8 +25,6 @@ public:
 	void drawLights();
 	void combineBuffers(GLuint sceneFBO);
 
-	GLuint getCombineFBO()		const { return m_combinedFBO; }
-	GLuint getCombinedColour()	const { return m_combinedColour; }
 
 private:
 
@@ -55,13 +53,5 @@ private:
 	GLuint m_lightFBO;
 	GLuint m_lightEmissive;
 	GLuint m_lightSpecular;
-
-	// The final combined to be used
-	// by other processing such as 
-	// combining with a cubemap or
-	// post processing
-	GLuint m_combinedFBO;
-	GLuint m_combinedColour;
-
 };
 

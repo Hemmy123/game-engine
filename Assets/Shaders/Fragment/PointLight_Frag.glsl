@@ -49,5 +49,6 @@ void main(void){
 	float sFactor = pow(rFactor, 33.0);
 
 	fragColour[0] = vec4(lightColour.xyz * lambert * atten , 1.0);			// Diffuse (emissive)
-	fragColour[1] = vec4(lightColour.xyz * sFactor * atten * 0.33 , 1.0);	// Specular 
+	// fragColour[1] = vec4(lightColour.xyz * sFactor * atten * 0.33 , 1.0);	// Specular 
+	fragColour[1] = vec4(lightColour.xyz * sFactor * atten * 0.55 , 1.0);	// Specular 
 }

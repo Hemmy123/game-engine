@@ -86,14 +86,14 @@ void DeferredRenderer::createLights()
 
 			float xPos = (RAW_WIDTH * HEIGHTMAP_X / (rowLenth - 1.0f)) * x;
 			float zPos = (RAW_HEIGHT * HEIGHTMAP_Z / (rowLenth - 1.0f)) * z;
-			l.setPosition(Vector3(xPos, 100.0f, zPos));
+			l.setPosition(Vector3(xPos, 400.0f, zPos));
 
 			float r = 0.5f + (float)(rand() % 129) / 128.0f;
 			float g = 0.5f + (float)(rand() % 129) / 128.0f;
 			float b = 0.5f + (float)(rand() % 129) / 128.0f;
 			l.setColour(Vector4(r, g, b, 1.0f));
 
-			float radius = (200);
+			float radius = 600;
 			l.setRadius(radius);
 
 			l.setMesh(lightMesh);
@@ -108,7 +108,6 @@ void DeferredRenderer::generateBuffers()
 {
 	glGenFramebuffers(1, &m_Gbuffer);
 	glGenFramebuffers(1, &m_lightFBO);
-	glGenFramebuffers(1, &m_combinedFBO);
 	
 }
 
@@ -121,7 +120,6 @@ void DeferredRenderer::generateAllTextures()
 	generateScreenTexture(m_GNormal);
 	generateScreenTexture(m_lightEmissive);
 	generateScreenTexture(m_lightSpecular);
-	generateScreenTexture(m_combinedColour);
 
 
 }
@@ -160,8 +158,9 @@ void DeferredRenderer::attachTextures()
 	// Set up Gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, m_Gbuffer);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_GColour, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_GDepth, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_GNormal, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,	m_GDepth, 0);
+
 
 	// Which buffers to draw to.
 	glDrawBuffers(2, buffers);
@@ -181,17 +180,6 @@ void DeferredRenderer::attachTextures()
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		return;
 	}
-
-
-	glBindFramebuffer(GL_FRAMEBUFFER, m_combinedFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_combinedColour, 0);
-	//glDrawBuffers(2, buffers);
-
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-		return;
-	}
-
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glEnable(GL_DEPTH_TEST);
@@ -247,7 +235,6 @@ void DeferredRenderer::drawLights()
 
 	// Check how this blending works?
 	glBlendFunc(GL_ONE, GL_ONE);
-	m_parentRenderer->checkErrors();
 
 	// Setting up Depth and Normal textures
 	GLuint depthTexLoc = glGetUniformLocation(m_lightShader->getProgram(), "depthTex");
@@ -256,12 +243,7 @@ void DeferredRenderer::drawLights()
 	glUniform1i(depthTexLoc, Depth);
 	glUniform1i(normTexLoc, Normal);
 
-	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);
-	glBindTexture(GL_TEXTURE_2D, m_GDepth);
-
-	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Normal);
-	glBindTexture(GL_TEXTURE_2D, m_GNormal);
-
+	
 
 	// Setting up camera and pixel size
 	GLuint cameraPosLoc = glGetUniformLocation(m_lightShader->getProgram(), "cameraPos");
@@ -287,7 +269,8 @@ void DeferredRenderer::drawLights()
 	Matrix4 pushMatrix = Matrix4::Translation(translate);
 	Matrix4 popMatrix = Matrix4::Translation(-translate);
 
-	float rotation = 10;
+	float rotation = 0;
+
 	for (int x = 0; x < rowLenth; ++x) {
 		for (int z = 0; z < rowLenth; ++z) {
 			Light &l = m_lights[(x*rowLenth) + z];
@@ -309,6 +292,8 @@ void DeferredRenderer::drawLights()
 			m_parentRenderer->setShaderLight(m_lightShader, l);
 			m_parentRenderer->updateShaderMatrices();
 
+
+
 			Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
 
 			float cameraDis = (l.getPosition() - cameraPos).Length();
@@ -319,6 +304,13 @@ void DeferredRenderer::drawLights()
 			else {
 				glCullFace(GL_BACK);
 			}
+
+			// Binds the depth and normal textures
+			glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);
+			glBindTexture(GL_TEXTURE_2D, m_GDepth);
+
+			glActiveTexture(GL_TEXTURE0 + TextureUniforms::Normal);
+			glBindTexture(GL_TEXTURE_2D, m_GNormal);
 
 			l.getMesh()->draw();
 		}

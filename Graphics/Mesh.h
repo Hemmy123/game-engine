@@ -39,7 +39,6 @@ enum  TextureUniforms {
 	Default = 0,
 	
 	Diffuse = 0,
-	CubeMap = 1,
 
 	Bump = 1,
 	Shadow = 2,
@@ -55,6 +54,8 @@ enum  TextureUniforms {
 	LightSpecular = 8,
 
 	SkyboxQuad = 9,
+	CubeMap = 10,
+
 
 
 };
