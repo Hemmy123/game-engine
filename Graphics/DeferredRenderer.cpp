@@ -71,7 +71,7 @@ void DeferredRenderer::initBuffers()
 
 void DeferredRenderer::createLights()
 {
-	m_lights = new Light[rowLenth * rowLenth];
+	/*m_lights = new Light[rowLenth * rowLenth];
 
 	Mesh* lightMesh = Mesh::readObjFile(MODELSDIR"ico.obj");
 	lightMesh->bufferData();
@@ -99,7 +99,7 @@ void DeferredRenderer::createLights()
 			l.setMesh(lightMesh);
 
 		}
-	}
+	}*/
 
 
 }
@@ -271,49 +271,51 @@ void DeferredRenderer::drawLights()
 
 	float rotation = 0;
 
-	for (int x = 0; x < rowLenth; ++x) {
-		for (int z = 0; z < rowLenth; ++z) {
-			Light &l = m_lights[(x*rowLenth) + z];
-			float radius = l.getRadius();
+	for (int i = 0; i < m_lights.size() ; ++i) {
+		
 
-			float scale = radius;
+			
+		Light* l = m_lights[i];
+		float radius = l->getRadius();
 
-			Matrix4 modelMatrix =
-				pushMatrix *
-				Matrix4::Rotation(rotation, Vector3(0, 1, 0)) *
-				popMatrix *
-				Matrix4::Translation(l.getPosition()) *
-				Matrix4::Scale(Vector3(scale, scale, scale));
+		float scale = radius;
 
-			m_parentRenderer->setModelMatrix(modelMatrix);
+		Matrix4 modelMatrix =
+			pushMatrix *
+			Matrix4::Rotation(rotation, Vector3(0, 1, 0)) *
+			popMatrix *
+			Matrix4::Translation(l->getPosition()) *
+			Matrix4::Scale(Vector3(scale, scale, scale));
 
-			//l.setPosition(modelMatrix.GetPositionVector());
+		m_parentRenderer->setModelMatrix(modelMatrix);
 
-			m_parentRenderer->setShaderLight(m_lightShader, l);
-			m_parentRenderer->updateShaderMatrices();
+		//l.setPosition(modelMatrix.GetPositionVector());
+
+		m_parentRenderer->setShaderLight(m_lightShader, *l);
+		m_parentRenderer->updateShaderMatrices();
 
 
 
-			Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
+		Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
 
-			float cameraDis = (l.getPosition() - cameraPos).Length();
+		float cameraDis = (l->getPosition() - cameraPos).Length();
 
-			if (cameraDis < radius) {
-				glCullFace(GL_FRONT);
-			}
-			else {
-				glCullFace(GL_BACK);
-			}
-
-			// Binds the depth and normal textures
-			glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);
-			glBindTexture(GL_TEXTURE_2D, m_GDepth);
-
-			glActiveTexture(GL_TEXTURE0 + TextureUniforms::Normal);
-			glBindTexture(GL_TEXTURE_2D, m_GNormal);
-
-			l.getMesh()->draw();
+		if (cameraDis < radius) {
+			glCullFace(GL_FRONT);
 		}
+		else {
+			glCullFace(GL_BACK);
+		}
+
+		// Binds the depth and normal textures
+		glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);
+		glBindTexture(GL_TEXTURE_2D, m_GDepth);
+
+		glActiveTexture(GL_TEXTURE0 + TextureUniforms::Normal);
+		glBindTexture(GL_TEXTURE_2D, m_GNormal);
+
+		l->getMesh()->draw();
+		
 	}
 
 	// Back to default settings

@@ -37,21 +37,25 @@ void Level::createDeferredLevelDemo()
 	const int totalLights	= rows * columns;
 	
 	
-	float lightRadius	= 100;
-	Vector4 lightColour(1, 1, 1, 1);
+	float lightRadius	= 480;
 
-	float lightOffset	= 50;
+	
 
-	float origin		= 0;	// The origin for all of the lights
-	float height		= 100;
+	float lightOffset	= 300;
+
+	Vector3 origin(400, 300, 100);
+
 	Vector3 lightPos[totalLights];
 
 
 	// Create positions
-	for (int col = 0; col < columns; col++) {
-		for (int row = 0; row < rows; row++) {
-			int offset = col * columns;
-			lightPos[offset] = Vector3(origin * col, height, origin * row);
+	for (int x = 0; x < columns; x++) {
+		for (int z = 0; z < rows; z++) {
+
+			int offset = (x * rows) + z;
+			Vector3 pos(x * lightOffset, 0, z * lightOffset);
+			pos = pos + origin;
+			lightPos[offset] = pos;
 		}
 	}
 
@@ -59,7 +63,15 @@ void Level::createDeferredLevelDemo()
 
 	// create light with positions
 	for (int i = 0; i < totalLights; i++) {
-		Vector3 light_pos = lightPos[i];
+		 Vector3 light_pos = lightPos[i];
+
+		float r = 0.5f + (float)(rand() % 129) / 128.0f;
+		float g = 0.5f + (float)(rand() % 129) / 128.0f;
+		float b = 0.5f + (float)(rand() % 129) / 128.0f;
+		Vector4 lightColour(r, g, b, 1);
+
+		//Vector3 light_pos(i * lightOffset, height, i * lightOffset );
+
 		GameLight* light = new GameLight(light_pos, lightColour, lightRadius);
 		light->setTag(T_Light);
 		m_gameObjects.push_back(light);
@@ -107,6 +119,8 @@ void Level::createDemoLevel() {
 	GameObject* rabbit7 = new GameObject(Vector3(obj1_x + -obj1_offSet * 2, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
 	GameObject* rabbit8 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
 	GameObject* rabbit9 = new GameObject(Vector3(obj1_x + 0, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
+	
+	GameObject* bin = new GameObject(Vector3(obj1_x + 0, obj1_y + 10, obj1_z + (2 * obj1_offSet + 40)), Vector3(1, 1, 1), Vector3(2,2,2));
 
 	rabbit1->setTag(T_Rabbit);
 	rabbit2->setTag(T_Rabbit);
@@ -117,6 +131,7 @@ void Level::createDemoLevel() {
 	rabbit7->setTag(T_Rabbit);
 	rabbit8->setTag(T_Rabbit);
 	rabbit9->setTag(T_Rabbit);
+	bin->setTag(T_Street);
 
 	m_gameObjects.push_back(rabbit1);
 	m_gameObjects.push_back(rabbit2);
@@ -127,6 +142,7 @@ void Level::createDemoLevel() {
 	m_gameObjects.push_back(rabbit7);
 	m_gameObjects.push_back(rabbit8);
 	m_gameObjects.push_back(rabbit9);
+	m_gameObjects.push_back(bin);
 
 	// ===== Lighting ===== //
 

@@ -23,7 +23,7 @@ enum ObjectTag{
 	T_StartTag,
 
 	T_Player,
-	T_Wall,
+	T_Street,
 	T_Platform,
 	T_Trigger,
 	

@@ -93,6 +93,7 @@ void HeightMap::generateRandomTerrain(Vector3 position,int octaves, float freque
 	
 	for (int x = 0; x < m_rawWidth; ++x) {
 		for (int z = 0; z < m_rawHeight; ++z) {
+
 			int offset = (x* m_rawWidth) + z;
 			
 			float tempX = scaledX + x;

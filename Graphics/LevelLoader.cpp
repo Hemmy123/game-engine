@@ -175,9 +175,23 @@ void LevelLoader::loadLevel(Level * level)
 		case T_Light: {
 			GameLight* gameLight = static_cast<GameLight*>(obj);
 
+			Mesh* lightMesh	;
+			if (m_loadedObjects.at(T_Light) != true) {
+				lightMesh = Mesh::readObjFile(MODELSDIR"ico.obj");
+				lightMesh->setId(T_Light);
+				lightMesh->bufferData();
+				m_loadedObjects.at(T_Light) = true;
+				m_meshes.push_back(lightMesh);
+
+			}
+			else {
+				lightMesh = findMesh(T_Light);
+			}
+
 			Light* light = new Light(gameLight->getPosition(), gameLight->getColour(), gameLight->getRadius());
-			
+			light->setMesh(lightMesh);
 			m_sceneManager->pushLight(light);
+
 			break;
 		}
 		case T_Cube: {
@@ -186,8 +200,32 @@ void LevelLoader::loadLevel(Level * level)
 		case T_Player: {
 			break;
 		}
-		case T_Wall: {
+		case T_Street: {
+
+			Mesh* streetMesh;
+			if (m_loadedObjects.at(T_Street) != true) {
+				streetMesh = Mesh::readObjFile(MODELSDIR"Street/StreetExport1.obj");
+				streetMesh->setId(T_Street);
+				//streetMesh->loadTexture(TEXTUREDIR"Street/StreetExportobj.png");
+				//streetMesh->loadBumpTexture(TEXTUREDIR"Street/Rabbit_N.tga");
+				streetMesh->generateTangents();
+				streetMesh->bufferData();
+
+				m_loadedObjects.at(T_Street) = true;
+				m_meshes.push_back(streetMesh);
+
+			}
+			else {
+				streetMesh = findMesh(T_Street);
+			}
+
+			RenderObject* ro1 = new RenderObject(streetMesh, shader);
+
+			ro1->setModelMatrix(obj->getModelMatrix());
+			m_sceneManager->pushRenderObject(ro1);
+
 			break;
+
 		}
 		}
 	}
