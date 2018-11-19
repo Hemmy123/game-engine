@@ -1,11 +1,11 @@
 #pragma once
 #include "Renderer.h"
-
+#include "Skybox.h"
 
 class DeferredRenderer
 {
 public:
-	DeferredRenderer(Renderer * parentRenderer, Mesh* quad);
+	DeferredRenderer(Renderer * parentRenderer, Skybox* skybox, Mesh* quad);
 	~DeferredRenderer();
 
 	// Rendering
@@ -41,7 +41,11 @@ private:
 	Shader* m_lightShader;
 	Shader* m_combineShader;
 
+
+
 	Renderer* m_parentRenderer;
+	Skybox * m_skybox;
+
 
 	GLuint m_Gbuffer;
 	GLuint m_GColour;

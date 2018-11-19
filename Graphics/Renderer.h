@@ -111,10 +111,11 @@ protected:
 
 
 
-	// ---------- Functions ---------- //
+	// ---------- Shaders ---------- //
 
 	Shader* m_currentShader;
 
+	Shader* m_combineShader;
 	// ---------- Fields ---------- //
 	float m_dt;
 

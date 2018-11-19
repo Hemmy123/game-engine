@@ -1,8 +1,12 @@
 #include "DeferredRenderer.h"
 #include "FilePaths.h"
 
-DeferredRenderer::DeferredRenderer(Renderer * parentRenderer, Mesh* quad) :
+DeferredRenderer::DeferredRenderer(
+	Renderer * parentRenderer,
+	Skybox* skybox,
+	Mesh* quad) :
 	m_quad(quad),
+	m_skybox(skybox),
 	m_parentRenderer(parentRenderer)
 {
 	m_sceneShader = new Shader(SHADERVERTDIR"Bump_Vert.glsl", SHADERFRAGDIR"Buffer_Frag.glsl");
@@ -331,7 +335,12 @@ void DeferredRenderer::drawLights()
 }
 
 void DeferredRenderer::combineBuffers(GLuint sceneFBO) {
-	glBindFramebuffer(GL_FRAMEBUFFER, m_combinedFBO);
+	
+	
+	m_skybox->drawSkybox(m_quad, sceneFBO);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO);
+
 
 	m_parentRenderer->setCurrentShader(m_combineShader);
 	m_parentRenderer->changeProjection(Projection::Orthographic);
@@ -340,21 +349,38 @@ void DeferredRenderer::combineBuffers(GLuint sceneFBO) {
 	GLuint diffuseTexLoc	= glGetUniformLocation(m_combineShader->getProgram(), "diffuseTex");
 	GLuint emissiveTexLoc	= glGetUniformLocation(m_combineShader->getProgram(), "emissiveTex");
 	GLuint specularTexLoc	= glGetUniformLocation(m_combineShader->getProgram(), "specularTex");
+	GLuint depthTexLoc		= glGetUniformLocation(m_combineShader->getProgram(), "depthTex");
+	//GLuint skyboxQuadLoc	= glGetUniformLocation(m_combineShader->getProgram(), "skyboxQuad");
 
 
 	glUniform1i(diffuseTexLoc, TextureUniforms::Diffuse);
 	glUniform1i(emissiveTexLoc, TextureUniforms::LightEmissive);
 	glUniform1i(specularTexLoc, TextureUniforms::LightSpecular);
+	glUniform1i(depthTexLoc, TextureUniforms::Depth);
+	//glUniform1i(skyboxQuadLoc, TextureUniforms::SkyboxQuad);
 
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Diffuse);
 	glBindTexture(GL_TEXTURE_2D, m_GColour);
+
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);
+	glBindTexture(GL_TEXTURE_2D, m_GDepth);
 
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::LightEmissive);
 	glBindTexture(GL_TEXTURE_2D, m_lightEmissive);
 	
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::LightSpecular);
 	glBindTexture(GL_TEXTURE_2D, m_lightSpecular);
+
+	/*glActiveTexture(GL_TEXTURE0 + TextureUniforms::SkyboxQuad);
+	glBindTexture(GL_TEXTURE_2D, m_quad->getTexture());
+
+*/
 	
+
+
+	m_parentRenderer->setCurrentShader(m_combineShader);
+	glUseProgram(m_combineShader->getProgram());
+
 	m_quad->draw();
 	m_parentRenderer->checkErrors();
 

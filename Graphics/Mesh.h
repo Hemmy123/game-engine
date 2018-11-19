@@ -54,6 +54,8 @@ enum  TextureUniforms {
 	LightEmissive = 7,
 	LightSpecular = 8,
 
+	SkyboxQuad = 9,
+
 
 };
 

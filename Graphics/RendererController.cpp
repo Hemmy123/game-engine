@@ -21,7 +21,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_skybox		= new Skybox(m_renderer, m_screenQuad);
 	m_anaglyph3D	= new Anaglyph3D(m_renderer);
 	m_shadows		= new Shadows(m_renderer);
-	m_deferred = new DeferredRenderer(m_renderer, m_screenQuad);
+	m_deferred = new DeferredRenderer(m_renderer, m_skybox, m_screenQuad);
 
 }
 
@@ -52,12 +52,6 @@ void RendererController::update(float msec)
 	if (m_settings.deferredRendering) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 		m_deferred->renderScene(m_sceneFBO);
-		// draw skyboz here;
-		
-		GLuint skyboxTex = m_buffColourAttachment;
-		GLuint renderTex = m_deferred->getCombinedColour;
-		
-		m_renderer->combineTextures(skyboxTex, renderTex);
 
 
 	}
