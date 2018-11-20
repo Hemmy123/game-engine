@@ -9,10 +9,12 @@ uniform float frequency;
 uniform float persistance;
 uniform float perlinTime;
 
-layout(std140) uniform MyBlock
-{
-  int perm[500];
-};
+uniform sampler1D permTexture;
+
+// layout(std140) uniform PermBlock
+// {
+//   int perm[500];
+// };
 
 
 // normal rendering uniforms
@@ -82,10 +84,17 @@ void calculateSurroundingWeights(vec3 point){
 		int pz = abs(z %permutationSize);
 
 		
+		int perm1 = int(texelFetch(permTexture, py, 0).r);
+		int perm2 = int(texelFetch(permTexture, px + perm1, 0).r);
+		int perm3 = int(texelFetch(permTexture, pz + perm2, 0).r);
+
 		// using all x y z coords to get get unique perm number
-		int perm1 = perm[py];
-		int perm2 = perm[px + perm1];
-		int perm3 = perm[pz + perm2];
+		// int perm1 = perm[py];
+		// int perm2 = perm[px + perm1];
+		// int perm3 = perm[pz + perm2];
+
+
+
 		int gradIndex = int(mod(perm3,11));
 		
 		

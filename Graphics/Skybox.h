@@ -10,7 +10,7 @@
 #include "Shader.h"
 #include <stdio.h>
 #include "Renderer.h"
-
+#include "PerlinShaderInterface.h"
 class Skybox{
 public:
 	Skybox(Renderer* r, Mesh* screenQuad);
@@ -21,12 +21,13 @@ public:
 	void drawRefection(Mesh* quad, GLuint fbo, RenderObject* heightmap, Vector3 cameraPos);
 
 
-	void updatePerlinShaderUniforms(Shader* shader);
 private:
 	
 	Renderer*	m_parentRenderer;
 	Shader*		m_skyboxShader;
 	Shader*		m_refectShader;
+	Shader*		m_perlinReflectShader;
+	PerlinShaderInterface* m_perlinShaderInterface;
 
 	Mesh* m_quad;
 

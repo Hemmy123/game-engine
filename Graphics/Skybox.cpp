@@ -20,6 +20,10 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 {
 	m_skyboxShader = new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
 	m_refectShader = new Shader(SHADERVERTDIR"PerPixel_Vert.glsl", SHADERFRAGDIR"Reflect_Frag.glsl");
+	m_perlinReflectShader = new Shader(SHADERVERTDIR"PerlinNoise3D_Vert.glsl", SHADERFRAGDIR"Reflect_Frag.glsl");
+
+	m_perlinShaderInterface = new PerlinShaderInterface();
+	m_perlinShaderInterface->setShader(m_perlinReflectShader);
 	m_waterTex = SOIL_load_OGL_texture(SHADERVERTDIR"water.jpeg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
 	m_cubeMap = SOIL_load_OGL_cubemap(
 		TEXTUREDIR"Skyboxes/2/right.jpg",
@@ -110,7 +114,9 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(1,1,1)));
 
 	m_parentRenderer->updateShaderMatrices();
-	updatePerlinShaderUniforms(perlinShader);
+
+	m_perlinShaderInterface->updateUniforms();
+
 	GLuint cameraPosLoc		= glGetUniformLocation(perlinShader->getProgram(), "cameraPos");
 	GLuint diffuseTexLoc	= glGetUniformLocation(perlinShader->getProgram(), "diffuseTex");
 	GLuint cubeTexLoc		= glGetUniformLocation(perlinShader->getProgram(), "cubeTex");
@@ -137,21 +143,5 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Default);
 
 	glUseProgram(0);
-
-}
-
-void Skybox::updatePerlinShaderUniforms(Shader * shader)
-{
-
-	GLuint heightLoc		= glGetUniformLocation(shader->getProgram(), "height");
-	GLuint permLoc			= glGetUniformLocation(shader->getProgram(), "permutationSize");
-
-
-	GLuint octavesLoc		= glGetUniformLocation(shader->getProgram(), "octaves");
-	GLuint frequencyLoc		= glGetUniformLocation(shader->getProgram(), "frequency");
-	GLuint persistenceLoc	= glGetUniformLocation(shader->getProgram(), "persistance");
-	GLuint perlinTimeLoc	= glGetUniformLocation(shader->getProgram(), "perlinTime");
-
-
 
 }
