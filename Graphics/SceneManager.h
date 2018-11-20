@@ -24,6 +24,11 @@ public:
 
 	void clearAllObjects();
 
+	void addScene(RenderObject* object);
+
+	//void sortOpaque();
+	//void sortTransparent();
+
 private:
 	vector<RenderObject*>	m_transparent;
 	vector<RenderObject*>	m_opaque;

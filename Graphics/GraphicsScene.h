@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RenderObject.h"
+
 /*
 Scene that holds a bunch of objects and is meant to be displayed 
 using the renderer. 
@@ -13,5 +15,18 @@ class GraphicsScene
 public:
 	GraphicsScene();
 	~GraphicsScene();
+
+	void loadScene1();
+	void loadScene2();
+	void loadScene3();
+
+	RenderObject* getScene(int i);
+
+private:
+	RenderObject* m_parent;
+	RenderObject* m_scene1;
+	RenderObject* m_scene2;
+	RenderObject* m_scene3;
+	
 };
 

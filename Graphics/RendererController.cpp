@@ -74,9 +74,9 @@ void RendererController::update(float msec)
 
 			if (m_settings.shadows) {
 				// TODO: refactor this, for testing only!
-				if (!m_shadows->getLight()) {
+				//if (!m_shadows->getLight()) {
 					m_shadows->setLight(m_sceneManager->getLights()[0]);
-				}
+				//}
 
 				m_shadows->drawScene(m_sceneFBO);
 			}
