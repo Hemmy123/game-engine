@@ -18,6 +18,7 @@ Level::~Level() {
 	for (auto gameObj : m_gameObjects) {
 		delete gameObj;
 	}
+	m_gameObjects.clear();
 }
 
 void Level::createDeferredLevelDemo()

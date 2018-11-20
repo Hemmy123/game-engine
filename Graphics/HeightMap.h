@@ -43,8 +43,12 @@ public:
 	float getXTex() const { return m_xTexCoord; };
 	float getZTex() const { return m_zTexCoord; };
 
+	Vector3 getPosition() const { return m_position; };
+
 
 private:
+
+	Vector3 m_position;
 	int m_rawWidth;
 	int m_rawHeight;
 	

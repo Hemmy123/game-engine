@@ -39,6 +39,10 @@ RenderObject::~RenderObject(){
 	
 	
 	//TODO: if children delete all children.
+
+	for (auto child : m_children) {
+		delete child;
+	}
 }
 
 

@@ -13,6 +13,7 @@ Shader::Shader(string vertex_path, string fragment_path){
     m_program = loadVertexAndFrag(vertex_path.c_str(), fragment_path.c_str()); // Load shaders
 	bindAttributes();
 	linkProgram();
+	m_id = 0;
 	
 	
 }

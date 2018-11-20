@@ -117,6 +117,12 @@ public:
     inline Vector3  operator/(const float v) const{
         return Vector3(x / v,y / v, z / v);
     };
+
+	/*inline bool operator==(const Vector3 &oth) const {
+		return (x == oth.x && y == oth.y && z == oth.z);
+		
+	}*/
+
 };
 
 
