@@ -116,7 +116,7 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	m_parentRenderer->updateShaderMatrices();
 
 	m_perlinShaderInterface->updateUniforms();
-
+	m_parentRenderer->checkErrors();
 	GLuint cameraPosLoc		= glGetUniformLocation(perlinShader->getProgram(), "cameraPos");
 	GLuint diffuseTexLoc	= glGetUniformLocation(perlinShader->getProgram(), "diffuseTex");
 	GLuint cubeTexLoc		= glGetUniformLocation(perlinShader->getProgram(), "cubeTex");
@@ -138,8 +138,11 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	m_parentRenderer->checkErrors();
 
 	m_parentRenderer->updateShaderMatrices();
+	m_parentRenderer->checkErrors();
 
 	heightmap->draw();
+	m_parentRenderer->checkErrors();
+
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Default);
 
 	glUseProgram(0);

@@ -28,15 +28,4 @@ void main(void){
 						  reflect(incident, normalize(IN.normal)) );
 	 outColour = (lightColour * diffuse * atten) * (diffuse/blend + reflection*blend);
 	 outColour.a = 0.8;
-	//outColour =  (diffuse*blend + reflection/blend);
-	//outColour = vec4(1,1,1,1);
-	
-
-
-
-
-	// for testing
-	//outColour = texture(cubeTex, normalize(IN.worldPos));
-
-	
 }
