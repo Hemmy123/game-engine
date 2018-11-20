@@ -48,7 +48,7 @@ void GameNode::checkInputs(){
 			delete m_currentLevel;
 			m_currentLevel = new Level();
 		}
-		m_currentLevel->createDemoLevel();
+		m_currentLevel->createScene1();
 
 
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
@@ -67,7 +67,7 @@ void GameNode::checkInputs(){
 			delete m_currentLevel;
 			m_currentLevel = new Level();
 		}
-		m_currentLevel->createDeferredLevelDemo();
+		m_currentLevel->createScene2();
 
 
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);

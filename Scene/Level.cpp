@@ -21,7 +21,7 @@ Level::~Level() {
 	m_gameObjects.clear();
 }
 
-void Level::createDeferredLevelDemo()
+void Level::createScene2()
 {
 
 	m_rendererSettings.skybox				= true;
@@ -90,7 +90,7 @@ void Level::createDeferredLevelDemo()
 
 }
 
-void Level::createDemoLevel() {
+void Level::createScene1() {
 
 	// Hard coding a level for coursework. Should really be data driven later
 

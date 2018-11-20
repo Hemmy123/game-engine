@@ -47,6 +47,8 @@ void RendererController::init()
 
 void RendererController::update(float msec)
 {
+	Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
+	m_sceneManager->update(cameraPos);
 	m_renderer->updateScene(msec);
 
 	if (m_settings.deferredRendering) {

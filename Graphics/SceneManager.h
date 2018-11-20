@@ -10,6 +10,12 @@ public:
 	SceneManager();
 	~SceneManager();
 
+
+	void update(Vector3 cameraPos);
+
+	void sortRenderObjects();
+	void updateDistancesFromCamera();
+
 	void pushRenderObject(RenderObject* ro);
 	inline void pushLight(Light* light)		{ m_lights.push_back(light); };
 	inline void setWater(RenderObject* w)	{ m_water = w; };
@@ -26,15 +32,21 @@ public:
 
 	void addScene(RenderObject* object);
 
-	//void sortOpaque();
-	//void sortTransparent();
+
+	static bool compareByCameraDistance(RenderObject* a, RenderObject* b);
 
 private:
+	
+	Vector3 m_cameraPos;
+
 	vector<RenderObject*>	m_transparent;
 	vector<RenderObject*>	m_opaque;
 	vector<Light*>			m_lights;
 
 	RenderObject* m_water;
 	RendererSettings m_settings;
+
+	
+
 };
 

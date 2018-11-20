@@ -64,7 +64,11 @@ public:
 	void setActive(bool active)		{ m_active = active; }
 	bool isActive()		{ return m_active; }
 
+	void setDistanceFromCamera(float d) { m_distanceFromCamera = d; }
+	float getDistanceFromCamera()	const { return m_distanceFromCamera; }
 
+	void setBoundingRadius(float r) { m_boundingRadius = r; }
+	float getBoundingRadius() const { return m_boundingRadius; }
 
 private:
 	const char* m_ID;
@@ -74,6 +78,8 @@ private:
 	Shader* m_shader;
 	Mesh*   m_mesh;
 	
+	float m_distanceFromCamera;
+	float m_boundingRadius;
 	
 	GLuint  m_texture;
 	

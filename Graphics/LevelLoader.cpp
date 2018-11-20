@@ -89,7 +89,10 @@ void LevelLoader::loadLevel(Level * level)
 	for (auto obj : gameObjects) {
 
 		ObjectTag tag = obj->getTag();
-
+		float scaleAverage =
+			(obj->getScale().x +
+				obj->getScale().y +
+				obj->getScale().z) / 3;
 
 		switch (tag) {
 		case T_Rabbit: {
@@ -114,6 +117,9 @@ void LevelLoader::loadLevel(Level * level)
 			RenderObject* ro1 = new RenderObject(rabbitMesh, shader);
 
 			ro1->setModelMatrix(obj->getModelMatrix());
+			
+
+			ro1->setBoundingRadius(scaleAverage);
 			m_sceneManager->pushRenderObject(ro1);
 
 			break;
@@ -153,7 +159,7 @@ void LevelLoader::loadLevel(Level * level)
 				terrain->generateNormals();
 				terrain->generateTangents();
 				terrain->bufferData();
-
+				
 				m_loadedHeightmaps[T_Terrain] = true;
 			}
 			else {
@@ -163,6 +169,9 @@ void LevelLoader::loadLevel(Level * level)
 
 			RenderObject* ro1 = new RenderObject(terrain, shader);
 			ro1->setModelMatrix(heightMap->getModelMatrix());
+
+
+			ro1->setBoundingRadius(heightMap->getRawWidth() *heightMap->getXMultiplier());
 			m_sceneManager->pushRenderObject(ro1);
 
 			break;
@@ -207,6 +216,8 @@ void LevelLoader::loadLevel(Level * level)
 			}
 
 			RenderObject* ro1 = new RenderObject(water, transShader);
+			ro1->setBoundingRadius(heightMap->getRawWidth() *heightMap->getXMultiplier());
+
 			ro1->setModelMatrix(heightMap->getModelMatrix());
 			ro1->setTransparent(true);
 			m_sceneManager->setWater(ro1);
