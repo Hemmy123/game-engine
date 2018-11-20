@@ -16,7 +16,7 @@ m_interfaceHandler(ih){
 
 
 	m_currentLevel = new Level();
-	m_currentLevel->createDemoLevel();
+	m_currentLevel->createScene1();
 
 	Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
 	Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);

@@ -102,17 +102,18 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
 	HeightMap* heightmap = static_cast<HeightMap*>(obj->getMesh());
+	Shader* perlinShader = obj->getShader();
 
-	m_parentRenderer->setCurrentShader(m_refectShader);
-	m_parentRenderer->setShaderLight(m_refectShader, *m_light);
+	m_parentRenderer->setCurrentShader(perlinShader);
+	m_parentRenderer->setShaderLight(perlinShader, *m_light);
 	m_parentRenderer->setModelMatrix(obj->getModelMatrix());
 	m_parentRenderer->setTextureMatrix(Matrix4::Scale(Vector3(1,1,1)));
 
 	m_parentRenderer->updateShaderMatrices();
-
-	GLuint cameraPosLoc		= glGetUniformLocation(m_refectShader->getProgram(), "cameraPos");
-	GLuint diffuseTexLoc	= glGetUniformLocation(m_refectShader->getProgram(), "diffuseTex");
-	GLuint cubeTexLoc		= glGetUniformLocation(m_refectShader->getProgram(), "cubeTex");
+	updatePerlinShaderUniforms(perlinShader);
+	GLuint cameraPosLoc		= glGetUniformLocation(perlinShader->getProgram(), "cameraPos");
+	GLuint diffuseTexLoc	= glGetUniformLocation(perlinShader->getProgram(), "diffuseTex");
+	GLuint cubeTexLoc		= glGetUniformLocation(perlinShader->getProgram(), "cubeTex");
 	
 	// Set camera pos uniform
 	glUniform3fv(cameraPosLoc, 1, (float*)&cameraPos);
@@ -136,5 +137,21 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Default);
 
 	glUseProgram(0);
+
+}
+
+void Skybox::updatePerlinShaderUniforms(Shader * shader)
+{
+
+	GLuint heightLoc		= glGetUniformLocation(shader->getProgram(), "height");
+	GLuint permLoc			= glGetUniformLocation(shader->getProgram(), "permutationSize");
+
+
+	GLuint octavesLoc		= glGetUniformLocation(shader->getProgram(), "octaves");
+	GLuint frequencyLoc		= glGetUniformLocation(shader->getProgram(), "frequency");
+	GLuint persistenceLoc	= glGetUniformLocation(shader->getProgram(), "persistance");
+	GLuint perlinTimeLoc	= glGetUniformLocation(shader->getProgram(), "perlinTime");
+
+
 
 }

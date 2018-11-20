@@ -13,6 +13,7 @@
 #include "Mesh.h"
 #include "PerlinNoise2D.h"
 #include "PerlinNoise3D.h"
+#include "Shader.h"
 class HeightMap:public Mesh{
 public:
 	

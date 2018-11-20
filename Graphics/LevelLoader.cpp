@@ -7,6 +7,8 @@ LevelLoader::LevelLoader(SceneManager * sceneManager):
 	m_perlin3D = new PerlinNoise3D(257, 6);
 	m_perlin2D = new PerlinNoise2D(257, 6);
 
+	m_perlinNoiseShader = new Shader(SHADERVERTDIR"PerlinNoise3D_Vert.glsl", SHADERFRAGDIR"Reflect_Frag.glsl");
+
 
 	for (int i = T_StartTag; i < T_EndTag; i++) {
 		m_loadedObjects.insert({ i, false });
@@ -197,7 +199,8 @@ void LevelLoader::loadLevel(Level * level)
 				m_heightmaps.push_back(water);
 				float minHeight = -0.3;
 				float maxHeight = 0.5;
-				water->generateRandomTerrain(Vector3(0, 0, 0), 3, 2, 0.5, 0, 1);
+				//water->generateRandomTerrain(Vector3(0, 0, 0), 3, 2, 0.5, 0, 1);
+				water->generateFlatTerrain();
 
 				water->loadTexture(TEXTUREDIR"WaterTexture/water.jpg");
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -215,7 +218,7 @@ void LevelLoader::loadLevel(Level * level)
 				water = findHeightMap(T_Water);
 			}
 
-			RenderObject* ro1 = new RenderObject(water, transShader);
+			RenderObject* ro1 = new RenderObject(water, m_perlinNoiseShader);
 			ro1->setBoundingRadius(heightMap->getRawWidth() *heightMap->getXMultiplier());
 
 			ro1->setModelMatrix(heightMap->getModelMatrix());

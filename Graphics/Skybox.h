@@ -20,6 +20,8 @@ public:
 
 	void drawRefection(Mesh* quad, GLuint fbo, RenderObject* heightmap, Vector3 cameraPos);
 
+
+	void updatePerlinShaderUniforms(Shader* shader);
 private:
 	
 	Renderer*	m_parentRenderer;
