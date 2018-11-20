@@ -26,7 +26,10 @@ public:
 	RenderObject(Mesh*m, Shader*s, GLuint t = 0);
 	~RenderObject();
 	
-	
+	inline bool operator() (const RenderObject& a, const RenderObject& b)
+	{
+		//return (a.getModelMatrix().GetPositionVector().z < b.getModelMatrix().GetPositionVector().z);
+	}
 	
 	GLuint loadTexture(const string& filename);
 	void update(float msec);
@@ -58,14 +61,25 @@ public:
 
 	const vector<RenderObject*>& getChildren() const  {return m_children;}
 	
-	
+	void setActive(bool active)		{ m_active = active; }
+	bool isActive()		{ return m_active; }
+
+	void setDistanceFromCamera(float d) { m_distanceFromCamera = d; }
+	float getDistanceFromCamera()	const { return m_distanceFromCamera; }
+
+	void setBoundingRadius(float r) { m_boundingRadius = r; }
+	float getBoundingRadius() const { return m_boundingRadius; }
+
 private:
 	const char* m_ID;
-	
+	bool	m_active;
+
 	bool 	m_transparent;
 	Shader* m_shader;
 	Mesh*   m_mesh;
 	
+	float m_distanceFromCamera;
+	float m_boundingRadius;
 	
 	GLuint  m_texture;
 	

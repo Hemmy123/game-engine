@@ -48,9 +48,9 @@ public:
 
 	std::vector<GameObject*> getGameObjects() { return m_gameObjects; }
 
-
-	void createDeferredLevelDemo();
-	void createDemoLevel();
+	void createScene3();
+	void createScene2();
+	void createScene1();
 
 	RendererSettings getSettings() const { return m_rendererSettings; };
 

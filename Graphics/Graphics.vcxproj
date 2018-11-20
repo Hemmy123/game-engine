@@ -146,6 +146,7 @@
     <ClCompile Include="CubeRobot.cpp" />
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="GraphicsNode.cpp" />
+    <ClCompile Include="GraphicsScene.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="CubeRobot.h" />
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="GraphicsNode.h" />
+    <ClInclude Include="GraphicsScene.h" />
     <ClInclude Include="GraphicsUtils.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="LevelLoader.h" />

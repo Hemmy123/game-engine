@@ -59,6 +59,8 @@ Skybox::~Skybox()
 
 void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+
 	m_parentRenderer->clearBuffers();
 
 	glDisable(GL_DEPTH_TEST);

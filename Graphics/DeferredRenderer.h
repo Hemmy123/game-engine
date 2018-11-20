@@ -15,6 +15,8 @@ public:
 	void createLights();
 	void initBuffers();
 	void generateBuffers();
+	void setLights(vector<Light*> lights) { m_lights = lights; };
+
 
 	void generateAllTextures();
 	void generateScreenTexture(GLuint &into, bool depth = false);
@@ -32,7 +34,7 @@ private:
 	// Temp array of lights for testing;
 	const int rowLenth = 8;
 
-	Light* m_lights;
+	vector<Light*> m_lights;
 	Mesh* m_quad;
 
 	Shader* m_sceneShader;

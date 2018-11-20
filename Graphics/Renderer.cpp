@@ -149,12 +149,23 @@ void Renderer::drawMesh(const RenderObject & o)
 }
 
 void Renderer::drawAllRenderObjects(){
+
+	// Render normally (front to back)
 	for (auto iter : sceneManager->getOpaque() ) {
 		drawRenderObject(*iter); 
 	}
-	for (auto iter : sceneManager->getTransparent()) {
-		drawRenderObject(*iter); 
+
+	// Render from to back
+	auto transparent = sceneManager->getTransparent();
+
+	for (vector<RenderObject*>::const_reverse_iterator i = transparent.rbegin();
+		i != transparent.rend();
+		++i) {
+
+		drawRenderObject(*(*i));
+
 	}
+
 }
 
 void Renderer::drawAllMeshes()
@@ -163,8 +174,15 @@ void Renderer::drawAllMeshes()
 	for (auto iter : sceneManager->getOpaque()) {
 		drawMesh(*iter);
 	}
-	for (auto iter : sceneManager->getTransparent()) {
-		drawMesh(*iter);
+	// Render from to back
+
+	auto transparent = sceneManager->getTransparent();
+	for (vector<RenderObject*>::const_reverse_iterator i = transparent.rbegin();
+		i != transparent.rend();
+		++i) {
+
+		drawMesh( *(*i) );
+
 	}
 }
 
@@ -197,6 +215,9 @@ void Renderer::updateRenderObjects(float msec) {
 	for (auto iter : sceneManager->getOpaque()) {
 		iter->update(msec);
 	}
+
+	// 
+	
 
 	for (auto iter : sceneManager->getTransparent()) {
 		iter->update(msec);

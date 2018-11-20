@@ -19,6 +19,8 @@ RenderObject::RenderObject():m_transparent(false){
 	
 	// TODO: Replace new with resource manager call
 	m_ID 		= IDGenerator::generateID();
+	m_boundingRadius		= 1.0f;
+	m_distanceFromCamera	= 0.0f;
 
 }
 
@@ -31,6 +33,9 @@ RenderObject::RenderObject(Mesh*m, Shader*s, GLuint t):m_transparent(false){
 	
 	// TODO: Replace new with resource manager call
 	m_ID 		= IDGenerator::generateID();
+
+	m_boundingRadius		= 1.0f;
+	m_distanceFromCamera	= 0.0f;
 }
 
 RenderObject::~RenderObject(){
@@ -39,6 +44,10 @@ RenderObject::~RenderObject(){
 	
 	
 	//TODO: if children delete all children.
+
+	for (auto child : m_children) {
+		delete child;
+	}
 }
 
 

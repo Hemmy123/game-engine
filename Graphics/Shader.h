@@ -53,8 +53,12 @@ public:
     GLuint getProgram() {return m_program;};
 	
 	bool getLinkSuccess()	const{return m_linkSuccess;}
+
+	void setId(int i) { m_id = i; }
+	int getId() const { return m_id; }
+
 private:
-	
+	int		m_id;
 	bool	m_linkSuccess;
     GLuint 	m_program;
     

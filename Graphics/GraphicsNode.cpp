@@ -21,13 +21,7 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	m_perlin2D = new PerlinNoise2D(257,6);
 	RendererSettings settings;
 
-
-
-	//createDemoScene();
-	
-
-	//m_light = new Light(Vector3(100, 500, 25), Vector4(1, 1, 1, 1), 5000);
-
+	m_updateWater = false;
 	m_levelLoader = new LevelLoader(m_sceneManager);
 
 }

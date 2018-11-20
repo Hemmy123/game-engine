@@ -31,7 +31,7 @@ void GraphicsUtils::gameObjToRenderObj(const GameObject &gameObj){
 			
 			break;
 		}
-		case(T_Wall):{
+		case(T_Street):{
 			
 			break;
 		}

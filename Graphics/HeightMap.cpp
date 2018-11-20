@@ -24,7 +24,7 @@ m_yMultiplier(heightMap_y),
 m_xTexCoord(heightMap_tex_x),
 m_zTexCoord(heightMap_tex_z),
 m_noiseGenerator(perlinNoise){
-	
+	m_position = Vector3(0, 0, 0);
 }
 
 HeightMap::~HeightMap(){
@@ -90,9 +90,10 @@ void HeightMap::generateRandomTerrain(Vector3 position,int octaves, float freque
 	float scaledX = position.x / m_xMultiplier;
 	float scaledZ = position.z / m_zMultiplier;
 	
-	
+	m_position = position;
 	for (int x = 0; x < m_rawWidth; ++x) {
 		for (int z = 0; z < m_rawHeight; ++z) {
+
 			int offset = (x* m_rawWidth) + z;
 			
 			float tempX = scaledX + x;
