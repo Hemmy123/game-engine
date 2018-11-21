@@ -10,8 +10,8 @@
 PerlinShaderInterface::PerlinShaderInterface()
 {
 	generatePermArray(10);
-	height = 2;
-	octaves = 3;
+	height = 6;
+	octaves = 4;
 	frequency = 10;
 	persistance = 0.5;
 	perlinTime = 0.0f;	// needs to actually update!
@@ -28,7 +28,7 @@ PerlinShaderInterface::~PerlinShaderInterface()
 void PerlinShaderInterface::updateUniforms(float msec)
 {		
 
-	perlinTime += msec/20;
+	perlinTime += msec;
 
 	GLuint heightLoc		= glGetUniformLocation(m_perlinShader->getProgram(), "height");
 	glUniform1f(heightLoc, height);
