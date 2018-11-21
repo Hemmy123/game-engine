@@ -51,6 +51,8 @@ private:
 
 	double	m_startFrameTime;
 	double	m_endFrameTime;
+	double	m_lastFrameTime;
+
 	float	m_fps;
 	Timer	m_timer;
 

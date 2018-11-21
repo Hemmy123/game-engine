@@ -71,6 +71,10 @@ void GraphicsNode::update(float msec){
 		m_endFrameTime = m_timer.getTime() / 1000;
 
 		m_fps = m_timer.calculateFPS(m_startFrameTime, m_endFrameTime);
+		float smoothing = 0.9; // larger=more smoothing
+
+		m_lastFrameTime = (m_lastFrameTime * smoothing) + (m_endFrameTime * (1.0-smoothing))
+
 		m_rendererController->setFPS(m_fps);
     }
 }
