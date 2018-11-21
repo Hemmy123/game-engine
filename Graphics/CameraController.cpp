@@ -61,6 +61,7 @@ void CameraController::moveCamera(Vector3 towards)
 		Vector3 directionalVec = direction * (m_dt * m_speed);
 
 		Vector3 newPos = currentPos + directionalVec;
+		m_currentPos = newPos;
 		m_camera->setPosition(newPos);
 	
 
@@ -79,6 +80,8 @@ void CameraController::setPaused(bool paused)
 		m_camera->setMoveable(true);
 	}
 	else {
+
+		m_camera->setPosition(m_currentPos);
 		m_camera->setMoveable(false);
 	}
 }
@@ -91,6 +94,8 @@ Vector3 CameraController::getNormalisedDirectionalVector(const Vector3 & from, c
 
 void CameraController::loadScenePositions(int scene)
 {
+
+	m_currentPositionIndex = 0;
 	switch (scene) {
 	case 1: createScene1(); break;
 	case 2: createScene2(); break;
@@ -114,8 +119,12 @@ void CameraController::createScene1()
 
 void CameraController::createScene2()
 {
+	m_positions.clear();
+
 }
 
 void CameraController::createScene3()
 {
+	m_positions.clear();
+
 }
