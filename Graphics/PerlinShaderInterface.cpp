@@ -10,9 +10,9 @@
 PerlinShaderInterface::PerlinShaderInterface()
 {
 	generatePermArray(10);
-	height = 6;
-	octaves = 4;
-	frequency = 10;
+	height = 7;
+	octaves = 8;
+	frequency = 6;
 	persistance = 0.5;
 	perlinTime = 0.0f;	// needs to actually update!
 
@@ -29,6 +29,8 @@ void PerlinShaderInterface::updateUniforms(float msec)
 {		
 
 	perlinTime += msec;
+
+	std::cout << perlinTime <<std::endl;
 
 	GLuint heightLoc		= glGetUniformLocation(m_perlinShader->getProgram(), "height");
 	glUniform1f(heightLoc, height);
@@ -56,7 +58,6 @@ void PerlinShaderInterface::updateUniforms(float msec)
 
 	GLuint permTextureLoc	= glGetUniformLocation(m_perlinShader->getProgram(), "permTexture");
 	glUniform1i(permTextureLoc, TextureUniforms::PermArray);
-
 	error = glGetError();
 
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::PermArray);

@@ -27,7 +27,7 @@ void main(void){
 	vec4	reflection 	= texture(cubeTex,
 						  reflect(incident, normalize(IN.normal)) );
 	  outColour = (lightColour * diffuse * atten) * (diffuse/blend + reflection*blend);
-	  outColour.a = 0.8;
+	  outColour.a = 0.99;
 
 	//outColour = IN.colour;
 

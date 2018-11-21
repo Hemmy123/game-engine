@@ -137,9 +137,6 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	glUniform1i(cubeTexLoc, TextureUniforms::CubeMap);
 	m_parentRenderer->checkErrors();
 
-	//m_parentRenderer->updateShaderMatrices();
-	m_parentRenderer->checkErrors();
-
 	heightmap->draw();
 	m_parentRenderer->checkErrors();
 

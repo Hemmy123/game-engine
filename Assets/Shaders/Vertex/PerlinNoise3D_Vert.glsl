@@ -160,9 +160,9 @@ float noiseAt(vec3 point, int oct, float fre, float pers){
 
 
 
-vec3 calculateFinalPosition(){
-	vec3 pos = vec3(position.x, position.z, perlinTime);
-	//vec3 pos = vec3(position.x,	position.y , position.z);
+vec3 calculateFinalPosition(vec3 calVec){
+	vec3 pos = vec3(calVec.x, calVec.y , calVec.z);
+	//vec3 pos = vec3(position.x,	position.z , 0);
 
 	float noiseVal = noiseAt(pos, octaves, frequency, persistance );
 	
@@ -171,14 +171,16 @@ vec3 calculateFinalPosition(){
 
 
 	vec3 finalPos = vec3(position.x, finalHeight, position.z);
-	// vec3 finalPos = vec3(position.x, position.y *finalHeight, position.z);
 
 	return finalPos;
 }
 
 void main(){
 
-	vec3 finalPosition = calculateFinalPosition();
+	vec3 pos = vec3(position.x, position.z, perlinTime);
+
+	
+	vec3 finalPosition = calculateFinalPosition(pos);
 
 	OUT.colour 			= colour;
  	OUT.texCoord 		= (textureMatrix* vec4(texCoord, 0.0, 1.0)).xy;
