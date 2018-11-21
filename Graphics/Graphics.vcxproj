@@ -146,6 +146,7 @@
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="CubeRobot.cpp" />
     <ClCompile Include="DeferredRenderer.cpp" />
+    <ClCompile Include="glText.cpp" />
     <ClCompile Include="GraphicsNode.cpp" />
     <ClCompile Include="GraphicsScene.cpp" />
     <ClCompile Include="GraphicsUtils.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shadows.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Anaglyph3D.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CubeRobot.h" />
     <ClInclude Include="DeferredRenderer.h" />
+    <ClInclude Include="glText.h" />
     <ClInclude Include="GraphicsNode.h" />
     <ClInclude Include="GraphicsScene.h" />
     <ClInclude Include="GraphicsUtils.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shadows.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="TextRenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
