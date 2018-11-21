@@ -100,7 +100,7 @@ void Skybox::drawSkybox(Mesh* quad, GLuint fbo) {
 
 }
 
-void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 cameraPos)
+void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 cameraPos,float msec)
 {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -115,7 +115,7 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 
 	m_parentRenderer->updateShaderMatrices();
 
-	m_perlinShaderInterface->updateUniforms();
+	m_perlinShaderInterface->updateUniforms(msec);
 	m_parentRenderer->checkErrors();
 	GLuint cameraPosLoc		= glGetUniformLocation(perlinShader->getProgram(), "cameraPos");
 	GLuint diffuseTexLoc	= glGetUniformLocation(perlinShader->getProgram(), "diffuseTex");
@@ -137,7 +137,7 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	glUniform1i(cubeTexLoc, TextureUniforms::CubeMap);
 	m_parentRenderer->checkErrors();
 
-	m_parentRenderer->updateShaderMatrices();
+	//m_parentRenderer->updateShaderMatrices();
 	m_parentRenderer->checkErrors();
 
 	heightmap->draw();

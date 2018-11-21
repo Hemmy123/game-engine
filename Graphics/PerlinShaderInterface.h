@@ -7,7 +7,7 @@ public:
 	PerlinShaderInterface();
 	~PerlinShaderInterface();
 
-	void updateUniforms();
+	void updateUniforms(float msec);
 	void generate1DTexture();
 
 	void generatePermArray(int seed);
@@ -26,6 +26,8 @@ private:
 	
 	GLuint m_permTexture;
 	int m_permArray[permSize];
+
+	GLenum error;
 
 };
 
