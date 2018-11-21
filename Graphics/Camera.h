@@ -31,6 +31,7 @@ public:
 
 	
 	
+
 	Matrix4 BuildViewMatrix();
 	
 	Vector3 GetPosition() const { return m_position; }
@@ -44,9 +45,15 @@ public:
 	
 	float	getSpeed() const { return m_movementSpeed; }
 	void	setSpeed(float s) { m_movementSpeed = s; }
+
+	bool	getMoveable() const { return m_moveable; }
+	void	setMoveable(bool b) { m_moveable = b; }
+
 private:
 	float m_dt;
 	
+	bool m_moveable;
+
 	InterfaceHandler* m_interfaceHandler;
 	GLFWwindow* m_windowListener;
 	float m_yaw;			// Y (Left right)

@@ -77,6 +77,15 @@ void GameNode::checkInputs(){
 		m_bus->addEvent(physicsEvent);
 
 	}
+	if (pressedKeys[GLFW_KEY_PAUSE]) {
+		std::cout << "Paused" << std::endl;
+
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Pause_Level");
+
+		m_bus->addEvent(graphicsEvent);
+	}
+
+
 
 	
 }

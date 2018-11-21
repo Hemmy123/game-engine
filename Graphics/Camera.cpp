@@ -14,6 +14,8 @@ m_yaw(0),
 m_pitch(0),
 m_position(Vector3(0,0,0)){
 	m_windowListener = m_interfaceHandler->getWindowListener();
+	m_moveable = true;
+
 }
 
 Camera::Camera(InterfaceHandler* ih,float p, float y, Vector3 pos):
@@ -21,7 +23,7 @@ m_interfaceHandler(ih),
 m_pitch(p),
 m_yaw(y),
 m_position(pos){
-
+	m_moveable = true;
 	m_windowListener = m_interfaceHandler->getWindowListener();
 }
 
@@ -42,35 +44,37 @@ void Camera::updateCamera(float msec)
 		m_yaw -= 360.0f;
 	}
 	
+	if (m_moveable) {
+		bool* heldKeys = m_interfaceHandler->getHeldKeys();
+
+		if (heldKeys[GLFW_KEY_W]) {
+			m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+				Vector3(0.0f, 0.0f, -1.0f) * msec * m_movementSpeed;
+		}
+		if (heldKeys[GLFW_KEY_A]) {
+			m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+				Vector3(-1.0f, 0.0f, 0.0f) * msec * m_movementSpeed;
+		}
+		if (heldKeys[GLFW_KEY_S]) {
+			m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+				Vector3(0.0f, 0.0f, -1.0f) * msec * m_movementSpeed;
+
+		}
+		if (heldKeys[GLFW_KEY_D]) {
+			m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
+				Vector3(-1.0f, 0.0f, 0.0f) * msec * m_movementSpeed;
+
+		}
+		if (heldKeys[GLFW_KEY_C]) {
+			m_position.y -= m_dt * m_movementSpeed;
+
+		}
+		if (heldKeys[GLFW_KEY_SPACE]) {
+			m_position.y += m_dt * m_movementSpeed;
+
+		}
+	}
 	
-	bool* heldKeys = m_interfaceHandler->getHeldKeys();
-
-	if (heldKeys[GLFW_KEY_W]) {
-		m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
-			Vector3(0.0f, 0.0f, -1.0f) * msec * m_movementSpeed;
-	}
-	if (heldKeys[GLFW_KEY_A]) {
-		m_position += Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
-			Vector3(-1.0f, 0.0f, 0.0f) * msec * m_movementSpeed;
-	}
-	if (heldKeys[GLFW_KEY_S]) {
-		m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
-			Vector3(0.0f, 0.0f, -1.0f) * msec * m_movementSpeed;
-
-	}
-	if (heldKeys[GLFW_KEY_D]) {
-		m_position -= Matrix4::Rotation(m_yaw, Vector3(0.0f, 1.0f, 0.0f)) *
-			Vector3(-1.0f, 0.0f, 0.0f) * msec * m_movementSpeed;
-
-	}
-	if (heldKeys[GLFW_KEY_C]) {
-		m_position.y -= m_dt * m_movementSpeed;
-
-	}
-	if (heldKeys[GLFW_KEY_SPACE]) {
-		m_position.y += m_dt * m_movementSpeed;
-
-	}
 }
 
 

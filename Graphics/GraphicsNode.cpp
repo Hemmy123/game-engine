@@ -77,7 +77,12 @@ void GraphicsNode::handleEvent(Event event){
 		m_rendererController->setSetting(m_sceneManager->getSettings());
 
 	}
-	
+	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Pause_Level") {
+		
+		bool paused = m_cameraController->getPaused();
+		m_cameraController->setPaused(!paused);
+
+	}
 }
 
 

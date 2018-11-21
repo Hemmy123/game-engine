@@ -17,7 +17,7 @@ public:
 	bool withinRadius(Vector3 a, Vector3 b);
 
 	// -- Getters/Setters -- //
-	void setPaused(bool paused) { m_paused = paused; }
+	void setPaused(bool paused);
 	bool getPaused()	const { return m_paused; }
 
 
