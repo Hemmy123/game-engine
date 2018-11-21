@@ -58,7 +58,7 @@ GraphicsNode::~GraphicsNode(){
 void GraphicsNode::update(float msec){
 	
     if (!m_rendererController->checkWindow()){
-
+		
 		m_rendererController->update(msec);
 		if (m_sceneManager->getWater() != nullptr && m_updateWater) {
 			updateWater(msec);

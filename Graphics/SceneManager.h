@@ -20,14 +20,14 @@ public:
 	inline void pushLight(Light* light)		{ m_lights.push_back(light); };
 	inline void setWater(RenderObject* w)	{ m_water = w; };
 	inline void setSettings(RendererSettings settings) { m_settings = settings; };
-
+	inline void setSceneID(int i) { m_sceneID = i;  };
 
 	inline RenderObject* getWater() const	{ return m_water; };
-	vector<RenderObject*> getTransparent()	{ return m_transparent; };
-	vector<RenderObject*> getOpaque()		{ return m_opaque; };
-	vector<Light*> getLights()				{ return m_lights; };
-	RendererSettings getSettings()	const	{ return m_settings; };
-
+	inline vector<RenderObject*> getTransparent()	{ return m_transparent; };
+	inline vector<RenderObject*> getOpaque()		{ return m_opaque; };
+	inline vector<Light*> getLights()				{ return m_lights; };
+	inline RendererSettings getSettings() const		{ return m_settings; };
+	inline int getSceneID()	const					{ return m_sceneID; }
 	void clearAllObjects();
 
 	void addScene(RenderObject* object);
@@ -35,8 +35,11 @@ public:
 
 	static bool compareByCameraDistance(RenderObject* a, RenderObject* b);
 
+
+
 private:
-	
+	int m_sceneID;
+
 	Vector3 m_cameraPos;
 
 	vector<RenderObject*>	m_transparent;

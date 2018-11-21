@@ -33,6 +33,8 @@ RendererController::~RendererController()
 	glDeleteTextures(1, &m_buffColourAttachment);
 	glDeleteTextures(1, &m_buffDepthAttachment);
 	
+	delete m_cameraController;
+
 	delete m_screenQuad;
 	delete m_sceneShader;
 
@@ -50,7 +52,6 @@ void RendererController::update(float msec)
 	Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
 	m_sceneManager->update(cameraPos);
 	m_renderer->updateScene(msec);
-
 	if (m_settings.deferredRendering) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 		m_deferred->setLights(m_sceneManager->getLights());

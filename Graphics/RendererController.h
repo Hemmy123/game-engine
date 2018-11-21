@@ -6,6 +6,7 @@
 #include "Shadows.h"
 #include "Level.h"
 #include "DeferredRenderer.h"
+#include "CameraController.h"
 
 class RendererController
 {
@@ -47,7 +48,6 @@ private:
 
 	// Remember to delete these in the right order
 	RendererSettings m_settings;
-
 	// ----- screen quads ----- //
 	Mesh*		m_screenQuad;
 	Shader*		m_sceneShader;

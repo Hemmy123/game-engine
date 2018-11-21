@@ -6,13 +6,14 @@
 #include "SceneManager.h"
 #include "PerlinNoise2D.h"
 #include "PerlinNoise3D.h"
+#include "CameraController.h"
 #include "Level.h"
 #include <map>
 #include <unordered_map>
 class LevelLoader
 {
 public:
-	LevelLoader(SceneManager* sceneManager);
+	LevelLoader(SceneManager* sceneManager, CameraController* cameraController);
 	~LevelLoader();
 	Mesh* findMesh(int id);
 	HeightMap* findHeightMap(int id);
@@ -24,6 +25,7 @@ private:
 
 	// The scene manager to load the level to
 	SceneManager*	m_sceneManager;
+	CameraController* m_cameraController;
 	PerlinNoise3D*	m_perlin3D;
 	PerlinNoise2D*	m_perlin2D;
 	vector<Shader*> m_shaders;

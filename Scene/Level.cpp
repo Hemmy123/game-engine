@@ -11,7 +11,7 @@
 #include "GameLight.h"
 
 Level::Level() {
-
+	id = 0;
 }
 
 Level::~Level() {
@@ -21,9 +21,14 @@ Level::~Level() {
 	m_gameObjects.clear();
 }
 
+void Level::createScene3()
+{
+	id = 3;
+}
+
 void Level::createScene2()
 {
-
+	id = 2;
 	m_rendererSettings.skybox				= true;
 	m_rendererSettings.postProcessing		= false;
 	m_rendererSettings.anaglyph3D			= false;
@@ -92,6 +97,7 @@ void Level::createScene2()
 
 void Level::createScene1() {
 
+	id = 1;
 	// Hard coding a level for coursework. Should really be data driven later
 
 	m_rendererSettings.skybox				= true;

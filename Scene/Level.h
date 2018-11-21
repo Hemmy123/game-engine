@@ -53,12 +53,13 @@ public:
 	void createScene1();
 
 	RendererSettings getSettings() const { return m_rendererSettings; };
-
+	int getID() const { return id; }
 private:
 	// Shouldn't really combine graphics logic with 
 	// level logic, but it will have to do for the
 	// graphics coursework
 	RendererSettings m_rendererSettings;
+	int id;
 	std::vector<GameObject*> m_gameObjects;
 };
 

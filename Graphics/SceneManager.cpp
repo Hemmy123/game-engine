@@ -5,6 +5,8 @@
 SceneManager::SceneManager()
 {
 	m_cameraPos = Vector3(0, 0, 0);
+
+	m_sceneID = 0;
 }
 
 

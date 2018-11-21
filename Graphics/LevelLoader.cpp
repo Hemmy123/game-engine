@@ -1,8 +1,9 @@
 #include "LevelLoader.h"
 #include "FilePaths.h"
 
-LevelLoader::LevelLoader(SceneManager * sceneManager):
-	m_sceneManager(sceneManager)
+LevelLoader::LevelLoader(SceneManager * sceneManager, CameraController* controller):
+	m_sceneManager(sceneManager),
+	m_cameraController(controller)
 {
 	m_perlin3D = new PerlinNoise3D(257, 6);
 	m_perlin2D = new PerlinNoise2D(257, 6);
@@ -65,7 +66,8 @@ void LevelLoader::loadLevel(Level * level)
 
 	std::vector<GameObject*> gameObjects = level->getGameObjects();
 	m_sceneManager->setSettings(level->getSettings());
-
+	m_sceneManager->setSceneID(level->getID());
+	m_cameraController->loadScenePositions(level->getID());
 	string vertexPath	= SHADERVERTDIR"Basic_Vert.glsl";
 	string fragPath		= SHADERFRAGDIR"Textured_Frag.glsl";
 	string transFragPath = SHADERFRAGDIR"Trans_Frag.glsl";
