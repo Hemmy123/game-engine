@@ -1,12 +1,20 @@
 #pragma once
-#include "glText.h"
-#include <map>
 
+#define GLT_IMPLEMENTATION
+#include "glText.h" 
+#include <map>
+#include "Vector2.h"
 
 enum TextType {
 	FPS,
 	Controls,
 };
+
+struct TextSettings {
+	Vector2 m_position;
+	float m_scale;
+};
+
 class TextRenderer
 {
 public:
@@ -15,9 +23,16 @@ public:
 
 	void initTexts();
 	void updateText(TextType type, std::string text);
+	void updateTextSettings(TextType type, TextSettings settings);
+
+
+
+	void renderAllText(GLuint fbo);
+
 
 private:
-	std::map<TextType, GLTtext*> m_textMap;
+	std::map<TextType, GLTtext*>		m_textMap;
+	std::map<TextType, TextSettings>	m_textSettings;
 
 
 };

@@ -69,16 +69,16 @@ public:
     //Sets the OpenGL position vector (floats 12,13, and 14)
     void    SetPositionVector(const Vector3 in);
     
-    //Gets the scale vector (floats 1,5, and 10)
+    //Gets the m_scale vector (floats 1,5, and 10)
     Vector3 GetScalingVector() const;
-    //Sets the scale vector (floats 1,5, and 10)
+    //Sets the m_scale vector (floats 1,5, and 10)
     void    SetScalingVector(const Vector3 &in);
     
     //Creates a rotation matrix that rotates by 'degrees' around the 'axis'
     //Analogous to glRotatef
     static Matrix4 Rotation(float degrees, const Vector3 &axis);
     
-    //Creates a scaling matrix (puts the 'scale' vector down the diagonal)
+    //Creates a scaling matrix (puts the 'm_scale' vector down the diagonal)
     //Analogous to glScalef
     static Matrix4 Scale(const Vector3 &scale);
     

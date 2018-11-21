@@ -22,7 +22,7 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_anaglyph3D	= new Anaglyph3D(m_renderer);
 	m_shadows		= new Shadows(m_renderer);
 	m_deferred		= new DeferredRenderer(m_renderer, m_skybox, m_screenQuad);
-
+	m_textRenderer	= new TextRenderer();
 }
 
 
@@ -40,6 +40,7 @@ RendererController::~RendererController()
 	delete m_renderer;
 	delete m_skybox;
 	delete m_postProcessor;
+	delete m_textRenderer;
 }
 
 void RendererController::init()
@@ -51,6 +52,8 @@ void RendererController::update(float msec)
 	Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
 	m_sceneManager->update(cameraPos);
 	m_renderer->updateScene(msec);
+
+
 	if (m_settings.deferredRendering) {
 		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 		m_deferred->setLights(m_sceneManager->getLights());
@@ -105,7 +108,11 @@ void RendererController::update(float msec)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
+	m_textRenderer->renderAllText(m_sceneFBO);
+
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
+
+	m_renderer->checkErrors();
 	m_renderer->swapBuffers();
 }
 

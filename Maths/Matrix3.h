@@ -95,7 +95,7 @@ class Matrix3 {
     //Analogous to glRotatef
     static Matrix3 Rotation(float degrees, const Vector3 &axis);
     
-    //Creates a scaling matrix (puts the 'scale' vector down the diagonal)
+    //Creates a scaling matrix (puts the 'm_scale' vector down the diagonal)
     //Analogous to glScalef
     static Matrix3 Scale(const Vector3 &scale);
     

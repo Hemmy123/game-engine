@@ -7,6 +7,8 @@
 #include "Level.h"
 #include "DeferredRenderer.h"
 #include "CameraController.h"
+#include "TextRenderer.h"
+
 
 class RendererController
 {
@@ -66,5 +68,6 @@ private:
 	Anaglyph3D*			m_anaglyph3D;
 	Shadows*			m_shadows;
 	DeferredRenderer*	m_deferred;
+	TextRenderer*		m_textRenderer;
 };
 
