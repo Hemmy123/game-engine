@@ -25,7 +25,7 @@ public:
 	void updateText(TextType type, std::string text);
 	void updateTextSettings(TextType type, TextSettings settings);
 
-
+	std::string intToString(int num);
 
 	void renderAllText(GLuint fbo);
 

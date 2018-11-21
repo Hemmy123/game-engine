@@ -22,6 +22,8 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	RendererSettings settings;
 
 	m_updateWater = false;
+
+	m_fps = 0;
 }
 
 
@@ -55,12 +57,21 @@ GraphicsNode::~GraphicsNode(){
 
 void GraphicsNode::update(float msec){
 	
+
     if (!m_rendererController->checkWindow()){
+
+		m_startFrameTime = m_timer.getTime() / 1000;
+
 		m_cameraController->update(msec);
 		m_rendererController->update(msec);
 		if (m_sceneManager->getWater() != nullptr && m_updateWater) {
 			updateWater(msec);
 		}	
+
+		m_endFrameTime = m_timer.getTime() / 1000;
+
+		m_fps = m_timer.calculateFPS(m_startFrameTime, m_endFrameTime);
+		m_rendererController->setFPS(m_fps);
     }
 }
 

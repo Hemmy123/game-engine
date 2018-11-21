@@ -8,6 +8,9 @@ CameraController::CameraController(Camera * camera):
 
 	m_positions.reserve(50);
 	m_speed = 0.1;
+	m_paused = false;
+	m_camera->setMoveable(false);
+
 }
 
 CameraController::~CameraController()

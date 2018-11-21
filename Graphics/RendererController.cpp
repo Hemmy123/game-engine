@@ -107,7 +107,7 @@ void RendererController::update(float msec)
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
+	updateText();
 	m_textRenderer->renderAllText(m_sceneFBO);
 
 	m_renderer->presentScene(m_screenQuad, m_sceneShader, m_buffColourAttachment);
@@ -144,6 +144,14 @@ void RendererController::updateLighting()
 			glUniform3fv(glGetUniformLocation(program, "cameraPos"), 1, (float*)&cameraPos);
 		}
 	}
+}
+
+void RendererController::updateText()
+{
+
+	std::string newText("FPS: " + std::to_string(m_fps));
+	m_textRenderer->updateText(FPS, newText);
+
 }
 
 void RendererController::generateFBO()

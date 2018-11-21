@@ -22,6 +22,8 @@
 #include "SceneManager.h"
 #include "LevelLoader.h"
 #include "CameraController.h"
+#include "Timer.h"
+
 using std::vector;
 
 class GraphicsNode:public EventNode {
@@ -45,6 +47,13 @@ public:
 	void updateWater(float msec);
 	
 private:
+
+
+	double	m_startFrameTime;
+	double	m_endFrameTime;
+	float	m_fps;
+	Timer	m_timer;
+
 	SceneManager*		m_sceneManager;
 	RendererController* m_rendererController;
 	LevelLoader*		m_levelLoader;

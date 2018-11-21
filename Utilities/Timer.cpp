@@ -21,20 +21,27 @@ Timer::~Timer(){
 
 }
 
-float Timer::getDelta(){
+
+double Timer::calculateFPS(double start, double end) {
+	double difference = end - start;
+	return 1 / difference;
+
+}
+
+
+double Timer::getDelta(){
 	
 	double now = glfwGetTime();
-	double duration = now - m_lastRecorded ; // dt in seconds
+	double difference = now - m_lastRecorded ; // dt in seconds
 	m_lastRecorded = glfwGetTime();
 	
-	return (duration * 1000); // dt in milliseconds
+	return (difference * 1000); // dt in milliseconds
 	
 }
 
-float Timer::getTime()
+double Timer::getTime()
 {
 	return glfwGetTime() * 1000;
-
 }
 
 

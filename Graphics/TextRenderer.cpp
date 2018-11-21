@@ -1,5 +1,5 @@
 #include "TextRenderer.h"
-
+#include <string>
 
 
 TextRenderer::TextRenderer()
@@ -55,8 +55,6 @@ void TextRenderer::initTexts()
 
 void TextRenderer::updateText(TextType type, std::string text)
 {
-
-
 	GLTtext* foundText = m_textMap.at(type);
 	gltSetText(foundText, text.c_str());
 }
@@ -64,6 +62,11 @@ void TextRenderer::updateText(TextType type, std::string text)
 void TextRenderer::updateTextSettings(TextType type, TextSettings settings)
 {
 	 m_textSettings.at(type) = settings;
+}
+
+std::string TextRenderer::intToString(int num)
+{
+	return std::to_string(num);
 }
 
 void TextRenderer::renderAllText(GLuint fbo)

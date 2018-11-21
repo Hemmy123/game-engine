@@ -31,6 +31,8 @@ public:
 
 	void updateLighting();
 
+	void updateText();
+
 	void setSetting(RendererSettings setting) { m_settings = setting; }
 
 
@@ -44,8 +46,11 @@ public:
 	Camera* getCamera();
 	void setShaderLight(Shader* s, Light* l);
 
+	void setFPS(double fps) { m_fps = fps; }
+
 private:
 
+	double m_fps;
 	int m_height, m_width;
 
 	// Remember to delete these in the right order

@@ -22,10 +22,12 @@ public:
 	~Timer();
 	
 	/// returns delta time in MILLISECONDS
-	float getDelta();
+	double getDelta();
 
-	float getTime();
+	double getTime();
 	
+	double calculateFPS(double start, double end);
+
 private:
 	double m_lastRecorded;
 	double m_deltaTime;
