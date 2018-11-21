@@ -5,6 +5,9 @@ CameraController::CameraController(Camera * camera):
 
 	m_currentPositionIndex = 0;
 	m_positionRadius = 5;
+
+	m_positions.reserve(50);
+	m_speed = 0.05;
 }
 
 CameraController::~CameraController()
@@ -13,13 +16,15 @@ CameraController::~CameraController()
 
 void CameraController::update(float msec)
 {
-	if(!m_paused && (m_currentPositionIndex < m_positions.size()) ){
+
+	m_dt = msec;
+	if(!m_paused && (m_currentPositionIndex < m_positions.size()) && m_camera){
 
 		Vector3 cameraPos = m_camera->GetPosition();
 		Vector3 movingTowards = m_positions[m_currentPositionIndex];
 
 		// If it's the first position in the vector
-		if (m_currentPositionIndex = 0) {
+		if (m_currentPositionIndex == 0) {
 			
 			// Just set the camera position instead of moving towards it
 			setCameraPosition(m_positions[m_currentPositionIndex]);
@@ -36,6 +41,7 @@ void CameraController::update(float msec)
 			// it's moving towards to?
 			if (withinRadius(cameraPos, movingTowards)) {
 				m_currentPositionIndex++;
+				m_reachedPosition = true;
 			}
 			else {
 				// move camera towards new position
@@ -53,7 +59,9 @@ void CameraController::moveCamera(Vector3 towards)
 		Vector3 currentPos = m_camera->GetPosition();
 
 		Vector3 direction = getNormalisedDirectionalVector(currentPos, towards);
-		Vector3 newPos = direction * (m_dt * m_speed);
+		Vector3 directionalVec = direction * (m_dt * m_speed);
+
+		Vector3 newPos = currentPos + directionalVec;
 		m_camera->setPosition(newPos);
 	}
 

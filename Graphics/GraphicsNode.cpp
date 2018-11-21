@@ -22,8 +22,6 @@ GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	RendererSettings settings;
 
 	m_updateWater = false;
-	m_levelLoader = new LevelLoader(m_sceneManager);
-
 }
 
 
@@ -58,7 +56,7 @@ GraphicsNode::~GraphicsNode(){
 void GraphicsNode::update(float msec){
 	
     if (!m_rendererController->checkWindow()){
-		
+		m_cameraController->update(msec);
 		m_rendererController->update(msec);
 		if (m_sceneManager->getWater() != nullptr && m_updateWater) {
 			updateWater(msec);

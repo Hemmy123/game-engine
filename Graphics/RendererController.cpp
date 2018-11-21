@@ -33,7 +33,6 @@ RendererController::~RendererController()
 	glDeleteTextures(1, &m_buffColourAttachment);
 	glDeleteTextures(1, &m_buffDepthAttachment);
 	
-	delete m_cameraController;
 
 	delete m_screenQuad;
 	delete m_sceneShader;

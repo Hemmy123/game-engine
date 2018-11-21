@@ -21,7 +21,7 @@
 #include "RendererController.h"
 #include "SceneManager.h"
 #include "LevelLoader.h"
-
+#include "CameraController.h"
 using std::vector;
 
 class GraphicsNode:public EventNode {
@@ -33,7 +33,13 @@ public:
 	void handleEvent(Event event);
     void update(float msec);
 
-	void createCamera(InterfaceHandler* ih) { m_rendererController->createCamera(ih);}
+	void createCamera(InterfaceHandler* ih) {
+		m_rendererController->createCamera(ih);
+		m_cameraController = new CameraController(m_rendererController->getCamera());
+		m_levelLoader = new LevelLoader(m_sceneManager, m_cameraController);
+
+	
+	}
 	GLFWwindow* getWindow() const { return m_rendererController->getWindow(); }
 
 	void updateWater(float msec);
@@ -42,7 +48,8 @@ private:
 	SceneManager*		m_sceneManager;
 	RendererController* m_rendererController;
 	LevelLoader*		m_levelLoader;
-	
+	CameraController*	m_cameraController;
+
 	bool m_updateWater;
 	HeightMap* m_water;
 	float counter = 0;
