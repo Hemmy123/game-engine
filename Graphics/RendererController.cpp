@@ -92,7 +92,7 @@ void RendererController::update(float msec)
 			RenderObject* water = m_sceneManager->getWater();
 			Vector3 cameraPos = m_renderer->getCamera()->GetPosition();
 
-			m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos);
+			m_skybox->drawRefection(m_screenQuad, m_sceneFBO, water, cameraPos, msec);
 		}
 
 		// post processing

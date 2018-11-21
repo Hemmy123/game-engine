@@ -56,6 +56,8 @@ enum  TextureUniforms {
 	SkyboxQuad = 9,
 	CubeMap = 10,
 
+	PermArray = 11,
+
 
 
 };

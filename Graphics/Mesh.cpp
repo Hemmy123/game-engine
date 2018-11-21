@@ -490,8 +490,6 @@ void Mesh::draw(){
     else{
         // Else just use vertices
         glDrawArrays(m_type, 0, m_numVertices);    //Draw the triangle!
-	
-		int i = 0;
     }
     // Unbind for good practice
     glBindVertexArray(0);

@@ -36,5 +36,6 @@ private:
 	std::map< int, bool> m_loadedObjects;
 	std::map< int, bool> m_loadedHeightmaps;
 
+	Shader* m_perlinNoiseShader;
 };
 

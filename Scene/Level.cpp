@@ -154,7 +154,7 @@ void Level::createScene1() {
 	// ===== Lighting ===== //
 
 
-	Vector3 light_pos(500,800,-300);
+	Vector3 light_pos(500,500,-100);
 	Vector4 light_col(1,1,1,1);
 	//float	light_rad = 3000;
 

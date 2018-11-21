@@ -154,6 +154,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="PerlinShaderInterface.cpp" />
     <ClCompile Include="PostProcessor.cpp" />
     <ClCompile Include="Refections.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="PerlinShaderInterface.h" />
     <ClInclude Include="PostProcessor.h" />
     <ClInclude Include="Refections.h" />
     <ClInclude Include="Renderer.h" />

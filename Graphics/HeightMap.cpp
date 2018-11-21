@@ -7,6 +7,8 @@
 // ========================================
 
 #include "HeightMap.h"
+#include "FilePaths.h"
+
 HeightMap::HeightMap(
 					 int rawWidth,
 					 int rawHeight,
@@ -25,6 +27,11 @@ m_xTexCoord(heightMap_tex_x),
 m_zTexCoord(heightMap_tex_z),
 m_noiseGenerator(perlinNoise){
 	m_position = Vector3(0, 0, 0);
+
+
+
+
+
 }
 
 HeightMap::~HeightMap(){
