@@ -1,8 +1,8 @@
 float height = 10.0;
 int permutationSize = 256;
 
-int octaves 		= 3;
-float frequency 	= 10.0;
+int octaves 		= 5;
+float frequency 	= 2.0;
 float persistance 	= 0.5;
 float perlinTime 	= 10.0;
 int[256] permTexture = int[256] (174,79,155,62,161,6,83,201,192,202,134,14,125,
@@ -72,14 +72,9 @@ void surroundingPointsOf(vec3 point){
 }
 
 
-
-
-
-
-
 void calculateSurroundingWeights(vec3 point){
 
-surroundingPointsOf(point);
+	surroundingPointsOf(point);
 	for (int i = 0; i < 8; ++i) {
 		int x = int((surroundingPoints[i].x));
 		int y = int((surroundingPoints[i].y));
@@ -138,13 +133,8 @@ float noiseAtVec(vec3 point){
 	
 	float finalmix = mix(bot,top,fadeY);
 
-    
-    
-    return abs(surroundingPoints[2].z / 10.0 );
-
-   // return abs(10.0/ surroundingPoints[2].z);
-
-	//return finalmix;
+   
+	return finalmix;
 }
 
 
@@ -152,16 +142,16 @@ float noiseAt(vec3 point, int oct, float fre, float pers){
 	float freq = fre;
 	float amplitude = 1.0;
 	float total = 0.0;
-	// for (int i = 0; i < oct; ++i) {
-	// 	float s = float(permutationSize) / freq;
+	for (int i = 0; i < oct; ++i) {
+		float s = float(permutationSize) / freq;
 
-	// 	vec3 pos = vec3(point.x/s, point.y/s, point.z/s);
-	// 	total += noiseAtVec(pos) * amplitude;
+		vec3 pos = vec3(point.x/s, point.y/s, point.z/s);
+		total += noiseAtVec(pos) * amplitude;
 		
-	// 	amplitude *= pers;
-	// 	freq *= 2.0;
+		amplitude *= pers;
+		freq *= 2.0;
 		
-	// }
+	}
     
 	float s = float(permutationSize) / freq;
 	vec3 pos = vec3(point.x/s, point.y/s, point.z/s);
@@ -170,7 +160,7 @@ float noiseAt(vec3 point, int oct, float fre, float pers){
 }
 
 vec3 calculateFinalPosition(vec3 position){
-	vec3 pos = vec3(position.x, position.y, perlinTime);
+	vec3 pos = vec3(position.x, position.y, position.z);
     
     
 
@@ -193,7 +183,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
 
 
-   	vec3 pos = vec3(abs(fragCoord.x),abs(fragCoord.y), iTime);
+   	vec3 pos = vec3(abs(fragCoord.x),abs(fragCoord.y), iFrame);
     
     vec3 finalPosition = calculateFinalPosition(pos);
   

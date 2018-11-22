@@ -90,7 +90,6 @@ void calculateSurroundingWeights(vec3 point){
 		int perm2 = int(texelFetch(permTexture, px + perm1, 0).r);
 		int perm3 = int(texelFetch(permTexture, pz + perm2, 0).r);
 
-		// int gradIndex = int(mod(perm3,11));
 		int gradIndex = perm3 % 11;
 		
 		
@@ -161,10 +160,10 @@ float noiseAt(vec3 point, int oct, float fre, float pers){
 
 
 vec3 calculateFinalPosition(vec3 calVec){
-	vec3 pos = vec3(calVec.x, calVec.y , calVec.z);
+	//vec3 pos = vec3(calVec.x, calVec.y , calVec.z);
 	//vec3 pos = vec3(position.x,	position.z , 0);
 
-	float noiseVal = noiseAt(pos, octaves, frequency, persistance );
+	float noiseVal = noiseAt(calVec, octaves, frequency, persistance );
 	
 	
 	float finalHeight = noiseVal * height;
@@ -176,13 +175,17 @@ vec3 calculateFinalPosition(vec3 calVec){
 }
 
 void main(){
-
+	
 	vec3 pos = vec3(position.x, position.z, perlinTime);
 
 	
 	vec3 finalPosition = calculateFinalPosition(pos);
 
-	OUT.colour 			= colour;
+	// OUT.colour 			= colour;
+
+	OUT.colour = vec4(pos,1);
+
+
  	OUT.texCoord 		= (textureMatrix* vec4(texCoord, 0.0, 1.0)).xy;
 
  	mat3 normalMatrix 	= transpose(inverse(mat3(modelMatrix)));

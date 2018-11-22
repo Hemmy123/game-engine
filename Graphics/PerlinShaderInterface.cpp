@@ -28,7 +28,7 @@ PerlinShaderInterface::~PerlinShaderInterface()
 void PerlinShaderInterface::updateUniforms(float msec)
 {		
 
-	perlinTime += msec;
+	perlinTime += msec / 800;
 
 	std::cout << perlinTime <<std::endl;
 
