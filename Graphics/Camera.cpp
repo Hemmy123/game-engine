@@ -82,8 +82,6 @@ void Camera::update(float msec){
 	m_dt = msec;
 	updateCamera(msec);
 	
-	
-
 }
 
 

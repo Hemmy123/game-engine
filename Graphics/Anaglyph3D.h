@@ -20,6 +20,7 @@ public:
 	
 private:
 
+	Vector3 m_eyeDisplacement;
 
 	int m_width, m_height;
 	Renderer* m_parentRenderer;

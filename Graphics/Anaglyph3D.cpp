@@ -14,6 +14,8 @@ Anaglyph3D::Anaglyph3D(Renderer* r):
 	m_3DShader		= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"3D_Frag.glsl");
 
 	createFBOs();
+
+	m_eyeDisplacement = Vector3(3, 0, 0);
 }
 
 Anaglyph3D::~Anaglyph3D(){
@@ -30,30 +32,26 @@ void Anaglyph3D::createFBOs()
 
 void Anaglyph3D::render(Mesh* quad,GLuint fbo, GLuint colourAttachment)
 {
-
 	renderRight();
 	renderLeft();
 
-	//glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	m_parentRenderer->setCurrentShader(m_3DShader);
+	m_parentRenderer->updateShaderMatrices();
 
 	GLuint leftTexloc = glGetUniformLocation(m_3DShader->getProgram(), "leftTex");
 	GLuint rightTexLoc = glGetUniformLocation(m_3DShader->getProgram(), "rightTex");
-	m_parentRenderer->updateShaderMatrices();
-	m_parentRenderer->checkErrors();
 
 
-
-	glActiveTexture(TextureUniforms::Left);
-	glBindTexture(GL_TEXTURE_2D, m_leftColourAttachment);
-	m_parentRenderer->checkErrors();
 	glUniform1i(leftTexloc, TextureUniforms::Left);
-	m_parentRenderer->checkErrors();
+	glActiveTexture(GL_TEXTURE0 +TextureUniforms::Left);
+	glBindTexture(GL_TEXTURE_2D, m_leftColourAttachment);
 
 
-	glActiveTexture(TextureUniforms::Right);
-	glBindTexture(GL_TEXTURE_2D, m_rightColourAttachment);
 	glUniform1i(rightTexLoc, TextureUniforms::Right);
-	m_parentRenderer->checkErrors();
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Right);
+	glBindTexture(GL_TEXTURE_2D, m_rightColourAttachment);
+
 
 
 	quad->draw();
@@ -72,12 +70,27 @@ void Anaglyph3D::renderRight()
 	// Only want blue
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_TRUE);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_rightColourAttachment, 0);
+	
+
+	Matrix4 oldViewMatrix = m_parentRenderer->getViewMatrix();
+
+
+	Vector3 displacement(m_eyeDisplacement.x, 0, 0);
+
+	Matrix4 newViewMatrix = oldViewMatrix * Matrix4::Translation(displacement);
+
+	// set new view matrix
+	m_parentRenderer->setViewMatrix(newViewMatrix);
 
 	m_parentRenderer->setCurrentShader(m_defaultShader);
-
 	m_parentRenderer->changeProjection(Projection::Perspective);
 	m_parentRenderer->updateShaderMatrices();
 	m_parentRenderer->drawAllRenderObjects();
+
+
+	// set it back
+	m_parentRenderer->setViewMatrix(oldViewMatrix);
 
 	glUseProgram(0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -87,17 +100,31 @@ void Anaglyph3D::renderRight()
 void Anaglyph3D::renderLeft()
 {
 
+
+
 	glBindFramebuffer(GL_FRAMEBUFFER, m_leftFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// Only want red
 	//glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
 
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_leftColourAttachment, 0);
 
+	Matrix4 oldViewMatrix = m_parentRenderer->getViewMatrix();
+
+
+	Vector3 displacement(-m_eyeDisplacement.x, 0, 0);
+
+	Matrix4 newViewMatrix = oldViewMatrix * Matrix4::Translation(displacement);
+
+	m_parentRenderer->setViewMatrix(newViewMatrix);
+	// -----
 	m_parentRenderer->setCurrentShader(m_defaultShader);
-
 	m_parentRenderer->changeProjection(Projection::Perspective);
 	m_parentRenderer->updateShaderMatrices();
 	m_parentRenderer->drawAllRenderObjects();
+	// -----
+
+	m_parentRenderer->setViewMatrix(oldViewMatrix);
 
 	glUseProgram(0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

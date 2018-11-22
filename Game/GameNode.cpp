@@ -86,6 +86,28 @@ void GameNode::checkInputs(){
 		m_bus->addEvent(physicsEvent);
 
 	}
+
+	if (pressedKeys[GLFW_KEY_3]) {
+		std::cout << "Level 3 loaded" << std::endl;
+
+		if (!m_currentLevel) {
+			m_currentLevel = new Level();
+		}
+		else {
+			delete m_currentLevel;
+			m_currentLevel = new Level();
+		}
+		m_currentLevel->createScene3();
+
+
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+		Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+
+		m_bus->addEvent(graphicsEvent);
+		m_bus->addEvent(physicsEvent);
+
+	}
+
 	if (pressedKeys[GLFW_KEY_PAUSE]) {
 		std::cout << "Paused" << std::endl;
 

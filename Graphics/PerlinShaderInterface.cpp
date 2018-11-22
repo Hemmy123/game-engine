@@ -30,7 +30,7 @@ void PerlinShaderInterface::updateUniforms(float msec)
 
 	perlinTime += msec / 800;
 
-	std::cout << perlinTime <<std::endl;
+	//std::cout << perlinTime <<std::endl;
 
 	GLuint heightLoc		= glGetUniformLocation(m_perlinShader->getProgram(), "height");
 	glUniform1f(heightLoc, height);
