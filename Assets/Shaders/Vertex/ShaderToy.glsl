@@ -1,8 +1,8 @@
 float height = 10.0;
 int permutationSize = 256;
 
-int octaves 		= 5;
-float frequency 	= 2.0;
+int octaves 		= 4;
+float frequency 	= 5.0;
 float persistance 	= 0.5;
 float perlinTime 	= 10.0;
 int[256] permTexture = int[256] (174,79,155,62,161,6,83,201,192,202,134,14,125,
@@ -49,7 +49,14 @@ vec3 surroundingPoints[8] = vec3[8](
 	vec3(0.0,0.0,0.0), vec3(0.0,0.0,0.0),
 	vec3(0.0,0.0,0.0), vec3(0.0,0.0,0.0) );
 
-
+float cusFrac(float f){
+    if (f>=0.){
+  		return f-floor(f);
+    }
+    else{
+  		return f-ceil(f);
+    }
+}
 
 void surroundingPointsOf(vec3 point){
 	vec3 p0 = vec3(floor(point.x), floor(point.y), floor(point.z));
@@ -152,10 +159,8 @@ float noiseAt(vec3 point, int oct, float fre, float pers){
 		freq *= 2.0;
 		
 	}
-    
-	float s = float(permutationSize) / freq;
-	vec3 pos = vec3(point.x/s, point.y/s, point.z/s);
-	return noiseAtVec(pos);
+	return total;
+
 	
 }
 
@@ -163,9 +168,6 @@ vec3 calculateFinalPosition(vec3 position){
 	vec3 pos = vec3(position.x, position.y, position.z);
     
     
-
-	//vec3 pos = vec3(position.x,	position.y , position.z);
-
 	float noiseVal = noiseAt(pos, octaves, frequency, persistance );
 	
 	
@@ -183,7 +185,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
 
 
-   	vec3 pos = vec3(abs(fragCoord.x),abs(fragCoord.y), iFrame);
+   	vec3 pos = vec3((fragCoord.x),(fragCoord.y), iFrame);
     
     vec3 finalPosition = calculateFinalPosition(pos);
   

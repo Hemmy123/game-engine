@@ -176,7 +176,21 @@ vec3 calculateFinalPosition(vec3 calVec){
 
 void main(){
 	
-	vec3 pos = vec3(position.x, position.z, perlinTime);
+// --------testing
+
+	vec3 tempPos = vec3(0,0,perlinTime);
+
+	float scaledX = tempPos.x;
+	float scaledZ = tempPos.z;
+
+	float tempX = scaledX + position.x;
+	float tempZ = scaledZ + position.z;
+
+	vec3 pos = vec3(tempX, tempZ +perlinTime, perlinTime);
+
+// ------------
+
+	// vec3 pos = vec3(position.x, position.z +perlinTime, perlinTime);
 
 	
 	vec3 finalPosition = calculateFinalPosition(pos);
