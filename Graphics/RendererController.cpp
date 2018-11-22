@@ -77,12 +77,8 @@ void RendererController::update(float msec)
 		}
 		else {
 
-			if (m_settings.shadows) {
-				// TODO: refactor this, for testing only!
-				//if (!m_shadows->getLight()) {
-					m_shadows->setLight(m_sceneManager->getLights()[0]);
-				//}
-
+			if (m_settings.shadows) {	
+				m_shadows->setLight(m_sceneManager->getLights()[0]);
 				m_shadows->drawScene(m_sceneFBO);
 			}
 			else {
@@ -100,7 +96,7 @@ void RendererController::update(float msec)
 
 		// post processing
 		if (m_settings.postProcessing) {
-			m_postProcessor->drawPostProcess(m_buffColourAttachment);
+			m_postProcessor->drawPostProcessing(m_buffColourAttachment,GaussianBlur);
 		}
 	}
 

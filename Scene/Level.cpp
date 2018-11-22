@@ -101,7 +101,7 @@ void Level::createScene1() {
 	// Hard coding a level for coursework. Should really be data driven later
 
 	m_rendererSettings.skybox				= true;
-	m_rendererSettings.postProcessing		= false;
+	m_rendererSettings.postProcessing		= true;
 	m_rendererSettings.anaglyph3D			= false;
 	m_rendererSettings.shadows				= true;
 	m_rendererSettings.basicLighting		= true;
