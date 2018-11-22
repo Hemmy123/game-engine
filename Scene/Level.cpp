@@ -30,7 +30,7 @@ void Level::createScene2()
 {
 	id = 2;
 	m_rendererSettings.skybox				= true;
-	m_rendererSettings.postProcessing		= false;
+	m_rendererSettings.postProcessing		= true;
 	m_rendererSettings.anaglyph3D			= false;
 	m_rendererSettings.shadows				= false;
 	m_rendererSettings.basicLighting		= false;

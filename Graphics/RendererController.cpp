@@ -95,12 +95,13 @@ void RendererController::update(float msec)
 		}
 
 		// post processing
-		if (m_settings.postProcessing) {
-			m_postProcessor->drawPostProcessing(m_buffColourAttachment, m_currentEffect);
-		}
+		
 	}
 
-	
+	if (m_settings.postProcessing) {
+		m_postProcessor->drawPostProcessing(m_buffColourAttachment, m_currentEffect);
+	}
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	updateText();
