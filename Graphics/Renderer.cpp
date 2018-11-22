@@ -13,7 +13,8 @@
 Renderer::Renderer(int height, int width, SceneManager* sm) :
 	MasterRenderer(height, width),
 	sceneManager(sm),
-	m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) 
+	//m_clearColour(Vector4(0.3, 0.5, 0.4, 1)) 
+	m_clearColour(Vector4(0, 0, 0, 1)) 
 {
 	if (init() != 0) {
 		std::cout << "OpenGL Failed to initialize!" << std::endl;

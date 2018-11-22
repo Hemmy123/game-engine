@@ -70,13 +70,11 @@ void RendererController::update(float msec)
 			m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 		}
 
-
 		// 3D - not working
 		if (m_settings.anaglyph3D) {
 			m_anaglyph3D->render(m_screenQuad, m_sceneFBO, m_buffColourAttachment);
 		}
 		else {
-
 			if (m_settings.shadows) {	
 				m_shadows->setLight(m_sceneManager->getLights()[0]);
 				m_shadows->drawScene(m_sceneFBO);
@@ -96,7 +94,7 @@ void RendererController::update(float msec)
 
 		// post processing
 		if (m_settings.postProcessing) {
-			m_postProcessor->drawPostProcessing(m_buffColourAttachment,GaussianBlur);
+			m_postProcessor->drawPostProcessing(m_buffColourAttachment, Bloom);
 		}
 	}
 
