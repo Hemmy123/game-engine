@@ -61,8 +61,12 @@ void PostProcessor::attachAttachments()
 
 }
 
-void PostProcessor::drawPostProcessing(GLuint colourAttachment, Effect effect)
+void PostProcessor::drawPostProcessing(GLuint colourAttachment, PostProcessingEffect effect)
 {
+
+	if (effect == None) {
+		return;
+	}
 
 	Shader* shader = m_effectsMap.at(effect);
 

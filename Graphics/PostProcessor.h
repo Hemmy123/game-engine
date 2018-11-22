@@ -3,7 +3,8 @@
 
 #include <map>
 
-enum Effect {
+enum PostProcessingEffect {
+	None,
 	Bloom,
 	GaussianBlur,
 	SineBlur,
@@ -18,7 +19,7 @@ public:
 
 
 
-	void drawPostProcessing(GLuint colourAttachment, Effect effect);
+	void drawPostProcessing(GLuint colourAttachment, PostProcessingEffect effect);
 
 
 	void createShaders();
@@ -43,7 +44,7 @@ private:
 	void drawPostProcess(GLuint colourAttachment, Shader* shader);
 
 
-	std::map<Effect, Shader*> m_effectsMap;
+	std::map<PostProcessingEffect, Shader*> m_effectsMap;
 
 	Renderer* m_parentRenderer;
 

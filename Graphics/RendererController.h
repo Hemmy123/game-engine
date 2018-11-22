@@ -36,17 +36,16 @@ public:
 	void setSetting(RendererSettings setting) { m_settings = setting; }
 
 
-	// -- Rendering to quad -- //
-
 	void generateFBO();
-
-	// ----- Pass through renderer methods ----- //
 
 	bool checkWindow();
 	Camera* getCamera();
 	void setShaderLight(Shader* s, Light* l);
 
 	void setFPS(double fps) { m_fps = fps; }
+
+	void setPostProcessingEffect(PostProcessingEffect effect) { m_currentEffect = effect; }
+	PostProcessingEffect getCurrentPostEffect() { return m_currentEffect; }
 
 private:
 
@@ -55,6 +54,9 @@ private:
 
 	// Remember to delete these in the right order
 	RendererSettings m_settings;
+
+	PostProcessingEffect m_currentEffect;
+
 	// ----- screen quads ----- //
 	Mesh*		m_screenQuad;
 	Shader*		m_sceneShader;

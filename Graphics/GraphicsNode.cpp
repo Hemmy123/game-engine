@@ -71,14 +71,10 @@ void GraphicsNode::update(float msec){
 		m_endFrameTime = m_timer.getTime() / 1000;
 
 		m_fps = m_timer.calculateFPS(m_startFrameTime, m_endFrameTime);
-		float smoothing = 0.9; // larger=more smoothing
-
-		m_timer.calculateFPS(m_startFrameTime, m_endFrameTime);
-
-		//m_lastFrameTime = (m_lastFrameTime * smoothing) + (m_endFrameTime * (1.0 - smoothing));
-
 		m_rendererController->setFPS(m_fps);
     }
+
+
 }
 
 
@@ -95,10 +91,22 @@ void GraphicsNode::handleEvent(Event event){
 
 	}
 	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Pause_Level") {
-		
-		bool paused = m_cameraController->getPaused();
-		m_cameraController->setPaused(!paused);
+		m_cameraController->setPaused(true);
+	}
 
+	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Load_Effect_1") {
+		m_rendererController->setPostProcessingEffect(None);
+	}
+
+	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Load_Effect_2") {
+		m_rendererController->setPostProcessingEffect(Bloom);
+	}
+
+	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Load_Effect_3") {
+		m_rendererController->setPostProcessingEffect(GaussianBlur);
+	}
+	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Load_Effect_4") {
+		m_rendererController->setPostProcessingEffect(BrightnessFilter);
 	}
 }
 

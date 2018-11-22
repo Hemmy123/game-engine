@@ -94,6 +94,27 @@ void GameNode::checkInputs(){
 		m_bus->addEvent(graphicsEvent);
 	}
 
+	if (pressedKeys[GLFW_KEY_KP_1]) {
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Effect_1");
+		m_bus->addEvent(graphicsEvent);
+	}
+
+	if (pressedKeys[GLFW_KEY_KP_2]) {
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Effect_2");
+		m_bus->addEvent(graphicsEvent);
+	}
+
+	if (pressedKeys[GLFW_KEY_KP_3]) {
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Effect_3");
+		m_bus->addEvent(graphicsEvent);
+	}
+
+	if (pressedKeys[GLFW_KEY_KP_4]) {
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Effect_4");
+		m_bus->addEvent(graphicsEvent);
+	}
+
+
 
 
 	

@@ -23,6 +23,8 @@ RendererController::RendererController(int height, int width, SceneManager* scen
 	m_shadows		= new Shadows(m_renderer);
 	m_deferred		= new DeferredRenderer(m_renderer, m_skybox, m_screenQuad);
 	m_textRenderer	= new TextRenderer();
+
+	m_currentEffect = None;
 }
 
 
@@ -94,7 +96,7 @@ void RendererController::update(float msec)
 
 		// post processing
 		if (m_settings.postProcessing) {
-			m_postProcessor->drawPostProcessing(m_buffColourAttachment, Bloom);
+			m_postProcessor->drawPostProcessing(m_buffColourAttachment, m_currentEffect);
 		}
 	}
 
