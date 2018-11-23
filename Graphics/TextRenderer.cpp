@@ -35,7 +35,7 @@ void TextRenderer::initTexts()
 
 	// ----- Controls Text ----- //
 	GLTtext *ControlsText = gltCreateText();
-	gltSetText(ControlsText, "The controls are... ");
+	gltSetText(ControlsText, "WASD - Movement, Space - Up, C - Down ");
 	TextSettings controlsSettings;
 
 	controlsSettings.m_position = Vector2(10, 40);

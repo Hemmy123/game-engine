@@ -12,7 +12,7 @@ PerlinShaderInterface::PerlinShaderInterface()
 	generatePermArray(10);
 	height = 7;
 	octaves = 8;
-	frequency = 6;
+	frequency = 15;
 	persistance = 0.5;
 	perlinTime = 0.0f;	// needs to actually update!
 

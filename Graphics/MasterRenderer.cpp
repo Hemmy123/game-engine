@@ -27,7 +27,8 @@ int MasterRenderer::init() {
 	std::string title("Graphics Engine");
 
 	if (numMonitors > 1) {
-		m_window = glfwCreateWindow(WIDTH, HEIGHT, title.c_str(), monitors[1], nullptr);
+		//m_window = glfwCreateWindow(WIDTH, HEIGHT, title.c_str(), monitors[1], nullptr);
+		m_window = glfwCreateWindow(600, 600, title.c_str(), nullptr, nullptr);
 	}
 	else {
 		m_window = glfwCreateWindow(WIDTH, HEIGHT, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
