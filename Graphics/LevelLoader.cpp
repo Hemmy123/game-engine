@@ -9,11 +9,16 @@ LevelLoader::LevelLoader(SceneManager * sceneManager, CameraController* controll
 	m_perlin2D = new PerlinNoise2D(257, 6);
 
 	m_perlinNoiseShader = new Shader(SHADERVERTDIR"PerlinNoise3D_Vert.glsl",
-
 		SHADERFRAGDIR"Reflect_Frag.glsl",
 		SHADERGEODIR"Lines_Geo.glsl",
 		SHADERRTESSCTRDIR"Heightmap_Tess_Control.glsl",
 		SHADERRTESSEVADIR"Heightmap_Tess_Eval.glsl");
+
+	m_reflectShader = new Shader(SHADERVERTDIR"PerPixel_Vert.glsl",
+		SHADERFRAGDIR"Reflect_Frag.glsl");
+	//m_perlinNoiseShader = new Shader(SHADERVERTDIR"PerlinNoise3D_Vert.glsl",
+	//	SHADERFRAGDIR"Reflect_Frag.glsl");
+
 
 	for (int i = T_StartTag; i < T_EndTag; i++) {
 		m_loadedObjects.insert({ i, false });
@@ -41,6 +46,8 @@ LevelLoader::~LevelLoader()
 		delete hm;
 	}
 	m_heightmaps.clear();
+	delete m_reflectShader;
+	delete m_perlinNoiseShader;
 
 	delete m_perlin2D;
 	delete m_perlin3D;
@@ -78,14 +85,12 @@ void LevelLoader::loadLevel(Level * level){
 	string transFragPath = SHADERFRAGDIR"Trans_Frag.glsl";
 
 
-	// Original
-	//string lightingVert = SHADERVERTDIR"Lighting_Vert.glsl";
-	//string lightingFrag = SHADERFRAGDIR"Lighting_Frag.glsl";
-
 	// Shadow Testing 
 	string lightingVert = SHADERVERTDIR"ShadowScene_Vert.glsl";
 	string lightingFrag = SHADERFRAGDIR"ShadowScene_Frag.glsl";
-
+	
+	Shader* reflectShader = new Shader(SHADERVERTDIR"PerPixel_Vert.glsl",
+		SHADERFRAGDIR"Reflect_Frag.glsl");
 
 	Shader* shader = new Shader(lightingVert, lightingFrag);
 	Shader* transShader = new Shader(lightingVert, lightingFrag);
@@ -120,12 +125,19 @@ void LevelLoader::loadLevel(Level * level){
 			else {
 				rabbitMesh = findMesh(T_Rabbit);
 			}
-		
-			RenderObject* ro1 = new RenderObject(rabbitMesh, shader);
+			
+			RenderObject* ro1;
+
+			if (level->getID() == 4) {
+				ro1 = new RenderObject(rabbitMesh, reflectShader);
+
+			}
+			else {
+				ro1 = new RenderObject(rabbitMesh, shader);
+
+			}
 
 			ro1->setModelMatrix(obj->getModelMatrix());
-			
-
 			ro1->setBoundingRadius(scaleAverage);
 			m_sceneManager->pushRenderObject(ro1);
 
@@ -357,6 +369,35 @@ void LevelLoader::loadLevel(Level * level){
 
 			break;
 
+		}
+		case T_Cube: {
+			Mesh* cubeMesh;
+			if (m_loadedObjects.at(T_Cube) != true) {
+				cubeMesh = Mesh::readObjFile(MODELSDIR"cube.obj");
+				cubeMesh->setId(T_Cube);
+				cubeMesh->generateNormals();
+				cubeMesh->generateTangents();
+				cubeMesh->bufferData();
+				m_loadedObjects.at(T_Cube) = true;
+				m_meshes.push_back(cubeMesh);
+			}
+			else {
+				cubeMesh = findMesh(T_Cube);
+			}
+
+			RenderObject* ro1 = new RenderObject(cubeMesh, shader);
+			ro1->setShader(m_reflectShader);
+			cubeMesh->loadTexture(TEXTUREDIR"Metal/MetalColour.jpg");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+			cubeMesh->loadBumpTexture(TEXTUREDIR"Metal/MetalBump.jpg");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			ro1->setModelMatrix(obj->getModelMatrix());
+			m_sceneManager->pushRenderObject(ro1);
+
+			break;
 		}
 		}
 	}

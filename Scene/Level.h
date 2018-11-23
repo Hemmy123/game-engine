@@ -48,6 +48,8 @@ public:
 
 	std::vector<GameObject*> getGameObjects() { return m_gameObjects; }
 
+
+	void createScene4();
 	void createScene3();
 	void createScene2();
 	void createScene1();

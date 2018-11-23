@@ -13,6 +13,8 @@ PostProcessor::PostProcessor(Renderer * r, Mesh* screenQuad) :
 
 PostProcessor::~PostProcessor()
 {
+	// delete shaders in map..
+
 
 	glDeleteTextures(2, m_processColourAttachment);
 	glDeleteTextures(1, &m_processDepthAttachment);
@@ -100,6 +102,12 @@ void PostProcessor::drawPostProcessing(GLuint colourAttachment, PostProcessingEf
 		drawPostProcess(colourAttachment, shader);
 		break;
 	}
+	case(EdgeDetection): {
+
+		Shader* edgeShader = m_effectsMap.at(EdgeDetection);
+		drawPostProcess(colourAttachment, shader);
+		break;
+	}
 	default :break;
 
 	}
@@ -124,8 +132,6 @@ void PostProcessor::drawFinalPostProcess(GLuint colourAttachment)
 
 	m_screenQuad->draw();
 	m_parentRenderer->checkErrors();
-
-
 
 	glEnable(GL_DEPTH_TEST);
 	glUseProgram(0);
@@ -220,6 +226,7 @@ void PostProcessor::drawPostProcess(GLuint colourAttachment, Shader * shader)
 	m_parentRenderer->changeProjection(Projection::Orthographic);
 	m_parentRenderer->setViewMatrix(Matrix4());				// set to identitiy matrix
 	m_parentRenderer->updateShaderMatrices();
+	m_parentRenderer->checkErrors();
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -236,6 +243,7 @@ void PostProcessor::drawPostProcess(GLuint colourAttachment, Shader * shader)
 	m_screenQuad->setTextureType(Texture_2D);
 	m_screenQuad->bindTexture();
 	m_screenQuad->draw();
+	m_parentRenderer->checkErrors();
 
 	glEnable(GL_DEPTH_TEST);
 	glUseProgram(0);
@@ -245,10 +253,12 @@ void PostProcessor::drawPostProcess(GLuint colourAttachment, Shader * shader)
 
 void PostProcessor::createShaders()
 {
-	Shader* gaussianBlurShader	=  new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"GaussianBlur_Frag.glsl");
-	Shader* bloomShader			=  new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Bloom_Frag.glsl");
+	Shader* gaussianBlurShader	= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"GaussianBlur_Frag.glsl");
+	Shader* bloomShader			= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Bloom_Frag.glsl");
 	Shader* sineBlur			= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Process_Frag.glsl");
 	Shader* brightnessFilter	= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"BrightFilter_Frag.glsl");
+	Shader* edgeDetection		= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"EdgeDetection_Frag.glsl");
+
 
 	m_combineShader			= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"CombineTex_Frag.glsl");
 	m_passThroughShader		= new Shader(SHADERVERTDIR"PassThrough_Vert.glsl", SHADERFRAGDIR"Textured_Frag.glsl");
@@ -257,6 +267,7 @@ void PostProcessor::createShaders()
 	m_effectsMap.insert({ Bloom, bloomShader });
 	m_effectsMap.insert({ SineBlur, sineBlur });
 	m_effectsMap.insert({ BrightnessFilter, brightnessFilter });
+	m_effectsMap.insert({ EdgeDetection, edgeDetection });
 
 
 

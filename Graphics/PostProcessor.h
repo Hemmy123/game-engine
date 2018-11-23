@@ -8,7 +8,8 @@ enum PostProcessingEffect {
 	Bloom,
 	GaussianBlur,
 	SineBlur,
-	BrightnessFilter
+	BrightnessFilter,
+	EdgeDetection
 };
 
 class PostProcessor

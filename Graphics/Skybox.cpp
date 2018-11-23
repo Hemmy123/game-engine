@@ -21,14 +21,8 @@ Skybox::Skybox(Renderer* r, Mesh* screenQuad):
 	m_skyboxShader = new Shader(SHADERVERTDIR"Skybox_Vert.glsl", SHADERFRAGDIR"Skybox_Frag.glsl");
 	m_refectShader = new Shader(SHADERVERTDIR"PerPixel_Vert.glsl", SHADERFRAGDIR"Reflect_Frag.glsl");
 
-	m_perlinReflectShader = new Shader(SHADERVERTDIR"PerlinNoise3D_Vert.glsl",
-		
-		SHADERFRAGDIR"Reflect_Frag.glsl",
-		SHADERGEODIR"Lines_Geo.glsl",
-		SHADERRTESSCTRDIR"Heightmap_Tess_Control.glsl",
-		SHADERRTESSEVADIR"Heightmap_Tess_Eval.glsl");
 	m_perlinShaderInterface = new PerlinShaderInterface();
-	m_perlinShaderInterface->setShader(m_perlinReflectShader);
+
 	m_waterTex = SOIL_load_OGL_texture(SHADERVERTDIR"water.jpeg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
 	m_cubeMap = SOIL_load_OGL_cubemap(
 		TEXTUREDIR"Skyboxes/2/right.jpg",
@@ -112,6 +106,7 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 
 	HeightMap* heightmap = static_cast<HeightMap*>(obj->getMesh());
 	Shader* perlinShader = obj->getShader();
+	m_perlinShaderInterface->setShader(perlinShader);
 
 
 	m_parentRenderer->setCurrentShader(perlinShader);

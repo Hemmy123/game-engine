@@ -37,5 +37,6 @@ private:
 	std::map< int, bool> m_loadedHeightmaps;
 
 	Shader* m_perlinNoiseShader;
+	Shader* m_reflectShader;
 };
 

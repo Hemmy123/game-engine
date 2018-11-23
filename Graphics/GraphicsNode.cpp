@@ -118,6 +118,9 @@ void GraphicsNode::handleEvent(Event event){
 	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Load_Effect_4") {
 		m_rendererController->setPostProcessingEffect(BrightnessFilter);
 	}
+	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Load_Effect_5") {
+		m_rendererController->setPostProcessingEffect(EdgeDetection);
+	}
 }
 
 

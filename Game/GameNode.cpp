@@ -79,7 +79,6 @@ void GameNode::checkInputs(){
 	if (pressedKeys[GLFW_KEY_3]) {
 		std::cout << "Level 3 loaded" << std::endl;
 
-		
 		m_currentLevel->createScene3();
 		m_currentLevelID = 3;
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
@@ -87,6 +86,19 @@ void GameNode::checkInputs(){
 
 		m_bus->addEvent(graphicsEvent);
 		m_bus->addEvent(physicsEvent);
+
+	}
+
+	if (pressedKeys[GLFW_KEY_4]) {
+		/*std::cout << "Level 4 loaded" << std::endl;
+
+		m_currentLevel->createScene4();
+		m_currentLevelID = 3;
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+		Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+
+		m_bus->addEvent(graphicsEvent);
+		m_bus->addEvent(physicsEvent);*/
 
 	}
 
@@ -115,6 +127,10 @@ void GameNode::checkInputs(){
 
 	if (pressedKeys[GLFW_KEY_KP_4]) {
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Effect_4");
+		m_bus->addEvent(graphicsEvent);
+	}
+	if (pressedKeys[GLFW_KEY_KP_5]) {
+		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Effect_5");
 		m_bus->addEvent(graphicsEvent);
 	}
 

@@ -1,4 +1,4 @@
-#version 430 core
+#version 430
 
 // Perlin noise uniforms
 uniform float height;
@@ -55,6 +55,9 @@ vec3 surroundingPoints[8] = vec3[8](
 
 int permSize = 256;
 
+
+// Couldn't get 1D texture to work so I had to hard code in an array  
+// of random numbers :( 
 int[256] permArr = int[256] (174,79,155,62,161,6,83,201,192,202,134,14,125,
                           154,34,53,27,170,237,108,127,236,175,158,4,233,
                           120,102,251,20,194,153,8,51,123,21,11,96,66,111,
@@ -216,11 +219,13 @@ void main(){
 
  	mat3 normalMatrix 	= transpose(inverse(mat3(modelMatrix)));
 
- 	OUT.normal 		= normalize(normalMatrix * normalize(normal));
+ 	// OUT.normal 		= normalize(normalMatrix * normalize(normal));
+
+	OUT.normal 		= normal;
  	OUT.worldPos	= (modelMatrix * vec4(finalPosition,1)).xyz;
 
 	// gl_Position = ( (projMatrix * viewMatrix * modelMatrix) * vec4(finalPosition, 1.0));
-	gl_Position = vec4(finalPosition, 1.0);
+	gl_Position 	= vec4(finalPosition, 1.0);
 
 }
 

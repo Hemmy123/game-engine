@@ -26,13 +26,11 @@ private:
 	Renderer*	m_parentRenderer;
 	Shader*		m_skyboxShader;
 	Shader*		m_refectShader;
-	Shader*		m_perlinReflectShader;
 	PerlinShaderInterface* m_perlinShaderInterface;
 
 	Mesh* m_quad;
 
 	// -- Misc
-	//Mesh*	m_waterQuad;
 	Light*	m_light;
 	GLuint 	m_cubeMap;
 	GLuint 	m_waterTex;

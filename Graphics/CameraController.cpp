@@ -7,7 +7,7 @@ CameraController::CameraController(Camera * camera):
 	m_positionRadius = 5;
 
 	m_positions.reserve(50);
-	m_speed = 0.5;
+	m_speed = 0.3;
 	m_paused = false;
 	m_camera->setMoveable(false);
 	m_lookingAt = Vector3();
