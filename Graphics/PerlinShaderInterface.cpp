@@ -10,9 +10,9 @@
 PerlinShaderInterface::PerlinShaderInterface()
 {
 	generatePermArray(10);
-	height = 7;
+	height = 5;
 	octaves = 8;
-	frequency = 15;
+	frequency = 10;
 	persistance = 0.5;
 	perlinTime = 0.0f;	// needs to actually update!
 
@@ -28,7 +28,7 @@ PerlinShaderInterface::~PerlinShaderInterface()
 void PerlinShaderInterface::updateUniforms(float msec)
 {		
 
-	perlinTime += msec / 800;
+	perlinTime += msec / 80;
 
 	//std::cout << perlinTime <<std::endl;
 
