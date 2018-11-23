@@ -15,3 +15,6 @@
 #define TEXTUREDIR 		ASSETSDIR	"Textures/"
 #define SHADERFRAGDIR 	ASSETSDIR	"Shaders/Fragment/"
 #define SHADERVERTDIR 	ASSETSDIR	"Shaders/Vertex/"
+#define SHADERGEODIR 	ASSETSDIR	"Shaders/Geometry/"
+#define SHADERRTESSCTRDIR 	ASSETSDIR	"Shaders/Tess_Control/"
+#define SHADERRTESSEVADIR 	ASSETSDIR	"Shaders/Tess_Eval/"

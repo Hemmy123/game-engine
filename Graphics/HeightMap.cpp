@@ -31,7 +31,6 @@ m_noiseGenerator(perlinNoise){
 
 
 
-
 }
 
 HeightMap::~HeightMap(){

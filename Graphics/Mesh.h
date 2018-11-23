@@ -76,6 +76,8 @@ public:
     Mesh();
     ~Mesh();
     
+	void setType(int type) { m_type = type; }
+
 	static Mesh* generateTriangle();
 	static Mesh* generateQuad();
 	

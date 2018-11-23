@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 // Perlin noise uniforms
 uniform float height;
@@ -219,7 +219,8 @@ void main(){
  	OUT.normal 		= normalize(normalMatrix * normalize(normal));
  	OUT.worldPos	= (modelMatrix * vec4(finalPosition,1)).xyz;
 
-	gl_Position = ( (projMatrix * viewMatrix * modelMatrix) * vec4(finalPosition, 1.0));
+	// gl_Position = ( (projMatrix * viewMatrix * modelMatrix) * vec4(finalPosition, 1.0));
+	gl_Position = vec4(finalPosition, 1.0);
 
 }
 

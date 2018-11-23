@@ -1,6 +1,5 @@
 #pragma once
 #include "Shader.h"
-
 class PerlinShaderInterface
 {
 public:

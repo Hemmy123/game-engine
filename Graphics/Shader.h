@@ -40,11 +40,18 @@ class Shader{
 public:
     
     Shader(string vertex_path, string fragment_path);
+    Shader(string vertex_path, string geo_path, string fragment_path);
+    Shader(string vertex_path, string fragment_path, string geo_path, string tessControl_path, string tessEval_path);
+
     ~Shader();
     
     string readFile(const char* filePath);
+
     GLuint loadVertexAndFrag(const char *vertex_path, const char *fragment_path);
+    GLuint loadVertGeoFrag(const char *vertex_path, const char *geo_path, const char *fragment_path);
+    GLuint loadVertGeoTessFrag(const char * vertex_path, const char * fragment_path, const char * geo_path, const char * tess_ctr, const char * tess_eval);
     
+
 	bool linkProgram();
     
     void checkShader(GLuint shader);

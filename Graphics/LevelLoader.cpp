@@ -8,8 +8,12 @@ LevelLoader::LevelLoader(SceneManager * sceneManager, CameraController* controll
 	m_perlin3D = new PerlinNoise3D(257, 6);
 	m_perlin2D = new PerlinNoise2D(257, 6);
 
-	m_perlinNoiseShader = new Shader(SHADERVERTDIR"PerlinNoise3D_Vert.glsl", SHADERFRAGDIR"Reflect_Frag.glsl");
+	m_perlinNoiseShader = new Shader(SHADERVERTDIR"PerlinNoise3D_Vert.glsl",
 
+		SHADERFRAGDIR"Reflect_Frag.glsl",
+		SHADERGEODIR"Lines_Geo.glsl",
+		SHADERRTESSCTRDIR"Heightmap_Tess_Control.glsl",
+		SHADERRTESSEVADIR"Heightmap_Tess_Eval.glsl");
 
 	for (int i = T_StartTag; i < T_EndTag; i++) {
 		m_loadedObjects.insert({ i, false });
@@ -197,6 +201,8 @@ void LevelLoader::loadLevel(Level * level){
 					heightMap->getTexCoordZ(),
 					m_perlin2D);
 				water->setId(T_Water);
+				water->setType(GL_PATCHES);
+
 				m_heightmaps.push_back(water);
 				float minHeight = -0.3;
 				float maxHeight = 0.5;
