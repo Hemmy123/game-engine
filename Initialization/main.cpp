@@ -40,11 +40,14 @@ int main() {
 
 		while (frameTime > 0 && !game->getEndGame()) {
 			double dt = min(frameTime, MAXDT);
+
 			inputHandler->update();
 			bus->update();
-			game->update((float)dt);
 
 			graphics->update((float)dt);
+
+			game->update((float)dt);
+
 
 			frameTime -= dt;
 

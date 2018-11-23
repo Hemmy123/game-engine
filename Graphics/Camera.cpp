@@ -30,11 +30,15 @@ m_position(pos){
 
 void Camera::updateCamera(float msec)
 {
-	m_pitch -= (m_interfaceHandler->getMouseRelativePos().y);
-	m_yaw 	-= (m_interfaceHandler->getMouseRelativePos().x);
-	
+
+	if (m_moveable) {
+
+		m_pitch -= (m_interfaceHandler->getMouseRelativePos().y);
+		m_yaw 	-= (m_interfaceHandler->getMouseRelativePos().x);
+	}
 	m_pitch = MathUtils::min(m_pitch, 90.f); // Restricts pitch so you cant look over your head
 	m_pitch = MathUtils::max(m_pitch, -90.f); // Restricts pitch so you cant look under and behind your head
+	
 	
 	if (m_yaw < 0){
 		m_yaw += 360.0f;
@@ -44,7 +48,7 @@ void Camera::updateCamera(float msec)
 		m_yaw -= 360.0f;
 	}
 	
-	if (m_moveable) {
+		if (m_moveable) {
 		bool* heldKeys = m_interfaceHandler->getHeldKeys();
 
 		if (heldKeys[GLFW_KEY_W]) {
@@ -77,6 +81,13 @@ void Camera::updateCamera(float msec)
 	
 }
 
+float Camera::degrees(float r)
+{
+
+	return (r * (180 / PI));
+	
+}
+
 
 void Camera::update(float msec){
 	m_dt = msec;
@@ -85,6 +96,27 @@ void Camera::update(float msec){
 }
 
 
+void Camera::lookAt(Vector3 pos)
+{
+	Matrix4 lookat = Matrix4::BuildViewMatrix(m_position, pos);
+
+	float roll = 0;
+	lookat.GetRotation(m_yaw, m_pitch, roll);
+
+
+	
+	
+	
+	//Vector3 lookDir = (pos - m_position).Normalise();
+
+	//float lookLengthOnXZ = sqrtf(lookDir.z*lookDir.z + lookDir.x*lookDir.x);
+	//m_pitch = degrees(atan2f(lookDir.y, lookLengthOnXZ));
+	//m_yaw = degrees(atan2f(lookDir.x, lookDir.z));
+
+	//RotateAbs(m_rotationX, m_rotationY, m_rotationZ);
+	
+}
+
 Matrix4 Camera::BuildViewMatrix()
 {	
 	Matrix4 pit = Matrix4::Rotation(-m_pitch, Vector3(1, 0, 0));
@@ -92,4 +124,5 @@ Matrix4 Camera::BuildViewMatrix()
 	Matrix4 pos = Matrix4::Translation(-m_position);
 	
 	return	pit * yaw * pos;
+
 }

@@ -28,7 +28,6 @@ int MasterRenderer::init() {
 
 	if (numMonitors > 1) {
 		m_window = glfwCreateWindow(WIDTH, HEIGHT, title.c_str(), monitors[1], nullptr);
-
 	}
 	else {
 		m_window = glfwCreateWindow(WIDTH, HEIGHT, title.c_str(), glfwGetPrimaryMonitor(), nullptr);

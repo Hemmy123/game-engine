@@ -34,6 +34,10 @@ public:
 
 	Vector3 getNormalisedDirectionalVector(const Vector3& from, const Vector3& to);
 
+
+	bool hasFinished() const { return m_sceneFinished; }
+	void setFinished(bool f) { m_sceneFinished = f; }
+
 	// --- Scene Specfic functions --- //
 
 	void loadScenePositions(int scene);
@@ -50,7 +54,7 @@ private:
 	bool m_paused;
 
 	/// Has the camrea reached it's next position?
-	bool m_reachedPosition;
+	bool m_sceneFinished;
 
 	/// the area the camera has to enter to count as 'reached'
 	bool m_positionRadius;
@@ -71,6 +75,8 @@ private:
 	/// moving around the scene. This is so when the user pauses, and moves
 	/// around, the camera can return to this position to continue the scene. 
 	Vector3 m_currentPos;
+
+	Vector3 m_lookingAt;
 
 	Camera*	m_camera;
 };

@@ -17,7 +17,7 @@ m_interfaceHandler(ih){
 
 	m_currentLevel = new Level();
 	m_currentLevel->createScene1();
-
+	m_currentLevelID = 1;
 	Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
 	Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
 
@@ -50,15 +50,9 @@ void GameNode::checkInputs(){
 	}
 	if(pressedKeys[GLFW_KEY_1]) {
 		std::cout << "Level 1 loaded" << std::endl;
-		if (!m_currentLevel) {
-			m_currentLevel = new Level();
-		}
-		else {
-			delete m_currentLevel;
-			m_currentLevel = new Level();
-		}
+		cleanLevel();
 		m_currentLevel->createScene1();
-
+		m_currentLevelID = 1;
 
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
 		Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
@@ -69,14 +63,9 @@ void GameNode::checkInputs(){
 	if(pressedKeys[GLFW_KEY_2]) {
 		std::cout << "Level 2 loaded" << std::endl;
 
-		if (!m_currentLevel) {
-			m_currentLevel = new Level();
-		}
-		else {
-			delete m_currentLevel;
-			m_currentLevel = new Level();
-		}
+		cleanLevel();
 		m_currentLevel->createScene2();
+		m_currentLevelID = 2;
 
 
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
@@ -90,16 +79,9 @@ void GameNode::checkInputs(){
 	if (pressedKeys[GLFW_KEY_3]) {
 		std::cout << "Level 3 loaded" << std::endl;
 
-		if (!m_currentLevel) {
-			m_currentLevel = new Level();
-		}
-		else {
-			delete m_currentLevel;
-			m_currentLevel = new Level();
-		}
+		
 		m_currentLevel->createScene3();
-
-
+		m_currentLevelID = 3;
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
 		Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
 
@@ -146,9 +128,56 @@ void GameNode::checkInputs(){
 
 void GameNode::handleEvent(Event e){
 
-	
+	SubSystem sender = e.getSender();
+	SubSystem receiver = e.getReceiver();
+	std::string type = e.getType();
+
+	if (sender == Sys_Graphics && receiver == Sys_Game && type == "Finished_Scene") {
+		switch (m_currentLevelID) {
+		case(1): {
+			cleanLevel();
+			m_currentLevel->createScene2();
+			m_currentLevelID = 2;
+			Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+			Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+			m_bus->addEvent(graphicsEvent);
+			m_bus->addEvent(physicsEvent);
+			
+			break;
+		}
+		case(2): {
+			cleanLevel();
+			m_currentLevel->createScene3();
+			m_currentLevelID = 3;
+			Event graphicsEvent(Sys_Game, Sys_Graphics, "Load_Level", m_currentLevel);
+			Event physicsEvent(Sys_Game, Sys_Physics, "Load_Level", m_currentLevel);
+			m_bus->addEvent(graphicsEvent);
+			m_bus->addEvent(physicsEvent);
+			break;
+		}
+		case(3): {
+			break;
+		}
+		default: {
+			break;
+		}
+		}
+	}
+
+
 }
 
+
+void GameNode::cleanLevel()
+{
+	if (!m_currentLevel) {
+		m_currentLevel = new Level();
+	}
+	else {
+		delete m_currentLevel;
+		m_currentLevel = new Level();
+	}
+}
 
 void GameNode::loadTestLevel(){
 	

@@ -75,6 +75,12 @@ void GraphicsNode::update(float msec){
 
 		m_fps = m_timer.calculateFPS(m_startFrameTime, m_endFrameTime);
 		m_rendererController->setFPS(m_fps);
+
+		if (m_cameraController->hasFinished()) {
+			m_cameraController->setFinished(false);
+			Event graphicsEvent(Sys_Graphics, Sys_Game, "Finished_Scene");
+			m_bus->addEvent(graphicsEvent);
+		}
     }
 
 
@@ -88,13 +94,14 @@ void GraphicsNode::handleEvent(Event event){
 	
 	if(sender ==  Sys_Game && receiver == Sys_Graphics && type == "Load_Level"){
 		m_currentLevel = static_cast<Level*>(event.getData());
-		//loadLevel(m_currentLevel);
 		m_levelLoader->loadLevel(m_currentLevel);
 		m_rendererController->setSetting(m_sceneManager->getSettings());
+		m_cameraController->setFinished(false);
 
 	}
 	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Pause_Level") {
-		m_cameraController->setPaused(true);
+		bool paused = m_cameraController->getPaused();
+		m_cameraController->setPaused(!paused);
 	}
 
 	if (sender == Sys_Game && receiver == Sys_Graphics && type == "Load_Effect_1") {

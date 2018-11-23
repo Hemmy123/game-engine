@@ -25,6 +25,12 @@ public:
      static inline double DegToRad(const double rad)    {
         return rad * PI / 180.0;
     };
+
+	 static inline double RadToDeg(const double rad) {
+		 return rad * (180.0 / PI);
+	 };
+
+
     
 	static inline float max(float a, float b) { return  a > b ?  a :  b;};
 	static inline float min(float a, float b) { return  a < b ?  a :  b;};

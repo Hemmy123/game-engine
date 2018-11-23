@@ -23,7 +23,7 @@ public:
 	
 	bool getEndGame(){return m_endGame;}
 	
-	
+	void cleanLevel();
 	/* Test Methods */
 	void loadTestLevel();
 	
@@ -31,7 +31,7 @@ private:
 	bool m_endGame;
 	float m_dt;
 	
-
+	int m_currentLevelID;
 	Level* m_currentLevel;
 	InterfaceHandler* m_interfaceHandler;
 	

@@ -24,13 +24,14 @@ public:
 	
 	~Camera(void) {};
 	
-	void	updateCamera(float msec);
+	void updateCamera(float msec);
 	
+	float degrees(float r);
 	
 	void 	update(float msec);
 
-	
-	
+	// makes the camera face a position;
+	void lookAt(Vector3 pos);
 
 	Matrix4 BuildViewMatrix();
 	

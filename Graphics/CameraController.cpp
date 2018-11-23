@@ -7,10 +7,10 @@ CameraController::CameraController(Camera * camera):
 	m_positionRadius = 5;
 
 	m_positions.reserve(50);
-	m_speed = 0.1;
+	m_speed = 0.5;
 	m_paused = false;
 	m_camera->setMoveable(false);
-
+	m_lookingAt = Vector3();
 }
 
 CameraController::~CameraController()
@@ -32,6 +32,7 @@ void CameraController::update(float msec)
 			// Just set the camera position instead of moving towards it
 			setCameraPosition(m_positions[m_currentPositionIndex]);
 			
+
 			// Let the controller know where the camera is at
 			m_currentPos = cameraPos;
 
@@ -51,7 +52,10 @@ void CameraController::update(float msec)
 			}
 		}
 	} else {
-		m_reachedPosition = true;
+		if (m_currentPositionIndex == m_positions.size()) {
+			m_sceneFinished = true;
+			m_currentPositionIndex = 0;
+		}
 	}
 }
 
@@ -65,6 +69,7 @@ void CameraController::moveCamera(Vector3 towards)
 
 		Vector3 newPos = currentPos + directionalVec;
 		m_currentPos = newPos;
+		m_camera->lookAt(m_lookingAt);
 		m_camera->setPosition(newPos);
 	
 
@@ -113,21 +118,38 @@ void CameraController::loadScenePositions(int scene)
 void CameraController::createScene1()
 {
 	m_positions.clear();
-	m_positions.push_back(Vector3(0, 0, 0));
-	m_positions.push_back(Vector3(1000, 1000, -500));
-	m_positions.push_back(Vector3(2000, 1000, -500));
-	m_positions.push_back(Vector3(1000, 1000, -500));
-
+	m_currentScene = 1;
+	m_positions.push_back(Vector3(-100, 800, -100));
+	m_positions.push_back(Vector3(1000, 800, -500));
+	m_positions.push_back(Vector3(2400, 800, -100));
+	m_lookingAt = Vector3(1000, 50, 1000);
 }
 
 void CameraController::createScene2()
 {
 	m_positions.clear();
+	m_currentScene = 2;
+	m_positions.push_back(Vector3(-100, 800, -100));
+	m_positions.push_back(Vector3(2400, 800, 2400));
+	m_lookingAt = Vector3(1000, 50, 1000);
 
 }
 
 void CameraController::createScene3()
 {
 	m_positions.clear();
+	m_currentScene = 3;
+	m_positions.push_back(Vector3(290, 256, 60));
+	m_positions.push_back(Vector3(11, 256, 60));
+	m_positions.push_back(Vector3(11, 256, 580));
+	m_positions.push_back(Vector3(290, 256, 580));
+	m_positions.push_back(Vector3(290, 256, 60));
 
+	m_positions.push_back(Vector3(290, 256, 60));
+	m_positions.push_back(Vector3(11, 256, 60));
+	m_positions.push_back(Vector3(11, 256, 580));
+	m_positions.push_back(Vector3(290, 256, 580));
+	m_positions.push_back(Vector3(290, 256, 60));
+
+	m_lookingAt = Vector3(144, 2133, 347);
 }

@@ -141,7 +141,25 @@ public:
                        v.x*values[3] + v.y*values[7] + v.z*values[11] +v.w * values[15]
                        );
     };
-    
+    // Credit: https://gamedev.stackexchange.com/questions/50963/how-to-extract-euler-angles-from-transformation-matrix
+	inline void GetRotation(float& Yaw, float& Pitch, float& Roll) const
+	{
+		if (values[0] == 1.0f) {
+			Yaw = MathUtils::RadToDeg(atan2f(values[2], values[11]));
+			Pitch = 0;
+			Roll = 0;
+
+		} else if (values[0] == -1.0f){
+			Yaw = MathUtils::RadToDeg(atan2f(values[2], values[11]));
+			Pitch = 0;
+			Roll = 0;
+		} else{
+			Yaw = MathUtils::RadToDeg(atan2(-values[8], values[0]));
+			Pitch = MathUtils::RadToDeg(asin(values[4]));
+			Roll = MathUtils::RadToDeg(atan2(-values[6], values[5]));
+		}
+	}
+
     //Handy string output for the matrix. Can get a bit messy, but better than nothing!
     inline friend std::ostream& operator<<(std::ostream& o, const Matrix4& m){
         o << "Mat4(";
