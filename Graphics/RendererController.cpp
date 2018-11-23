@@ -57,11 +57,8 @@ void RendererController::update(float msec)
 
 
 	if (m_settings.deferredRendering) {
-		m_skybox->drawSkybox(m_screenQuad, m_sceneFBO);
 		m_deferred->setLights(m_sceneManager->getLights());
 		m_deferred->renderScene(m_sceneFBO);
-		
-
 	}
 	else {
 		if (m_settings.basicLighting) {

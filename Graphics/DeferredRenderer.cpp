@@ -328,15 +328,16 @@ void DeferredRenderer::drawLights()
 }
 
 void DeferredRenderer::combineBuffers(GLuint sceneFBO) {
-	
-	
+	m_parentRenderer->setCurrentShader(m_combineShader);
+	m_parentRenderer->changeProjection(Projection::Orthographic);
+
+	m_parentRenderer->updateShaderMatrices();
+
 	m_skybox->drawSkybox(m_quad, sceneFBO);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, sceneFBO);
 
-
 	m_parentRenderer->setCurrentShader(m_combineShader);
-	m_parentRenderer->changeProjection(Projection::Orthographic);
 	m_parentRenderer->updateShaderMatrices();
 
 	GLuint diffuseTexLoc	= glGetUniformLocation(m_combineShader->getProgram(), "diffuseTex");
@@ -363,13 +364,6 @@ void DeferredRenderer::combineBuffers(GLuint sceneFBO) {
 	
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::LightSpecular);
 	glBindTexture(GL_TEXTURE_2D, m_lightSpecular);
-
-	/*glActiveTexture(GL_TEXTURE0 + TextureUniforms::SkyboxQuad);
-	glBindTexture(GL_TEXTURE_2D, m_quad->getTexture());
-
-*/
-	
-
 
 	m_parentRenderer->setCurrentShader(m_combineShader);
 	glUseProgram(m_combineShader->getProgram());

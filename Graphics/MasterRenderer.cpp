@@ -24,12 +24,14 @@ int MasterRenderer::init() {
 	int numMonitors;
 	GLFWmonitor **monitors = glfwGetMonitors(&numMonitors);
 
+	std::string title("Graphics Engine");
+
 	if (numMonitors > 1) {
-		m_window = glfwCreateWindow(WIDTH, HEIGHT, "Graphics Engine", monitors[1], nullptr);
+		m_window = glfwCreateWindow(WIDTH, HEIGHT, title.c_str(), monitors[1], nullptr);
 
 	}
 	else {
-		m_window = glfwCreateWindow(WIDTH, HEIGHT, "Graphics Engine", glfwGetPrimaryMonitor(), nullptr);
+		m_window = glfwCreateWindow(WIDTH, HEIGHT, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
 
 	}
 	
