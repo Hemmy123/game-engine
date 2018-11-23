@@ -98,23 +98,9 @@ void Camera::update(float msec){
 
 void Camera::lookAt(Vector3 pos)
 {
-	Matrix4 lookat = Matrix4::BuildViewMatrix(m_position, pos);
-
+	Matrix4 lookat = Matrix4::BuildViewMatrix(m_position, pos,Vector3(0,1,0));
 	float roll = 0;
 	lookat.GetRotation(m_yaw, m_pitch, roll);
-
-
-	
-	
-	
-	//Vector3 lookDir = (pos - m_position).Normalise();
-
-	//float lookLengthOnXZ = sqrtf(lookDir.z*lookDir.z + lookDir.x*lookDir.x);
-	//m_pitch = degrees(atan2f(lookDir.y, lookLengthOnXZ));
-	//m_yaw = degrees(atan2f(lookDir.x, lookDir.z));
-
-	//RotateAbs(m_rotationX, m_rotationY, m_rotationZ);
-	
 }
 
 Matrix4 Camera::BuildViewMatrix()

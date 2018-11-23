@@ -114,9 +114,6 @@ void Skybox::drawRefection(Mesh* quad, GLuint fbo, RenderObject * obj, Vector3 c
 	Shader* perlinShader = obj->getShader();
 
 
-
-
-
 	m_parentRenderer->setCurrentShader(perlinShader);
 	m_parentRenderer->setShaderLight(perlinShader, *m_light);
 	m_parentRenderer->setModelMatrix(obj->getModelMatrix());
