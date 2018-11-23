@@ -5,8 +5,8 @@ uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
 
 layout(triangles) in;
- layout(line_strip, max_vertices = 3) out;
-//layout(points, max_vertices = 3) out;
+layout(line_strip, max_vertices = 3) out;
+//layout(triangle_strip, max_vertices = 3) out;
 
 in Vertex {
      vec4  colour;

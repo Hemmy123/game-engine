@@ -11,10 +11,10 @@ PerlinShaderInterface::PerlinShaderInterface()
 {
 	generatePermArray(10);
 	height = 5;
-	octaves = 8;
+	octaves = 6;
 	frequency = 10;
 	persistance = 0.5;
-	perlinTime = 0.0f;	// needs to actually update!
+	perlinTime = 0.0f;	
 
 	generate1DTexture();
 

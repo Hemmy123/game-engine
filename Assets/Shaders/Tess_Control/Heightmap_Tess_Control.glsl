@@ -20,9 +20,9 @@ out Vertex{
 void main(){
 
 	gl_TessLevelInner[0] = 3;
-	gl_TessLevelOuter[0] = 3;
-	gl_TessLevelOuter[1] = 3;
-	gl_TessLevelOuter[2] = 3;
+	gl_TessLevelOuter[0] = 4;
+	gl_TessLevelOuter[1] = 4;
+	gl_TessLevelOuter[2] = 4;
 
 
 	// Passing out stuff
