@@ -41,18 +41,26 @@ void Anaglyph3D::render(Mesh* quad,GLuint fbo, GLuint colourAttachment)
 
 	GLuint leftTexloc = glGetUniformLocation(m_3DShader->getProgram(), "leftTex");
 	GLuint rightTexLoc = glGetUniformLocation(m_3DShader->getProgram(), "rightTex");
-
+	GLuint leftDepthLoc = glGetUniformLocation(m_3DShader->getProgram(), "leftDepthTex");
+	GLuint rightDepthLoc = glGetUniformLocation(m_3DShader->getProgram(), "rightDepthTex");
 
 	glUniform1i(leftTexloc, TextureUniforms::Left);
 	glActiveTexture(GL_TEXTURE0 +TextureUniforms::Left);
 	glBindTexture(GL_TEXTURE_2D, m_leftColourAttachment);
-
 
 	glUniform1i(rightTexLoc, TextureUniforms::Right);
 	glActiveTexture(GL_TEXTURE0 + TextureUniforms::Right);
 	glBindTexture(GL_TEXTURE_2D, m_rightColourAttachment);
 
 
+	glUniform1i(leftDepthLoc, TextureUniforms::LeftDepth);
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::LeftDepth);
+	glBindTexture(GL_TEXTURE_2D, m_leftDepthAttachment);
+
+
+	glUniform1i(rightDepthLoc, TextureUniforms::RightDepth);
+	glActiveTexture(GL_TEXTURE0 + TextureUniforms::RightDepth);
+	glBindTexture(GL_TEXTURE_2D, m_rightDepthAttachment);
 
 	quad->draw();
 

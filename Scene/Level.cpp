@@ -25,14 +25,14 @@ void Level::createScene3()
 {
 	id = 3;
 	m_rendererSettings.skybox				= true;
-	m_rendererSettings.postProcessing		= false;
+	m_rendererSettings.postProcessing		= true;
 	m_rendererSettings.anaglyph3D			= true;
 	m_rendererSettings.shadows				= true;
 	m_rendererSettings.basicLighting		= true;
 	m_rendererSettings.deferredRendering	= false;
 	Vector3 obj1_scale(30, 30, 30);
 
-	int obj1_offSet = 35;
+	int obj1_offSet = 50;
 	int obj1_y = 195;
 	int obj1_x = 200;
 	int obj1_z = 300;
@@ -49,7 +49,6 @@ void Level::createScene3()
 	GameObject* rabbit8 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
 	GameObject* rabbit9 = new GameObject(Vector3(obj1_x + 0, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
 
-	GameObject* bin = new GameObject(Vector3(obj1_x + 0, obj1_y + 10, obj1_z + (2 * obj1_offSet + 40)), Vector3(1, 1, 1), Vector3(2, 2, 2));
 
 	rabbit1->setTag(T_Rabbit);
 	rabbit2->setTag(T_Rabbit);
@@ -60,7 +59,6 @@ void Level::createScene3()
 	rabbit7->setTag(T_Rabbit);
 	rabbit8->setTag(T_Rabbit);
 	rabbit9->setTag(T_Rabbit);
-	bin->setTag(T_Street);
 
 	m_gameObjects.push_back(rabbit1);
 	m_gameObjects.push_back(rabbit2);
@@ -71,7 +69,7 @@ void Level::createScene3()
 	m_gameObjects.push_back(rabbit7);
 	m_gameObjects.push_back(rabbit8);
 	m_gameObjects.push_back(rabbit9);
-	m_gameObjects.push_back(bin);
+	//m_gameObjects.push_back(bin);
 
 	// ===== Lighting ===== //
 
@@ -88,20 +86,9 @@ void Level::createScene3()
 
 	// ===== Terrain ===== //
 
-
 	GameHeightMap* terrain = new GameHeightMap(Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(10, 10, 10));
 	terrain->setTag(T_Terrain);
 	m_gameObjects.push_back(terrain);
-
-	// ===== Water ===== //
-
-	GameHeightMap* water = new GameHeightMap(Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(10, 10, 10));
-	water->setTag(T_Water);
-	m_gameObjects.push_back(water);
-
-
-
-
 
 
 }
@@ -207,7 +194,7 @@ void Level::createScene1() {
 	GameObject* rabbit8 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
 	GameObject* rabbit9 = new GameObject(Vector3(obj1_x + 0, obj1_y, obj1_z + (2 * obj1_offSet)), Vector3(1, 1, 1), obj1_scale);
 	
-	GameObject* bin = new GameObject(Vector3(obj1_x + 0, obj1_y + 10, obj1_z + (2 * obj1_offSet + 40)), Vector3(1, 1, 1), Vector3(2,2,2));
+	//GameObject* bin = new GameObject(Vector3(obj1_x + 0, obj1_y + 10, obj1_z + (2 * obj1_offSet + 40)), Vector3(1, 1, 1), Vector3(2,2,2));
 
 	rabbit1->setTag(T_Rabbit);
 	rabbit2->setTag(T_Rabbit);
@@ -218,7 +205,7 @@ void Level::createScene1() {
 	rabbit7->setTag(T_Rabbit);
 	rabbit8->setTag(T_Rabbit);
 	rabbit9->setTag(T_Rabbit);
-	bin->setTag(T_Street);
+	//bin->setTag(T_Street);
 
 	m_gameObjects.push_back(rabbit1);
 	m_gameObjects.push_back(rabbit2);
@@ -229,7 +216,7 @@ void Level::createScene1() {
 	m_gameObjects.push_back(rabbit7);
 	m_gameObjects.push_back(rabbit8);
 	m_gameObjects.push_back(rabbit9);
-	m_gameObjects.push_back(bin);
+	//m_gameObjects.push_back(bin);
 
 	// ===== Lighting ===== //
 

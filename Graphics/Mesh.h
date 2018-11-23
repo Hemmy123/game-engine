@@ -50,13 +50,16 @@ enum  TextureUniforms {
 	Left = 5,
 	Right = 6,
 
-	LightEmissive = 7,
-	LightSpecular = 8,
+	LeftDepth = 7,
+	RightDepth = 8,
 
-	SkyboxQuad = 9,
-	CubeMap = 10,
+	LightEmissive = 9,
+	LightSpecular = 10,
 
-	PermArray = 11,
+	SkyboxQuad = 11,
+	CubeMap = 12,
+
+	PermArray = 13,
 
 
 
