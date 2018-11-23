@@ -16,7 +16,10 @@
 GraphicsNode::GraphicsNode(EventBus* bus, SubSystem subSystem):
 	EventNode(bus,subSystem){
 	m_sceneManager = new SceneManager();
-	m_rendererController = new RendererController(800, 1600, m_sceneManager);
+
+	
+
+	m_rendererController = new RendererController(1080, 1920, m_sceneManager);
 	m_perlin3D = new PerlinNoise3D(257,6);
 	m_perlin2D = new PerlinNoise2D(257,6);
 	RendererSettings settings;

@@ -111,7 +111,7 @@ void Level::createScene2()
 	
 	
 	float lightRadius	= 150;
-	Vector3 scale(100, 500, 100);
+	Vector3 scale(150, 900, 150);
 	
 
 	float lightOffset	= 500;
@@ -146,6 +146,7 @@ void Level::createScene2()
 		//Vector3 light_pos(i * lightOffset, height, i * lightOffset );
 
 		GameLight* light = new GameLight(light_pos, lightColour, scale);
+		light->setRadius(lightRadius);
 		light->setTag(T_SpotLight);
 		m_gameObjects.push_back(light);
 	}

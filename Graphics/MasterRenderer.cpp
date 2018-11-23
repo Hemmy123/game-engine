@@ -19,7 +19,20 @@ int MasterRenderer::init() {
 
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // For running on Mac
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);                       // Can't resize
-	m_window = glfwCreateWindow(WIDTH, HEIGHT, "OpenglTest", nullptr, nullptr);
+	
+	
+	int numMonitors;
+	GLFWmonitor **monitors = glfwGetMonitors(&numMonitors);
+
+	if (numMonitors > 1) {
+		m_window = glfwCreateWindow(WIDTH, HEIGHT, "Graphics Engine", monitors[1], nullptr);
+
+	}
+	else {
+		m_window = glfwCreateWindow(WIDTH, HEIGHT, "Graphics Engine", glfwGetPrimaryMonitor(), nullptr);
+
+	}
+	
 
 	// Gets the width and height of the framebuffer being rendered 
 	// and places it in m_actualWidth / m_actualHeight. Not really 

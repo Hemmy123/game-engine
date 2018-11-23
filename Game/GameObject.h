@@ -32,6 +32,7 @@ enum ObjectTag{
 	
 	T_Rabbit,
 	T_Terrain,
+	T_Ground,
 	T_Water,
 	T_Cube,
 

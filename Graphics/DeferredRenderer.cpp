@@ -280,12 +280,11 @@ void DeferredRenderer::drawLights()
 
 		Vector3 scale = l->getScale();
 
-		Matrix4 modelMatrix =
-			pushMatrix *
-			Matrix4::Rotation(rotation, Vector3(0, 1, 0)) *
-			popMatrix *
-			Matrix4::Translation(l->getPosition()) *
+		Matrix4 modelMatrix = 
+			Matrix4::Rotation(0, Vector3(0, 1, 0)) *
+			Matrix4::Translation(l->getPosition())*
 			Matrix4::Scale(scale);
+
 
 		m_parentRenderer->setModelMatrix(modelMatrix);
 
@@ -294,18 +293,16 @@ void DeferredRenderer::drawLights()
 		m_parentRenderer->setShaderLight(m_lightShader, *l);
 		m_parentRenderer->updateShaderMatrices();
 
-
-
 		Vector3 cameraPos = m_parentRenderer->getCamera()->GetPosition();
 
 		float cameraDis = (l->getPosition() - cameraPos).Length();
 
-	/*	if (cameraDis < radius) {
+		if (cameraDis < radius) {
 			glCullFace(GL_FRONT);
 		}
 		else {
 			glCullFace(GL_BACK);
-		}*/
+		}
 
 		// Binds the depth and normal textures
 		glActiveTexture(GL_TEXTURE0 + TextureUniforms::Depth);

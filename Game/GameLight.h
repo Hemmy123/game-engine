@@ -37,7 +37,7 @@ public:
 	// ---------- Getters / Setters ---------- //
 	Vector3 getPosition() 	const { return m_position; }
 	Vector4 getColour() 	const { return m_colour; }
-	Vector3 getRadius()		const { return m_scale; }
+	float getRadius()		const { return m_radius; }
 	GameLightType getType() const { return m_type; }
 
 	void setPosition(Vector3 position)	{ m_position = position; }

@@ -22,9 +22,11 @@ void main(void){
 
 	pos.z 		= texture(depthTex, pos.xy).r; 
 
-	vec3 normal = normalize(texture(normTex, pos.xy).xyz*2.0 - 1.0);
+	 vec3 normal = normalize(texture(normTex, pos.xy).xyz*2.0 - 1.0);
+	//vec3 normal = normalize(texture(normTex, pos.xy).xyz);
 
-	vec4 clip 	= inverseProjView * vec4(pos * 2.0 - 1.0, 1.0);
+	
+	 vec4 clip 	= inverseProjView * vec4(pos * 2.0 - 1.0, 1.0);
 	
 	// The final position of the fragment
 	pos 		= clip.xyz / clip.w;
@@ -49,6 +51,5 @@ void main(void){
 	float sFactor = pow(rFactor, 33.0);
 
 	fragColour[0] = vec4(lightColour.xyz * lambert * atten , 1.0);			// Diffuse (emissive)
-	// fragColour[1] = vec4(lightColour.xyz * sFactor * atten * 0.33 , 1.0);	// Specular 
 	fragColour[1] = vec4(lightColour.xyz * sFactor * atten * 0.55 , 1.0);	// Specular 
 }

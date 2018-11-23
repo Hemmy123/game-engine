@@ -61,8 +61,7 @@ HeightMap * LevelLoader::findHeightMap(int id)
 	}
 }
 
-void LevelLoader::loadLevel(Level * level)
-{
+void LevelLoader::loadLevel(Level * level){
 	m_sceneManager->clearAllObjects();
 	
 
@@ -244,7 +243,7 @@ void LevelLoader::loadLevel(Level * level)
 				lightMesh = findMesh(T_SpotLight);
 			}
 			Light* light = new Light(gameLight->getPosition(), gameLight->getColour(), gameLight->getScale());
-
+			light->setRadius(gameLight->getRadius());
 			light->setMesh(lightMesh);
 			m_sceneManager->pushLight(light);
 
@@ -273,6 +272,57 @@ void LevelLoader::loadLevel(Level * level)
 			break;
 		}
 		case T_Player: {
+			break;
+		}
+		case T_Ground: {
+			GameHeightMap* heightMap = static_cast<GameHeightMap*>(obj);
+
+			HeightMap* ground;
+			Vector3 position = heightMap->getPosition();
+
+			// Need to find a better way of loading Terrains...
+			if (m_loadedHeightmaps.at(T_Ground) != true) {
+
+				ground = new HeightMap(
+					heightMap->getRawWidth(),
+					heightMap->getRawHeight(),
+					heightMap->getXMultiplier(),
+					heightMap->getZMultiplier(),
+					heightMap->getYMultiplier() * 4,
+					heightMap->getTexCoordX(),
+					heightMap->getTexCoordZ(),
+					m_perlin2D);
+				ground->setId(T_Ground);
+				m_heightmaps.push_back(ground);
+				float minHeight = -0.3;
+				float maxHeight = 0.5;
+				ground->generateFlatTerrain();
+
+				ground->loadTexture(TEXTUREDIR"GrassTextures2/grass01.jpg");
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+				ground->loadBumpTexture(TEXTUREDIR"GrassTextures2/grass01_n.jpg");
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+				ground->generateNormals();
+				ground->generateTangents();
+				ground->bufferData();
+
+				m_loadedHeightmaps[T_Ground] = true;
+			}
+			else {
+				ground = findHeightMap(T_Ground);
+			}
+
+
+			RenderObject* ro1 = new RenderObject(ground, shader);
+			ro1->setModelMatrix(heightMap->getModelMatrix());
+
+			ro1->setBoundingRadius(heightMap->getRawWidth() *heightMap->getXMultiplier());
+			m_sceneManager->pushRenderObject(ro1);
+
 			break;
 		}
 		case T_Street: {
