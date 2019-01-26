@@ -102,7 +102,7 @@ void GameNode::checkInputs(){
 
 	}
 
-	if (pressedKeys[GLFW_KEY_PAUSE]) {
+	if (pressedKeys[GLFW_KEY_P]) {
 		std::cout << "Paused" << std::endl;
 
 		Event graphicsEvent(Sys_Game, Sys_Graphics, "Pause_Level");
