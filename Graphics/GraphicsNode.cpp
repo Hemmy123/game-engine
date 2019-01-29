@@ -73,7 +73,7 @@ void GraphicsNode::update(float msec){
 
 		m_endFrameTime = m_timer.getTime() / 1000;
 
-		m_fps = m_timer.calculateFPS(m_startFrameTime, m_endFrameTime);
+		m_fps = (float)m_timer.calculateFPS(m_startFrameTime, m_endFrameTime);
 		m_rendererController->setFPS(m_fps);
 
 		if (m_cameraController->hasFinished()) {

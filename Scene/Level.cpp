@@ -34,10 +34,10 @@ void Level::createScene4()
 	m_rendererSettings.deferredRendering = false;
 	Vector3 obj1_scale(30, 30, 30);
 
-	int obj1_offSet = 50;
-	int obj1_y = 195;
-	int obj1_x = 200;
-	int obj1_z = 300;
+	float obj1_offSet = 50;
+	float obj1_y = 195;
+	float obj1_x = 200;
+	float obj1_z = 300;
 
 	GameObject* rabbit1 = new GameObject(Vector3(obj1_x + -obj1_offSet * 2, obj1_y, obj1_z), Vector3(1, 1, 1), obj1_scale);
 	GameObject* rabbit2 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z), Vector3(1, 1, 1), obj1_scale);
@@ -244,10 +244,10 @@ void Level::createScene1() {
 	 // ===== Rabbits ===== //
 	Vector3 obj1_scale(30, 30, 30);
 
-	int obj1_offSet = 35;
-	int obj1_y = 195;
-	int obj1_x = 200;
-	int obj1_z = 300; 
+	float obj1_offSet = 35;
+	float obj1_y = 195;
+	float obj1_x = 200;
+	float obj1_z = 300; 
 
 	GameObject* rabbit1 = new GameObject(Vector3(obj1_x + -obj1_offSet * 2, obj1_y, obj1_z), Vector3(1, 1, 1), obj1_scale);
 	GameObject* rabbit2 = new GameObject(Vector3(obj1_x + -obj1_offSet, obj1_y, obj1_z), Vector3(1, 1, 1), obj1_scale);

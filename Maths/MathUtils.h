@@ -22,12 +22,12 @@ class MathUtils {
     
 public:
     //Degrees to radians
-     static inline double DegToRad(const double rad)    {
-        return rad * PI / 180.0;
+     static inline float DegToRad(const float rad)    {
+        return rad * PI / 180.0f;
     };
 
-	 static inline double RadToDeg(const double rad) {
-		 return rad * (180.0 / PI);
+	 static inline float RadToDeg(const float rad) {
+		 return rad * (180.0f / PI);
 	 };
 
 
